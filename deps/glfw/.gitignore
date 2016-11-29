@@ -47,6 +47,7 @@ examples/heightmap
 examples/splitview
 examples/simple
 examples/wave
+examples/particles
 tests/*.app
 tests/*.exe
 tests/accuracy
@@ -67,4 +68,7 @@ tests/threads
 tests/title
 tests/version
 tests/windows
-
+tests/cursor
+tests/empty
+tests/monitors
+tests/msaa

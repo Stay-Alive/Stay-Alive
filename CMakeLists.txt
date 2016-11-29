@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 
 project(StayAlive)
 
-FILE(GLOB SOURCE_FILES src/*.c)
+FILE(GLOB SOURCE_FILES src/*.cpp)
 
 add_executable(
     StayAlive
-    $(SOURCE_FILES)
+    ${SOURCE_FILES}
     deps/glew/src/glew.c)
 
 add_subdirectory(deps/glfw)

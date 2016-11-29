@@ -1,7 +1,7 @@
 StayAlive
 Makefile
 CMakeCache.txt
-CmakeFiles
+CMakeFiles
 cmake_install.cmake
 *.o
 *.db
