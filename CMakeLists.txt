@@ -20,20 +20,17 @@ if(MINGW)
         "C:/Program Files/CURL/include" "C:/Program Files (x86)/CURL/include")
 endif()
 
-find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIR})
-
 if(APPLE)
     target_link_libraries(StayAlive glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+        ${GLFW_LIBRARIES})
 endif()
 
 if(UNIX)
     target_link_libraries(StayAlive dl glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+        ${GLFW_LIBRARIES})
 endif()
 
 if(MINGW)
     target_link_libraries(StayAlive ws2_32.lib glfw
-        ${GLFW_LIBRARIES} ${CURL_LIBRARIES})
+        ${GLFW_LIBRARIES})
 endif()
