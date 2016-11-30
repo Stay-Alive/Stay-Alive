@@ -12,6 +12,7 @@ add_executable(
 add_subdirectory(deps/glfw)
 include_directories(deps/glew/include)
 include_directories(deps/glfw/include)
+include_directories(deps/glm)
 
 if(MINGW)
     set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}
