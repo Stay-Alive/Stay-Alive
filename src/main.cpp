@@ -23,7 +23,8 @@ int main()
 		return -1;
 	}
 
-	pModel->window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "StayAlive", NULL, NULL);
+	pModel->window = glfwCreateWindow(
+        WINDOW_WIDTH, WINDOW_HEIGHT, "StayAlive", NULL, NULL);
 	if (pModel->window == NULL)
     {
 		fprintf(stderr, "Failed to open GLFW window.\n" );
@@ -47,20 +48,22 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glLogicOp(GL_INVERT);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	// Load textures
-	// @TODO
 
-	do
+	// @TODO
+	// load textures
+
+    // load shaders
+
+    int running = 1;
+	while (running)
     {
-		// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
+		// Clear the screen.
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glfwSwapBuffers(pModel->window);
 		glfwPollEvents();
 
-	} // Check if the ESC key was pressed or the window was closed
-	while(glfwGetKey(pModel->window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		   glfwWindowShouldClose(pModel->window) == 0);
+	}
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
