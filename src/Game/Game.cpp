@@ -22,6 +22,12 @@ Game::Game()
     {
 		cerr << "Failed to initialize GLEW\n";
 	}
+
+    while(!display->IsWindowClosed())
+    {
+        display->Update();
+        display->ShowFPS();
+    }
 }
 
 Game::~Game()

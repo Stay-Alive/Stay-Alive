@@ -2,12 +2,14 @@ cmake_minimum_required(VERSION 2.8)
 
 project(StayAlive)
 
-FILE(GLOB SOURCE_FILES src/*.cpp)
+FILE(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 
 add_executable(
     StayAlive
     ${SOURCE_FILES}
     deps/glew/src/glew.c)
+
+target_compile_features(StayAlive PRIVATE cxx_range_for)
 
 add_subdirectory(deps/glfw)
 include_directories(deps/glew/include)
