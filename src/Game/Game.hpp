@@ -2,7 +2,6 @@
 #define GAME_H
 #include "../RenderEngine/Display.hpp"
 
-using namespace std;
 class Game
 {
 public:
