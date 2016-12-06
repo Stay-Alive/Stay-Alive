@@ -5,5 +5,6 @@
 #define FULLSCREEN 0
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
+#define WINDOW_TITLE "Stay Alive"
 
 #endif
