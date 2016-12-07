@@ -54,24 +54,35 @@ double Display::GetAspect()
 	return aspect;
 }
 
-void Display::ShowFPS()
+void Display::ShowFPS(double theTimeInterval)
 {
-	const static int SAMPLE_SIZE = 512;
-	static double samples[SAMPLE_SIZE] = {0.0};
-	double avgTime = 0.0;
-	static double previousTime = 0.0;
-	double currentTime;
-	int i;
-	currentTime = glfwGetTime();
+	static double previousTime = glfwGetTime();  // Set the initial time to now
+	static int fpsFrameCount = 0;  // Set the initial FPS frame count to 0
+	static double fps = 0.0;  // Set the initial FPS value to 0.0
 
-	for (i = 0; i < SAMPLE_SIZE - 1; i++)
+	double currentTime = glfwGetTime();
+
+	if (theTimeInterval < 0.1)
 	{
-		samples[i] = samples[i+1];
-		avgTime += samples[i];
+		theTimeInterval = 0.1;
 	}
-	samples[i] = currentTime - previousTime;
-	previousTime = currentTime;
-	avgTime += samples[i];
-    avgTime /= SAMPLE_SIZE;
-	glfwSetWindowTitle(window, (" | FPS: " + to_string(1.0 / avgTime)).c_str());
+	else if (theTimeInterval > 10.0)
+	{
+		theTimeInterval = 10.0;
+	}
+	// Calculate and display the FPS every specified time interval
+	if ((currentTime - previousTime) > theTimeInterval)
+	{
+		// Calculate the FPS as the number of frames divided by the interval in seconds
+		fps = (double)fpsFrameCount / (currentTime - previousTime);
+		// Update window title
+	    glfwSetWindowTitle(window, (title + " | FPS: " + to_string(int(fps))).c_str());
+		// Reset the FPS frame counter and set the initial time to be now
+		fpsFrameCount = 0;
+		previousTime = glfwGetTime();
+	}
+	else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
+	{
+		fpsFrameCount++;
+	}
 }
