@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "../config.hpp"
 #include "../RenderEngine/Display.hpp"
-#include "../common/shader.hpp"
+#include "../Shaders/shader.hpp"
 
 using namespace std;
 
@@ -42,9 +42,10 @@ void Game::Start()
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
-
-	GLuint programID = LoadShaders( "shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader" );
-
+    string shadersPath = SHADERS_DIR;
+    string vertexShaderPath = shadersPath + "SimpleVertexShader.vertexshader";
+    string fragementShaderPath = shadersPath + "SimpleFragmentShader.fragmentshader";
+	GLuint programID = LoadShaders(vertexShaderPath.c_str(), fragementShaderPath.c_str());
 
 	static const GLfloat g_vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
