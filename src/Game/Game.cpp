@@ -5,9 +5,13 @@
 #include "Game.hpp"
 #include "../config.hpp"
 #include "../RenderEngine/Display.hpp"
-#include "../Shaders/shader.hpp"
-
 using namespace std;
+
+#define TUTORIAL 0
+
+#if TUTORIAL
+#include "../Shaders/shader.hpp"
+#endif
 
 Game::Game()
 {
@@ -34,11 +38,12 @@ Game::~Game()
 void Game::Start()
 {
 
-	// Dark background
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    //glLogicOp(GL_INVERT);
+    //glLogicOp(GL_INVERT); // so that we can use xor to draw a photo
+    //glEnable(GL_COLOR_LOGIC_OP);  // @ST seems not useful
 
+#if TUTORIAL
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
@@ -57,11 +62,15 @@ void Game::Start()
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+#endif
+
+	// Dark background
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     while(!display->IsWindowClosed())
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#if TUTORIAL
 		glUseProgram(programID);
 
 		// 1rst attribute buffer : vertices
@@ -80,6 +89,8 @@ void Game::Start()
 		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
 
 		glDisableVertexAttribArray(0);
+#endif
+
         display->Update();
         display->ShowFPS();
     }
