@@ -14,8 +14,8 @@ class ObjLoader
 {
 public:
     static RawModel LoadModel(const string& fileName, Loader& loader);
-private:
-    static void ProcessVertices();
 };
+
+void Split(const string& str, char delim, vector<string>& tokens);
 
 #endif
