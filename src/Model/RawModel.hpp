@@ -7,7 +7,7 @@ class RawModel
 {
 public:
     RawModel(GLuint vaoID, int verticesNum): vaoID(vaoID), verticesNum(verticesNum) {}
-    
+
     inline GLuint GetVaoID()
     {
         return vaoID;
