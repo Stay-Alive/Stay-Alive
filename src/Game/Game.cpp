@@ -2,9 +2,12 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include "Game.hpp"
 #include "../config.hpp"
 #include "../RenderEngine/Display.hpp"
+#include "../RenderEngine/Loader.hpp"
 using namespace std;
 
 #define TUTORIAL 0
@@ -37,6 +40,9 @@ Game::~Game()
 
 void Game::Start()
 {
+    cerr << "Game started\n";
+    Loader loader;
+    srand(time(NULL));  // initialize random number generation
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
