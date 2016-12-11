@@ -13,7 +13,7 @@ using namespace std;
 #define TUTORIAL 0
 
 #if TUTORIAL
-#include "../Shaders/shader.hpp"
+#include "../Shader/shader.hpp"
 #endif
 
 Game::Game()
