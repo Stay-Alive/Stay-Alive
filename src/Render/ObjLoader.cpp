@@ -75,7 +75,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
 	return loader.Load2VAO(vertices, textures, normals, indices);
 }
 
-void Split(const string& str, char delim, vector<string>& tokens)
+void ObjLoader::Split(const string& str, char delim, vector<string>& tokens)
 {
     stringstream ss(str);
     string item;

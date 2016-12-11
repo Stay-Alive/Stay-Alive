@@ -6,12 +6,14 @@
 #include <time.h>
 #include "Game.hpp"
 #include "../config.hpp"
-#include "../RenderEngine/Display.hpp"
-#include "../RenderEngine/Loader.hpp"
-#include "../RenderEngine/ObjLoader.hpp"
+#include "../Render/Display.hpp"
+#include "../Render/Loader.hpp"
+#include "../Render/ObjLoader.hpp"
 #include "../Model/TexturedModel.hpp"
 #include "../Model/RawModel.hpp"
 #include "../Entity/Entity.hpp"
+#include "../Terrain/Terrain.hpp"
+#include "../Entity/Light.hpp"
 using namespace std;
 
 #define TUTORIAL 0
@@ -92,8 +94,17 @@ void Game::Start()
         z = rand() % 200 - 100;
         entities.push_back(Entity(i < 5 ? tmFern1 : i < 10 ? tmFern2 : i < 15 ? tmFern3 : tmFern4, glm::vec3 (x, 0, z), noRotation, noScale));
     }
-    
 
+    vector<Terrain> terrains;
+    ModelTexture mtGrass2(loader.LoadTexture("grassy2"), true);
+    //ModelTexture mtGrass3(loader.LoadTexture("grassy3"), true);
+    terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
+
+    glm::vec3 colorWhite(1, 1, 1);
+    glm::vec3 lightPosition(0, 100, 0);
+    SimpleLight light(lightPosition, colorWhite);
+
+    //@TODO Camera
 /*
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -127,6 +138,7 @@ void Game::Start()
 
     while(!display->IsWindowClosed())
     {
+/*
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #if TUTORIAL
 		glUseProgram(programID);
@@ -148,6 +160,7 @@ void Game::Start()
 
 		glDisableVertexAttribArray(0);
 #endif
+*/
 
         display->Update();
         display->ShowFPS();

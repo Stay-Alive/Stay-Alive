@@ -14,8 +14,9 @@ class ObjLoader
 {
 public:
     static RawModel LoadModel(const string& fileName, Loader& loader);
+private:
+    static void Split(const string& str, char delim, vector<string>& tokens);
 };
 
-void Split(const string& str, char delim, vector<string>& tokens);
 
 #endif

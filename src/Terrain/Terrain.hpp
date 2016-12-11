@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    const float SIZE = 800;
+    const float SIZE = 800;  // @TODO we might move this const data to config.hpp
     const int VERTEX_COUNT = 128;
     float x;
     float z;
