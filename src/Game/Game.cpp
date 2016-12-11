@@ -6,8 +6,8 @@
 #include <time.h>
 #include "Game.hpp"
 #include "../config.hpp"
-#include "../RenderEngine/Display.hpp"
-#include "../RenderEngine/Loader.hpp"
+#include "../Render/Display.hpp"
+#include "../Render/Loader.hpp"
 using namespace std;
 
 #define TUTORIAL 0
