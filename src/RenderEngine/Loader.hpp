@@ -14,9 +14,8 @@ class Loader
 public:
     Loader();
     ~Loader();
-	RawModel Load2VAO(std::vector<glm::vec3> vertices, std::vector<glm::vec2> textures, std::vector<glm::vec3> normals, std::vector<int> indices);
-	GLuint LoadTexture(const std::string& fileName, bool repeat = false);
-	inline void UnbindVAO() { glBindVertexArray(0); }
+	RawModel Load2VAO(vector<glm::vec3> vertices, vector<glm::vec2> textures, vector<glm::vec3> normals, vector<int> indices);
+	GLuint LoadTexture(const string& fileName, bool repeat = false);
 private:
     vector<GLuint> vaos;
     vector<GLuint> vbos;
