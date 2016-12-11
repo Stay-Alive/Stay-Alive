@@ -50,20 +50,49 @@ void Game::Start()
 
     vector<Entity> entities;
 
-    RawModel mTree = ObjLoader::LoadModel("lowPolyTree", loader);
-    ModelTexture mtTree(loader.LoadTexture("lowPolyTree"));
-    TexturedModel tmTree(mTree, mtTree);
-
+    int i, x, z;
     glm::vec3 noScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
 
-    int i;
+    // low poly tree
+    RawModel mTree = ObjLoader::LoadModel("lowPolyTree", loader);
+    ModelTexture mtTree(loader.LoadTexture("lowPolyTree"));
+    TexturedModel tmTree(mTree, mtTree);
     for (i = 0; i < 25; i++)
     {
-        int x = rand() % 500 - 250;
-        int z = rand() % 500 - 250;
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
         entities.push_back(Entity(tmTree, glm::vec3(x, 0, z), noRotation, noScale));
     }
+
+    // grass
+    RawModel mGrass = ObjLoader::LoadModel("grass", loader);
+    ModelTexture mtGrass(loader.LoadTexture("grass"), true, true);
+    TexturedModel tmGrass(mGrass, mtGrass);
+    for (i = 0; i < 25; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        entities.push_back(Entity(tmGrass, glm::vec3(x, 0, z), noRotation, noScale));
+    }
+
+    // fern, we have 4 types of textures
+    RawModel mFern = ObjLoader::LoadModel("fern", loader);
+    ModelTexture mtFern1(loader.LoadTexture("fern1"), true, true);
+    ModelTexture mtFern2(loader.LoadTexture("fern2"), true, true);
+    ModelTexture mtFern3(loader.LoadTexture("fern3"), true, true);
+    ModelTexture mtFern4(loader.LoadTexture("fern4"), true, true);
+    TexturedModel tmFern1(mFern, mtFern1);
+    TexturedModel tmFern2(mFern, mtFern2);
+    TexturedModel tmFern3(mFern, mtFern3);
+    TexturedModel tmFern4(mFern, mtFern4);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 200 - 100;
+        z = rand() % 200 - 100;
+        entities.push_back(Entity(i < 5 ? tmFern1 : i < 10 ? tmFern2 : i < 15 ? tmFern3 : tmFern4, glm::vec3 (x, 0, z), noRotation, noScale));
+    }
+    
 
 /*
     glEnable(GL_CULL_FACE);
