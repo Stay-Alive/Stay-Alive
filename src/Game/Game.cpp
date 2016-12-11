@@ -8,6 +8,10 @@
 #include "../config.hpp"
 #include "../RenderEngine/Display.hpp"
 #include "../RenderEngine/Loader.hpp"
+#include "../RenderEngine/ObjLoader.hpp"
+#include "../Model/TexturedModel.hpp"
+#include "../Model/RawModel.hpp"
+#include "../Entity/Entity.hpp"
 using namespace std;
 
 #define TUTORIAL 0
@@ -44,6 +48,24 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+    vector<Entity> entities;
+
+    RawModel mTree = ObjLoader::LoadModel("lowPolyTree", loader);
+    ModelTexture mtTree(loader.LoadTexture("lowPolyTree"));
+    TexturedModel tmTree(mTree, mtTree);
+
+    glm::vec3 noScale = glm::vec3(1, 1, 1);
+    glm::vec3 noRotation = glm::vec3(0, 0, 0);
+
+    int i;
+    for (i = 0; i < 25; i++)
+    {
+        int x = rand() % 500 - 250;
+        int z = rand() % 500 - 250;
+        entities.push_back(Entity(tmTree, glm::vec3(x, 0, z), noRotation, noScale));
+    }
+
+/*
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     //glLogicOp(GL_INVERT); // so that we can use xor to draw a photo
@@ -72,6 +94,7 @@ void Game::Start()
 
 	// Dark background
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+*/
 
     while(!display->IsWindowClosed())
     {
