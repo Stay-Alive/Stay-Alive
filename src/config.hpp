@@ -6,6 +6,8 @@
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
 #define WINDOW_TITLE "Stay Alive"
-#define SHADERS_DIR "shaders/"
+#define SHADERS_DIR "./shaders/"
+#define TEXTURES_DIR "./textures/"
+#define MODELS_DIR "./models/"
 
 #endif

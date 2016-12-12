@@ -54,7 +54,7 @@ double Display::GetAspect()
 	return aspect;
 }
 
-void Display::ShowFPS(double theTimeInterval)
+void Display::ShowFPS(double timeInterval)
 {
 	static double previousTime = glfwGetTime();  // Set the initial time to now
 	static int fpsFrameCount = 0;  // Set the initial FPS frame count to 0
@@ -62,16 +62,16 @@ void Display::ShowFPS(double theTimeInterval)
 
 	double currentTime = glfwGetTime();
 
-	if (theTimeInterval < 0.1)
+	if (timeInterval < 0.1)
 	{
-		theTimeInterval = 0.1;
+		timeInterval = 0.1;
 	}
-	else if (theTimeInterval > 10.0)
+	else if (timeInterval > 10.0)
 	{
-		theTimeInterval = 10.0;
+		timeInterval = 10.0;
 	}
 	// Calculate and display the FPS every specified time interval
-	if ((currentTime - previousTime) > theTimeInterval)
+	if ((currentTime - previousTime) > timeInterval)
 	{
 		// Calculate the FPS as the number of frames divided by the interval in seconds
 		fps = (double)fpsFrameCount / (currentTime - previousTime);

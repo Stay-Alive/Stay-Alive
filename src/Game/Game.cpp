@@ -100,12 +100,16 @@ void Game::Start()
     ModelTexture mtGrass2(loader.LoadTexture("grassy2"), true);
     //ModelTexture mtGrass3(loader.LoadTexture("grassy3"), true);
     terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
+    terrains.push_back(Terrain(1, 0, loader, mtGrass2));
+    terrains.push_back(Terrain(0, -1, loader, mtGrass2));
+    terrains.push_back(Terrain(0, 1, loader, mtGrass2));
 
-    glm::vec3 colorWhite(1, 1, 1);
-    glm::vec3 lightPosition(0, 100, 0);
+    glm::vec3 colorWhite(1.0, 1.0, 1.0);
+    glm::vec3 lightPosition(0.0, 100.0, 0.0);
     SimpleLight light(lightPosition, colorWhite);
 
     Camera camera;
+    // @TODO render
 /*
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);

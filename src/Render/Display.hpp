@@ -13,7 +13,7 @@ public:
     void Update();
     bool IsWindowClosed();
     double GetAspect();
-    void ShowFPS(double theTimeInterval = 1.0);
+    void ShowFPS(double timeInterval = 1.0);
 private:
     GLFWwindow *window;
     string title;

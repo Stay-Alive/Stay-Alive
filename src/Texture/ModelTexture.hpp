@@ -8,7 +8,13 @@
 class ModelTexture
 {
 public:
-    ModelTexture(GLuint id, bool hasTransparency = false, bool useUpNormal = false, float shine = 0, float shineDamper = 1): textureID(id), hasTransparency(hasTransparency), useUpNormal(useUpNormal), shine(shine), shineDamper(shineDamper) {}
+    ModelTexture(
+        GLuint id,
+        bool hasTransparency = false,
+        bool useUpNormal = false,
+        float shine = 0,
+        float shineDamper = 1): textureID(id), hasTransparency(hasTransparency),
+        useUpNormal(useUpNormal), shine(shine), shineDamper(shineDamper) {}
 
     inline GLuint GetTextureID() const
     {

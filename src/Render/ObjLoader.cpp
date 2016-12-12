@@ -1,9 +1,10 @@
-#include "ObjLoader.hpp"
 #include <iostream>
 #include <string>
 #include <stdio.h>
 #include <sstream>
 #include <fstream>
+#include "../config.hpp"
+#include "ObjLoader.hpp"
 using namespace std;
 
 const int MAX_LINE_LEN = 256;
@@ -13,7 +14,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
     vector<glm::vec2> textures, tmpTextures;
     vector<glm::vec3> vertices, normals, tmpNormals;
     vector<int> indices;
-    string completeFileName = "../../models/" + fileName + ".obj";
+    string completeFileName = MODELS_DIR + fileName + ".obj";
     ifstream modelFile(completeFileName.c_str());  // open file
     if (modelFile.fail())
     {

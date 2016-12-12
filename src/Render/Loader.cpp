@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #define STB_IMAGE_IMPLEMENTATION
+#include "../config.hpp"
 #include "Loader.hpp"
 #include "stb_image.h"
 
@@ -56,7 +57,7 @@ GLuint Loader::LoadTexture(const string& fileName, bool repeat)
 {
     GLuint textureID;
     int width, height, componentsCount;
-    string completeFileName = "./textures/" + fileName + ".png";
+    string completeFileName = TEXTURES_DIR + fileName + ".png";
     stbi_uc *data = stbi_load(completeFileName.c_str(), &width, &height, &componentsCount, 4); // 4 components per pixel
     if (NULL == data)
     {
