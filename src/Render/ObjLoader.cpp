@@ -19,7 +19,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
     if (modelFile.fail())
     {
         cerr << "Failed to open " << fileName << ".obj" << endl;
-        exit(0);
+        exit(-1);
     }
 
     string rawLine;

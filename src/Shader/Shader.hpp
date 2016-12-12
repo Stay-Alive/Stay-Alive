@@ -10,7 +10,13 @@ using namespace std;
 class Shader
 {
 public:
-    static GLuint LoadShaders(string vertexFilePath, string fragmentFilePath);
+    Shader(const string& fileName);
+    ~Shader();
+private:
+    GLuint programID;
+    GLuint vertShaderID;
+    GLuint fragShaderID;
+    GLuint LoadShader(const string& fileName, GLenum shaderType);
 };
 
 #endif
