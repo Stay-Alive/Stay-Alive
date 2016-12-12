@@ -14,6 +14,7 @@
 #include "../Entity/Entity.hpp"
 #include "../Terrain/Terrain.hpp"
 #include "../Entity/Light.hpp"
+#include "../Entity/Camera.hpp"
 using namespace std;
 
 #define TUTORIAL 0
@@ -104,7 +105,7 @@ void Game::Start()
     glm::vec3 lightPosition(0, 100, 0);
     SimpleLight light(lightPosition, colorWhite);
 
-    //@TODO Camera
+    Camera camera;
 /*
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
