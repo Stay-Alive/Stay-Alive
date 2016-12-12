@@ -11,12 +11,17 @@ class Shader
 {
 public:
     Shader(const string& fileName);
-    ~Shader();
+    virtual ~Shader();
+    virtual void BindAttributes();
+    virtual void GetUniformLocations();
 private:
+    GLuint LoadShader(const string& fileName, GLenum shaderType);
+protected:
     GLuint programID;
     GLuint vertShaderID;
     GLuint fragShaderID;
-    GLuint LoadShader(const string& fileName, GLenum shaderType);
+    GLuint viewMatrixLoc;
+    // @TODO
 };
 
 #endif
