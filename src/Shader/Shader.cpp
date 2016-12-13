@@ -86,3 +86,8 @@ GLuint Shader::LoadShader(const string& fileName, GLenum shaderType)
 
     return shaderID;
 }
+
+void Shader::Use()
+{
+    glUseProgram(programID);
+}

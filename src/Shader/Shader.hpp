@@ -1,8 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include "../Entity/Light.hpp"
 
@@ -15,6 +16,7 @@ public:
     virtual ~Shader();
     virtual void BindAttributes() = 0;
     virtual void GetUniformLocations() = 0;
+    void Use();
 private:
     GLuint LoadShader(const string& fileName, GLenum shaderType);
 protected:
