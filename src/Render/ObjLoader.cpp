@@ -5,6 +5,7 @@
 #include <fstream>
 #include "../config.hpp"
 #include "ObjLoader.hpp"
+#include <glm/glm.hpp>
 using namespace std;
 
 const int MAX_LINE_LEN = 256;

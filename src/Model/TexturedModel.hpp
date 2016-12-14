@@ -1,4 +1,4 @@
-#ifndef TEXTURE_MODEL_H
+#ifndef TEXTUREDMODEL_H
 #define TEXTUREDMODEL_H
 
 #include "RawModel.hpp"

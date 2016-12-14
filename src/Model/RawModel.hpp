@@ -1,6 +1,5 @@
 #ifndef RAWMODEL_H
 #define RAWMODEL_H
-#include <GLFW/glfw3.h>
 #include <GL/glew.h>
 
 class RawModel
@@ -13,7 +12,7 @@ public:
         return vaoID;
     }
 
-    inline int GetVerticeNum()
+    inline int GetVerticesNum()
     {
         return verticesNum;
     }

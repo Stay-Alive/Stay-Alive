@@ -1,11 +1,10 @@
 #ifndef LOADER_H
 #define LOADER_H
+#include "../Model/RawModel.hpp"
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>
-#include "../Model/RawModel.hpp"
 
 using namespace std;
 

@@ -13,12 +13,16 @@ public:
     TerrainRenderer(const glm::mat4& projectionMatrix);
     virtual ~TerrainRenderer();
     void Render(vector<Terrain> terrains);
+
+    inline TerrainShader& GetShader()
+    {
+        return shader;    
+    }
 private:
     TerrainShader shader;
     void BindTerrain(Terrain& terrain);
     void UnBindTerrain(Terrain& terrain);
     void RenderTerrain(Terrain& terrain);
-
 };
 
 #endif

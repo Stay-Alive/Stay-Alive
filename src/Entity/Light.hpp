@@ -7,7 +7,7 @@ class SimpleLight
 {
 public:
     SimpleLight(glm::vec3 position, glm::vec3 color): position(position), color(color) {}
-    ~SimpleLight();
+    ~SimpleLight() {}
 
     inline void SetColor(const glm::vec3& color)
     {

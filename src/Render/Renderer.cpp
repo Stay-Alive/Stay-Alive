@@ -1,15 +1,15 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 #include <GLFW/glfw3.h>
 #include "../config.hpp"
 #include "Renderer.hpp"
 
 using namespace std;
 
-Renderer::Renderer()
+Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective(GLfloat(FIELD_OF_VIEW), aspect, GLfloat(Z_NEAR), GLfloat(Z_FAR))), terrainRenderer(projectionMatrix)
 {
-
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
@@ -36,5 +36,12 @@ void Renderer::AddTerrain(const Terrain& terrain)
 void Renderer::Render(const SimpleLight& light, const Camera& camera)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    TerrainShader& terrainShader = terrainRenderer.GetShader();
     terrainShader.Use();
+    terrainShader.LoadLight(light, 0.1);
+    terrainShader.LoadViewMatrix(camera.GetViewMatrix());
+    terrainRenderer.Render(terrains);
+    glUseProgram(0);  // unuse
+    terrains.clear();
+    // @TODO render entities
 }

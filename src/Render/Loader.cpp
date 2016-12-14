@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cassert>
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include "../config.hpp"
 #include "Loader.hpp"
-#include "stb_image.h"
 
 using namespace std;
 
@@ -46,11 +46,10 @@ RawModel Loader::Load2VAO(vector<glm::vec3> vertices,
     GLuint vaoID = CreateVAO();
     BindIndicesBuffer(&indices[0], indicesCount);
     StoreDataInAttributeList(0, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
-    StoreDataInAttributeList(1, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
-    StoreDataInAttributeList(2, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
+    StoreDataInAttributeList(1, 3, &textures[0], textures.size() * sizeof(glm::vec3));
+    StoreDataInAttributeList(2, 3, &normals[0], normals.size() * sizeof(glm::vec3));
     glBindVertexArray(0);
     return RawModel(vaoID, indicesCount);
-
 }
 
 GLuint Loader::LoadTexture(const string& fileName, bool repeat)

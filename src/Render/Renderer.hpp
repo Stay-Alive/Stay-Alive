@@ -20,7 +20,7 @@ using namespace std;
 class Renderer
 {
 public:
-    Renderer();
+    Renderer(GLfloat aspect = ASPECT);
     ~Renderer();
     void Render(const SimpleLight& light, const Camera& camera);
     void AddTerrain(const Terrain& terrain);

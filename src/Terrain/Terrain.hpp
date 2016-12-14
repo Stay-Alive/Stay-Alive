@@ -17,6 +17,11 @@ public:
         return x;
     }
 
+    inline float GetY() const
+    {
+        return y;
+    }
+
     inline float GetZ() const
     {
         return z;
@@ -35,8 +40,9 @@ public:
 private:
     const float SIZE = 800;  // @TODO we might move this const data to config.hpp
     const int VERTEX_COUNT = 128;
-    float x;
-    float z;
+    GLfloat x;
+    GLfloat y;
+    GLfloat z;
     ModelTexture texture;
     RawModel model;
     RawModel GenerateTerrain(Loader& loader);

@@ -1,12 +1,10 @@
 #ifndef OBJLOADER_H
 #define OBJLOADER_H
 
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include "../Model/RawModel.hpp"
+#include "Loader.hpp"
 #include <vector>
 #include <string>
-#include "Loader.hpp"
-#include "../Model/RawModel.hpp"
 
 using namespace std;
 

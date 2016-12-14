@@ -2,10 +2,11 @@
 #define CONFIG_HPP
 
 #define DEBUG 0
-// window 
+// window
 #define FULLSCREEN 0
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
+#define ASPECT WINDOW_WIDTH * 1.0 / WINDOW_HEIGHT
 // resources
 #define WINDOW_TITLE "Stay Alive"
 #define SHADERS_DIR "./shaders/"

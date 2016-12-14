@@ -9,6 +9,7 @@
 #include "../Render/Display.hpp"
 #include "../Render/Loader.hpp"
 #include "../Render/ObjLoader.hpp"
+#include "../Render/Renderer.hpp"
 #include "../Model/TexturedModel.hpp"
 #include "../Model/RawModel.hpp"
 #include "../Entity/Entity.hpp"
@@ -110,6 +111,7 @@ void Game::Start()
 
     Camera camera;
     // @TODO render
+    Renderer renderer(display->GetAspect());
 /*
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -166,6 +168,15 @@ void Game::Start()
 		glDisableVertexAttribArray(0);
 #endif
 */
+
+        camera.Update();
+
+        for (Terrain& i: terrains)
+        {
+            renderer.AddTerrain(i);
+        }
+        // @TODO entities
+        renderer.Render(light, camera);
 
         display->Update();
         display->ShowFPS();
