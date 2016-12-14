@@ -52,6 +52,7 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+    /*
     vector<Entity> entities;
 
     int i, x, z;
@@ -96,14 +97,15 @@ void Game::Start()
         z = rand() % 200 - 100;
         entities.push_back(Entity(i < 5 ? tmFern1 : i < 10 ? tmFern2 : i < 15 ? tmFern3 : tmFern4, glm::vec3 (x, 0, z), noRotation, noScale));
     }
+    */
 
     vector<Terrain> terrains;
-    ModelTexture mtGrass2(loader.LoadTexture("grassy2"), true);
+    ModelTexture mtGrass2(loader.LoadTexture("box"), true);
     //ModelTexture mtGrass3(loader.LoadTexture("grassy3"), true);
     terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
-    terrains.push_back(Terrain(1, 0, loader, mtGrass2));
+    terrains.push_back(Terrain(0, 0, loader, mtGrass2));
+    terrains.push_back(Terrain(-1, -1, loader, mtGrass2));
     terrains.push_back(Terrain(0, -1, loader, mtGrass2));
-    terrains.push_back(Terrain(0, 1, loader, mtGrass2));
 
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
     glm::vec3 lightPosition(0.0, 100.0, 0.0);
@@ -177,7 +179,10 @@ void Game::Start()
         }
         // @TODO entities
         renderer.Render(light, camera);
-
+#if DEBUG
+        cerr << "location: "<< camera.GetPosition().x << ", " << camera.GetPosition().y <<", " << camera.GetPosition().z << endl;
+        cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
+#endif
         display->Update();
         display->ShowFPS();
     }

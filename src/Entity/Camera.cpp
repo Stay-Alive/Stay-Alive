@@ -46,12 +46,14 @@ void Camera::Update()
 	viewDirection = glm::normalize(rotateXAndY * viewDirection);
 
     this->mousePos = newMousePos;
+
+    Move();
     return;
 }
 
 void Camera::Move()
 {
-    GLfloat speedUp = 1.0;
+    GLfloat speedUp = 1;
     GLFWwindow *window = glfwGetCurrentContext();
     // hold shift to speed up
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
@@ -64,7 +66,7 @@ void Camera::Move()
     glm::vec3 horizontalStep(glm::cross(verticalStep, UP));
 
     // transform
-    if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W))  // up
+    if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W))  // up
     {
         // @NOTE we are always in x-z plane
         position += verticalStep;
@@ -80,11 +82,18 @@ void Camera::Move()
         position -= horizontalStep;
     }
 
-    if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E))  // right
+    if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D))  // right
     {
         position += horizontalStep;
     }
 
-
+    if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))
+    {
+#if DEBUG
+        cerr << "Captured an escape\n";
+#endif
+        glfwTerminate();
+        exit(0);
+    }
     return;
 }

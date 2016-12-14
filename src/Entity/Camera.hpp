@@ -17,6 +17,10 @@ public:
         return position;
     }
 
+    inline glm::vec3 GetViewDirection() const
+    {
+        return viewDirection;
+    }
 private:
     glm::vec3 position;
     glm::vec3 viewDirection;
@@ -24,7 +28,6 @@ private:
     const glm::vec3 UP = glm::vec3(0, 1, 0);
     const GLfloat SENSITIVITY = 0.005f;
     const GLfloat SPEED = 0.5f;
-
     void Move();
 };
 

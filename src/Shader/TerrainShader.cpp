@@ -1,7 +1,7 @@
 #include "../config.hpp"
 #include "TerrainShader.hpp"
 
-TerrainShader::TerrainShader(): Shader(string(SHADERS_DIR) + "terrainShader")
+TerrainShader::TerrainShader(): Shader("terrainShader")
 {
     BindAttributes();
     GetUniformLocations();

@@ -1,4 +1,5 @@
 #include <vector>
+#include "../config.hpp"
 #include "Terrain.hpp"
 
 RawModel Terrain::GenerateTerrain(Loader& loader)
@@ -6,7 +7,7 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
     int count = VERTEX_COUNT * VERTEX_COUNT;  // we have a grid
     vector<glm::vec3> vertices(count), normals(count);
     vector<glm::vec2> textures(count);
-    vector<int> indices(6 * (VERTEX_COUNT - 1) * VERTEX_COUNT);
+    vector<int> indices(6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1));
     int i, j, vertexPointer = 0;
     glm::vec3 standardNormal = glm::vec3(0, 1, 0);
 
@@ -19,7 +20,11 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             // compute normals @NOTE this is a plane
             normals[vertexPointer] = standardNormal;
             // textures
-            textures[vertexPointer] = glm::vec2(i * 1.0 / (VERTEX_COUNT - 1), j * 1.0 / (VERTEX_COUNT - 1));
+            textures[vertexPointer] = glm::vec2(j * 1.0 / (VERTEX_COUNT - 1), i * 1.0 / (VERTEX_COUNT - 1));
+#if DEBUG
+            cerr << "vertices[" << vertexPointer << "]: " << vertices[vertexPointer].x << ", " << vertices[vertexPointer].y << ", " << vertices[vertexPointer].z << endl;
+            cerr << "textures[" << vertexPointer << "]: " << textures[vertexPointer].x << ", " << textures[vertexPointer].y << endl;
+#endif
             // next vertex
             vertexPointer++;
         }
@@ -43,6 +48,12 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             indices[pointer++] = topRight;
             indices[pointer++] = bottomLeft;
             indices[pointer++] = bottomRight;
+#if DEBUG
+            for (int i = pointer - 6; i < 6; i++)
+            {
+                cerr << "indices[" << i << "]: " << indices[i] << endl;
+            }
+#endif
         }
     }
     return loader.Load2VAO(vertices, textures, normals, indices);

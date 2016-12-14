@@ -61,8 +61,21 @@ void TerrainRenderer::Render(vector<Terrain> terrains)
 
 void TerrainRenderer::RenderTerrain(Terrain& terrain)
 {
-    glm::vec3 postion(terrain.GetX(), terrain.GetY(), terrain.GetZ());
-    glm::mat4 transMatrix = glm::translate(postion);  // generate translation matrix
-    shader.LoadTransformMatrix(transMatrix);
+    glm::vec3 position(terrain.GetX(), terrain.GetY(), terrain.GetZ());
+    glm::mat4 transMatrix = glm::translate(position);  // generate translation matrix
+    glm::vec3 rotation(0, 0, 0);
+	glm::mat4 rotMatrix =
+		glm::rotate(rotation.z, glm::vec3(0, 0, 1)) *
+		glm::rotate(rotation.y, glm::vec3(0, 1, 0)) *
+		glm::rotate(rotation.x, glm::vec3(1, 0, 0));
+	// Create scale matrix
+	glm::mat4 scaleMatrix = glm::scale(glm::vec3(1, 1, 1));
+
+    shader.LoadTransformMatrix(transMatrix * rotMatrix * scaleMatrix);
     glDrawElements(GL_TRIANGLES, terrain.GetModel().GetVerticesNum(), GL_UNSIGNED_INT, 0);  // 0 indicates the buffer offset in indices buffer object
+/*
+#if DEBUG
+    cerr << "Terrain position: " << position.x << ", " << position.y << ", " << position.z << endl;
+#endif
+*/
 }

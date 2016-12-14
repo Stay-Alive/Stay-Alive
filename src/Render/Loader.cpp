@@ -46,7 +46,7 @@ RawModel Loader::Load2VAO(vector<glm::vec3> vertices,
     GLuint vaoID = CreateVAO();
     BindIndicesBuffer(&indices[0], indicesCount);
     StoreDataInAttributeList(0, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
-    StoreDataInAttributeList(1, 3, &textures[0], textures.size() * sizeof(glm::vec3));
+    StoreDataInAttributeList(1, 2, &textures[0], textures.size() * sizeof(glm::vec2));
     StoreDataInAttributeList(2, 3, &normals[0], normals.size() * sizeof(glm::vec3));
     glBindVertexArray(0);
     return RawModel(vaoID, indicesCount);

@@ -20,6 +20,7 @@ Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective(GLfloat(FI
     glEnable(GL_MULTISAMPLE);
 	// Dark background
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 }
 
 Renderer::~Renderer()
@@ -31,7 +32,6 @@ void Renderer::AddTerrain(const Terrain& terrain)
 {
     terrains.push_back(terrain);
 }
-
 
 void Renderer::Render(const SimpleLight& light, const Camera& camera)
 {

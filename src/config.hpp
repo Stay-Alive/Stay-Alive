@@ -1,7 +1,7 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#define DEBUG 0
+#define DEBUG 1
 // window
 #define FULLSCREEN 0
 #define WINDOW_WIDTH 1024
