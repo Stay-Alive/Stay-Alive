@@ -23,6 +23,8 @@ if(MINGW)
         "C:/Program Files/CURL/include" "C:/Program Files (x86)/CURL/include")
 endif()
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+
 if(APPLE)
     target_link_libraries(StayAlive glfw
         ${GLFW_LIBRARIES})

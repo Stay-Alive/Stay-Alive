@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-#include "../RenderEngine/Display.hpp"
+#include "../Render/Display.hpp"
 
 class Game
 {
