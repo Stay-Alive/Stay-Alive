@@ -1,6 +1,6 @@
 ### Stay Alive
 
-Timeine  
+#### Timeine  
 
 | Task | Due |  
 | --- | --- |  
@@ -12,3 +12,5 @@ Timeine
 | 6. Collision Detection | Jan 1, UTC+8 24:00 |  
 | 7. Particle System | Jan 8, UTC+8 24:00 |  
 
+#### Screenshots
+![screenshot1](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshot1.png)

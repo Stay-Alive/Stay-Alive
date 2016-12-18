@@ -59,22 +59,22 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
         {
             if (0 == indices.size())
             {
-                textures.resize(vertices.size() + 1);
-                normals.resize(vertices.size() + 1);
+                textures.resize(vertices.size());
+                normals.resize(vertices.size());
             }
             for (int i = 0; i < 3; i++)
             {
                 vertexIndices.clear();
                 Split(tokens[i + 1], '/', vertexIndices);
-                vertexPointer = std::stoi(vertexIndices[0]);
-                if (vertexPointer >= (int)vertices.size() + 1)
+                vertexPointer = std::stoi(vertexIndices[0]) - 1;
+                if (vertexPointer >= (int)vertices.size())
                 {
                     cerr << "Damn it, vector is not large enough!\n vertexPointer: " << vertexPointer << ">= " << vertices.size() << endl;
                     exit(-1);
                 }
                 indices.push_back(vertexPointer);
-                textures[vertexPointer] = tmpTextures[std::stoi(vertexIndices[1])];
-                normals[vertexPointer] = tmpNormals[std::stoi(vertexIndices[2])];
+                textures[vertexPointer] = tmpTextures[std::stoi(vertexIndices[1]) - 1];
+                normals[vertexPointer] = tmpNormals[std::stoi(vertexIndices[2]) - 1];
             }
         }
     }

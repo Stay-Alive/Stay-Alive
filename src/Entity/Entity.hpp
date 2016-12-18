@@ -7,7 +7,7 @@
 class Entity
 {
 public:
-    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): model(model), position(position), rotation(rotation) {}
+    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): model(model), position(position), rotation(rotation), scale(scale) {} // @NOTE rotation.{x, y, z} means the rotation degree around corresponding axis
 
     inline TexturedModel GetModel() const
     {

@@ -54,8 +54,8 @@ void Game::Start()
     vector<Entity> entities;
 
 
-    int i, x, z;
-    glm::vec3 noScale = glm::vec3(1, 1, 1);
+    int i, x, z, rotateAngle;
+    glm::vec3 standardScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
 
     // low poly tree
@@ -66,35 +66,57 @@ void Game::Start()
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
-        entities.push_back(Entity(tmTree, glm::vec3(x, 0, z), noRotation, noScale));
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmTree, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
     // grass
     RawModel mGrass = ObjLoader::LoadModel("grass", loader);
-    ModelTexture mtGrass(loader.LoadTexture("grass"), true, true);
+    ModelTexture mtGrass(loader.LoadTexture("grass"));
     TexturedModel tmGrass(mGrass, mtGrass);
     for (i = 0; i < 25; i++)
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
-        entities.push_back(Entity(tmGrass, glm::vec3(x, 0, z), noRotation, noScale));
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmGrass, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
+    }
+
+    // stall
+    RawModel mStall = ObjLoader::LoadModel("stall", loader);
+    ModelTexture mtStall(loader.LoadTexture("stall"));
+    TexturedModel tmStall(mStall, mtStall);
+    entities.push_back(Entity(tmStall, glm::vec3(x, 0, z), noRotation, standardScale * 1.5f));
+
+    // box
+    RawModel mBox = ObjLoader::LoadModel("box", loader);
+    ModelTexture mtBox(loader.LoadTexture("box"));
+    TexturedModel tmBox(mBox, mtBox);
+    for (i = 0; i < 4; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmBox, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
     // fern, we have 4 types of textures
     RawModel mFern = ObjLoader::LoadModel("fern", loader);
-    ModelTexture mtFern1(loader.LoadTexture("fern1"), true, true);
-    ModelTexture mtFern2(loader.LoadTexture("fern2"), true, true);
-    ModelTexture mtFern3(loader.LoadTexture("fern3"), true, true);
-    ModelTexture mtFern4(loader.LoadTexture("fern4"), true, true);
-    TexturedModel tmFern1(mFern, mtFern1);
-    TexturedModel tmFern2(mFern, mtFern2);
-    TexturedModel tmFern3(mFern, mtFern3);
-    TexturedModel tmFern4(mFern, mtFern4);
+    vector<TexturedModel> fernTexturedModels;
+    ModelTexture mtFern1(loader.LoadTexture("fern1"));
+    ModelTexture mtFern2(loader.LoadTexture("fern2"));
+    ModelTexture mtFern3(loader.LoadTexture("fern3"));
+    ModelTexture mtFern4(loader.LoadTexture("fern4"));
+    fernTexturedModels.push_back(TexturedModel(mFern, mtFern1));
+    fernTexturedModels.push_back(TexturedModel(mFern, mtFern2));
+    fernTexturedModels.push_back(TexturedModel(mFern, mtFern3));
+    fernTexturedModels.push_back(TexturedModel(mFern, mtFern4));
     for (i = 0; i < 20; i++)
     {
         x = rand() % 200 - 100;
         z = rand() % 200 - 100;
-        entities.push_back(Entity(i < 5 ? tmFern1 : i < 10 ? tmFern2 : i < 15 ? tmFern3 : tmFern4, glm::vec3 (x, 0, z), noRotation, noScale));
+        int fernType = rand() % 4;
+        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, 0, z), noRotation, standardScale * 0.5f));
     }
 
     vector<Terrain> terrains;
@@ -111,62 +133,9 @@ void Game::Start()
 
     Camera camera;
     Renderer renderer(display->GetAspect());
-/*
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    //glLogicOp(GL_INVERT); // so that we can use xor to draw a photo
-    //glEnable(GL_COLOR_LOGIC_OP);  // @ST seems not useful
-
-#if TUTORIAL
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-    string shadersPath = SHADERS_DIR;
-    string vertexShaderPath = shadersPath + "SimpleVertexShader.vertexshader";
-    string fragementShaderPath = shadersPath + "SimpleFragmentShader.fragmentshader";
-	GLuint programID = LoadShaders(vertexShaderPath.c_str(), fragementShaderPath.c_str());
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-#endif
-
-	// Dark background
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-*/
 
     while(!display->IsWindowClosed())
     {
-/*
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-#if TUTORIAL
-		glUseProgram(programID);
-
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
-
-		glDisableVertexAttribArray(0);
-#endif
-*/
 
         camera.Update();
         // terrains
@@ -183,8 +152,8 @@ void Game::Start()
 #if 0
         cerr << "location: "<< camera.GetPosition().x << ", " << camera.GetPosition().y <<", " << camera.GetPosition().z << endl;
         //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
-#endif
         //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
+#endif
         display->Update();
         display->ShowFPS();
     }

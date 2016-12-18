@@ -19,8 +19,7 @@ Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective((GLfloat)F
     // antialiasing
     glEnable(GL_MULTISAMPLE);
 	// Dark background
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+	glClearColor(SKY_R, SKY_G, SKY_B, 1.0f);
 }
 
 Renderer::~Renderer()
