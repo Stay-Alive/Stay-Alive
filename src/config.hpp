@@ -16,5 +16,6 @@
 #define FIELD_OF_VIEW 70
 #define Z_NEAR 0.1
 #define Z_FAR 1000.0
-
+// light
+#define LIGHT_HEIGHT 300.0
 #endif

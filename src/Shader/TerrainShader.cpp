@@ -52,7 +52,7 @@ void TerrainShader::LoadViewMatrix(const glm::mat4& matrix)
 void TerrainShader::LoadLight(const SimpleLight& light, GLfloat ambientLight)
 {
     glm::vec3 pos(light.GetPosition());
-    glm::vec3 color(light.GetPosition());
+    glm::vec3 color(light.GetColor());
     glUniform3f(lightPositionLoc, pos.x, pos.y, pos.z);
     glUniform3f(lightColorLoc, color.x, color.y, color.z);
     glUniform1f(ambientLightLoc, ambientLight);

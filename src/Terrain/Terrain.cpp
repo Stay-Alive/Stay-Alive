@@ -31,9 +31,14 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             normals[vertexPointer] = standardNormal;
             // textures
             textures[vertexPointer] = glm::vec2(j * 1.0 / (VERTEX_COUNT - 1), i * 1.0 / (VERTEX_COUNT - 1));
-#if 0
-            cerr << "vertices[" << vertexPointer << "]: " << vertices[vertexPointer].x << ", " << vertices[vertexPointer].y << ", " << vertices[vertexPointer].z << endl;
-            cerr << "textures[" << vertexPointer << "]: " << textures[vertexPointer].x << ", " << textures[vertexPointer].y << endl;
+#if DEBUG
+            if (i == j)
+            {
+                cerr << "vertices[" << vertexPointer << "]: " << vertices[vertexPointer].x << ", " << vertices[vertexPointer].y << ", " << vertices[vertexPointer].z << endl;
+
+                cerr << "textures[" << vertexPointer << "]: " << textures[vertexPointer].x << ", " << textures[vertexPointer].y << endl;
+            }
+
 #endif
             // next vertex
             vertexPointer++;

@@ -100,15 +100,15 @@ void Game::Start()
     */
 
     vector<Terrain> terrains;
-    ModelTexture mtGrass2(loader.LoadTexture("grassy2"), true);
-    //ModelTexture mtGrass3(loader.LoadTexture("grassy3"), true);
+    ModelTexture mtGrass2(loader.LoadTexture("grassy2", true));
+    //ModelTexture mtGrass3(loader.LoadTexture("grassy3", true));
     terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
     terrains.push_back(Terrain(0, 0, loader, mtGrass2));
     terrains.push_back(Terrain(-1, -1, loader, mtGrass2));
     terrains.push_back(Terrain(0, -1, loader, mtGrass2));
 
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
-    glm::vec3 lightPosition(0.0, 50.0, 0.0);
+    glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     SimpleLight light(lightPosition, colorWhite);
 
     Camera camera;
@@ -183,6 +183,7 @@ void Game::Start()
         cerr << "location: "<< camera.GetPosition().x << ", " << camera.GetPosition().y <<", " << camera.GetPosition().z << endl;
         //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
 #endif
+        //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
         display->Update();
         display->ShowFPS();
     }
