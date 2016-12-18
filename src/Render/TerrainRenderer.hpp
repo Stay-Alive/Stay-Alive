@@ -16,12 +16,12 @@ public:
 
     inline TerrainShader& GetShader()
     {
-        return shader;    
+        return shader;
     }
 private:
     TerrainShader shader;
     void BindTerrain(Terrain& terrain);
-    void UnBindTerrain(Terrain& terrain);
+    void UnbindTerrain(Terrain& terrain);
     void RenderTerrain(Terrain& terrain);
 };
 

@@ -40,7 +40,7 @@ void TerrainRenderer::BindTerrain(Terrain& terrain)
 
 }
 
-void TerrainRenderer::UnBindTerrain(Terrain& terrain)
+void TerrainRenderer::UnbindTerrain(Terrain& terrain)
 {
     for (GLuint i = 0; i < 3; i++)
     {
@@ -55,7 +55,7 @@ void TerrainRenderer::Render(vector<Terrain> terrains)
     {
         BindTerrain(i);
         RenderTerrain(i);
-        UnBindTerrain(i);
+        UnbindTerrain(i);
     }
 }
 

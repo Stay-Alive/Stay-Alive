@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -15,23 +16,24 @@
 #include "../Shader/EntityShader.hpp"
 #include "../Shader/TerrainShader.hpp"
 #include "TerrainRenderer.hpp"
+#include "EntityRenderer.hpp"
+
 using namespace std;
 
 class Renderer
 {
 public:
     Renderer(GLfloat aspect = ASPECT);
-    ~Renderer();
+    virtual ~Renderer();
     void Render(const SimpleLight& light, const Camera& camera);
     void AddTerrain(const Terrain& terrain);
     void AddEntity(const Entity& entity);
 private:
     glm::mat4 projectionMatrix;
-    //EntityShader& entityShader;
-    //TerrainShader terrainShader;
-    //TerrainShader terrainShader;
     TerrainRenderer terrainRenderer;
+    EntityRenderer entityRenderer;
     vector<Terrain> terrains;
+    TmEntityMap entities;
 };
 
 #endif

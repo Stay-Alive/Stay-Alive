@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective((GLfloat)FIELD_OF_VIEW, aspect, (GLfloat)Z_NEAR, (GLfloat)Z_FAR)), terrainRenderer(projectionMatrix)
+Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective((GLfloat)FIELD_OF_VIEW, aspect, (GLfloat)Z_NEAR, (GLfloat)Z_FAR)), terrainRenderer(projectionMatrix), entityRenderer(projectionMatrix)
 {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -33,9 +33,18 @@ void Renderer::AddTerrain(const Terrain& terrain)
     terrains.push_back(terrain);
 }
 
+void Renderer::AddEntity(const Entity& entity)
+{
+    const TexturedModel& texturedModel = entity.GetModel();
+    // initialize value to an empty vector
+    entities.insert(TmEntityMap::value_type(texturedModel, vector<Entity>()));
+    entities[texturedModel].push_back(entity);
+}
+
 void Renderer::Render(const SimpleLight& light, const Camera& camera)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // render terrains
     TerrainShader& terrainShader = terrainRenderer.GetShader();
     terrainShader.Use();
     terrainShader.LoadLight(light, 0.1);
@@ -43,5 +52,12 @@ void Renderer::Render(const SimpleLight& light, const Camera& camera)
     terrainRenderer.Render(terrains);
     glUseProgram(0);  // unuse
     terrains.clear();
-    // @TODO render entities
+    // render entities
+    EntityShader& entityShader = entityRenderer.GetShader();
+    entityShader.Use();
+    entityShader.LoadLight(light, 0.1);
+    entityShader.LoadViewMatrix(camera.GetViewMatrix());
+    entityRenderer.Render(entities, camera.GetPosition());
+    glUseProgram(0);  // unuse
+    entities.clear();
 }

@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
+#include "../config.hpp"
 #include "Camera.hpp"
 
 using namespace std;
@@ -9,7 +10,7 @@ using namespace std;
 Camera::Camera()
 {
     GLFWwindow *window = glfwGetCurrentContext();
-    position = glm::vec3(0, 1.8, 0);  // suppose that you are 1.8m tall
+    position = glm::vec3(0, YOUR_HEIGHT, 0);  // suppose that you are 1.8m tall
     viewDirection = glm::vec3(0, 0, -1);  // view at -z axis @NOTE it should be normalized
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

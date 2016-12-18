@@ -51,9 +51,8 @@ void Game::Start()
     cerr << "Game started\n";
     Loader loader;
     srand(time(NULL));  // initialize random number generation
-
-    /*
     vector<Entity> entities;
+
 
     int i, x, z;
     glm::vec3 noScale = glm::vec3(1, 1, 1);
@@ -97,7 +96,6 @@ void Game::Start()
         z = rand() % 200 - 100;
         entities.push_back(Entity(i < 5 ? tmFern1 : i < 10 ? tmFern2 : i < 15 ? tmFern3 : tmFern4, glm::vec3 (x, 0, z), noRotation, noScale));
     }
-    */
 
     vector<Terrain> terrains;
     ModelTexture mtGrass2(loader.LoadTexture("grassy2", true));
@@ -112,7 +110,6 @@ void Game::Start()
     SimpleLight light(lightPosition, colorWhite);
 
     Camera camera;
-    // @TODO render
     Renderer renderer(display->GetAspect());
 /*
     glEnable(GL_CULL_FACE);
@@ -172,12 +169,16 @@ void Game::Start()
 */
 
         camera.Update();
-
-        for (Terrain& i: terrains)
+        // terrains
+        for (Terrain& tmpTerrain: terrains)
         {
-            renderer.AddTerrain(i);
+            renderer.AddTerrain(tmpTerrain);
         }
-        // @TODO entities
+        // entities
+        for (Entity& tmpEntity: entities)
+        {
+            renderer.AddEntity(tmpEntity);
+        }
         renderer.Render(light, camera);
 #if 0
         cerr << "location: "<< camera.GetPosition().x << ", " << camera.GetPosition().y <<", " << camera.GetPosition().z << endl;

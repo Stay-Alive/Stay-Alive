@@ -17,5 +17,7 @@
 #define Z_NEAR 0.1
 #define Z_FAR 1000.0
 // light
-#define LIGHT_HEIGHT 300.0
+#define LIGHT_HEIGHT 150.0
+// camera
+#define YOUR_HEIGHT 5.0
 #endif
