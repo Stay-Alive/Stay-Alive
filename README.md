@@ -13,4 +13,4 @@
 | 7. Particle System | Jan 8, UTC+8 24:00 |  
 
 #### Screenshots
-![screenshot1](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshot1.png)
+![screenshot1](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot1.png)
