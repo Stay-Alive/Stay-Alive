@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective(GLfloat(FIELD_OF_VIEW), aspect, GLfloat(Z_NEAR), GLfloat(Z_FAR))), terrainRenderer(projectionMatrix)
+Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective((GLfloat)FIELD_OF_VIEW, aspect, (GLfloat)Z_NEAR, (GLfloat)Z_FAR)), terrainRenderer(projectionMatrix)
 {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);

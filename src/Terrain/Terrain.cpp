@@ -2,6 +2,16 @@
 #include "../config.hpp"
 #include "Terrain.hpp"
 
+Terrain::Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture): x(gridX * SIZE), z(gridZ * SIZE), texture(texture), model(GenerateTerrain(loader))
+{
+
+}
+
+Terrain::~Terrain()
+{
+
+}
+
 RawModel Terrain::GenerateTerrain(Loader& loader)
 {
     int count = VERTEX_COUNT * VERTEX_COUNT;  // we have a grid
@@ -21,7 +31,7 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             normals[vertexPointer] = standardNormal;
             // textures
             textures[vertexPointer] = glm::vec2(j * 1.0 / (VERTEX_COUNT - 1), i * 1.0 / (VERTEX_COUNT - 1));
-#if DEBUG
+#if 0
             cerr << "vertices[" << vertexPointer << "]: " << vertices[vertexPointer].x << ", " << vertices[vertexPointer].y << ", " << vertices[vertexPointer].z << endl;
             cerr << "textures[" << vertexPointer << "]: " << textures[vertexPointer].x << ", " << textures[vertexPointer].y << endl;
 #endif
@@ -48,8 +58,8 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             indices[pointer++] = topRight;
             indices[pointer++] = bottomLeft;
             indices[pointer++] = bottomRight;
-#if DEBUG
-            for (int i = pointer - 6; i < 6; i++)
+#if 0
+            for (int i = pointer - 6; i < pointer; i++)
             {
                 cerr << "indices[" << i << "]: " << indices[i] << endl;
             }

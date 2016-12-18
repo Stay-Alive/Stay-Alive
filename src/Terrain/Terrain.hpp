@@ -8,11 +8,9 @@
 class Terrain
 {
 public:
-    Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture): x(gridX * SIZE), z(gridZ * SIZE), texture(texture), model(GenerateTerrain(loader)) {}
-    //Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture);
+    Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture);
 
-    virtual ~Terrain() {}
-    //virtual ~Terrain();
+    virtual ~Terrain();
 
     inline float GetX() const
     {

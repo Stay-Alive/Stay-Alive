@@ -61,6 +61,7 @@ GLuint Loader::LoadTexture(const string& fileName, bool repeat)
     if (NULL == data)
     {
         cerr << "Failed to load texture image: "  + fileName << endl;
+        exit(-1);
     }
 
     glGenTextures(1, &textureID);
