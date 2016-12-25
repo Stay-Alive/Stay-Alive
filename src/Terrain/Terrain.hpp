@@ -4,13 +4,14 @@
 #include "../Model/RawModel.hpp"
 #include "../Texture/ModelTexture.hpp"
 #include "../Render/Loader.hpp"
+#include "../config.hpp"
 
 class Terrain
 {
 public:
-    Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture);
-
+    Terrain(Loader& loader, ModelTexture texture);
     virtual ~Terrain();
+    GLfloat GetAltitudeAt(GLfloat xCoord, GLfloat zCoord);
 
     inline float GetX() const
     {
@@ -38,13 +39,14 @@ public:
     }
 
 private:
-    const float SIZE = 800;  // @TODO we might move this const data to config.hpp
-    const int VERTEX_COUNT = 128;
     GLfloat x;
-    GLfloat y;
+    GLfloat y;  // base height, which is always 0
     GLfloat z;
     ModelTexture texture;
+    vector<glm::vec3> vertices;
+    vector<glm::vec3> normals;
     RawModel model;
+
     RawModel GenerateTerrain(Loader& loader);
 };
 

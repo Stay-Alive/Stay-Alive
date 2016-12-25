@@ -13,14 +13,20 @@
 #define TEXTURES_DIR "./textures/"
 #define MODELS_DIR "./models/"
 // perspective
-#define FIELD_OF_VIEW 70
-#define Z_NEAR 0.1
-#define Z_FAR 1000.0
+#define FIELD_OF_VIEW 70.0f
+#define Z_NEAR 0.1f
+#define Z_FAR 1000.0f
 // light
-#define LIGHT_HEIGHT 800.0
-#define SKY_R 0.2
-#define SKY_G 0.4
-#define SKY_B 0.6
+#define LIGHT_HEIGHT 800.0f
+#define SKY_R 0.2f
+#define SKY_G 0.4f
+#define SKY_B 0.6f
 // camera
-#define YOUR_HEIGHT 5.0
+#define YOUR_HEIGHT 5.0f
+// terrian
+#define TERRAIN_SIZE 800.0f
+#define TERRAIN_VERTEX_COUNT 256
+#define TERRAIN_STEP TERRAIN_SIZE / (TERRAIN_VERTEX_COUNT - 1)
+#define TERRAIN_HEIGHT_SCALE 15.0f
+
 #endif

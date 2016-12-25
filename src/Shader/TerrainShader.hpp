@@ -18,6 +18,7 @@ public:
     void LoadViewMatrix(const glm::mat4& matrix);
     void LoadLight(const SimpleLight& light, GLfloat ambientLight);
     void LoadShineVariables(GLfloat shineDamper, GLfloat shine);
+    void LoadTerrainSize(GLfloat terrainSize);
 private:
     GLuint transformMatrixLoc;
     GLuint projectionMatrixLoc;
@@ -27,6 +28,7 @@ private:
     GLuint ambientLightLoc;
     GLuint shineDamperLoc;
     GLuint shineLoc;
+    GLuint terrainSizeLoc;
 };
 
 #endif

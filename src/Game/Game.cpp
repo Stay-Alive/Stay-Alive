@@ -51,10 +51,14 @@ void Game::Start()
     cerr << "Game started\n";
     Loader loader;
     srand(time(NULL));  // initialize random number generation
+
+    vector<Terrain> terrains;
+    ModelTexture mtGrass2(loader.LoadTexture("grassy", true));
+    terrains.push_back(Terrain(loader, mtGrass2));
+    Terrain& theTerrain = terrains[0];  // so that we can get altitude from it
+
     vector<Entity> entities;
-
-
-    int i, x, z, rotateAngle;
+    int i, x, z, y, rotateAngle;
     glm::vec3 standardScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
 
@@ -66,10 +70,12 @@ void Game::Start()
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmTree, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
+        entities.push_back(Entity(tmTree, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
+    /*
     // grass
     RawModel mGrass = ObjLoader::LoadModel("grass", loader);
     ModelTexture mtGrass(loader.LoadTexture("grass"));
@@ -78,26 +84,32 @@ void Game::Start()
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmGrass, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
+        entities.push_back(Entity(tmGrass, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
+    */
 
     // stall
     RawModel mStall = ObjLoader::LoadModel("stall", loader);
     ModelTexture mtStall(loader.LoadTexture("stall"));
     TexturedModel tmStall(mStall, mtStall);
-    entities.push_back(Entity(tmStall, glm::vec3(x, 0, z), noRotation, standardScale * 1.5f));
+    x = 5.0f;
+    z = 5.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
     // box
     RawModel mBox = ObjLoader::LoadModel("box", loader);
     ModelTexture mtBox(loader.LoadTexture("box"));
     TexturedModel tmBox(mBox, mtBox);
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 20; i++)
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmBox, glm::vec3(x, 0, z), glm::vec3(0, rotateAngle, 0), standardScale));
+        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
     // fern, we have 4 types of textures
@@ -115,17 +127,10 @@ void Game::Start()
     {
         x = rand() % 200 - 100;
         z = rand() % 200 - 100;
+        y = theTerrain.GetAltitudeAt(x, z);
         int fernType = rand() % 4;
-        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, 0, z), noRotation, standardScale * 0.5f));
+        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
     }
-
-    vector<Terrain> terrains;
-    ModelTexture mtGrass2(loader.LoadTexture("grassy2", true));
-    //ModelTexture mtGrass3(loader.LoadTexture("grassy3", true));
-    terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
-    terrains.push_back(Terrain(0, 0, loader, mtGrass2));
-    terrains.push_back(Terrain(-1, -1, loader, mtGrass2));
-    terrains.push_back(Terrain(0, -1, loader, mtGrass2));
 
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
@@ -149,8 +154,11 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-#if 0
-        cerr << "location: "<< camera.GetPosition().x << ", " << camera.GetPosition().y <<", " << camera.GetPosition().z << endl;
+#if DEBUG
+        GLfloat xLocation = camera.GetPosition().x;
+        GLfloat zLocation = camera.GetPosition().z;
+        GLfloat yLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
+        cerr << "location: "<< xLocation << ", " << yLocation <<", " << zLocation << endl;
         //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
         //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
 #endif
