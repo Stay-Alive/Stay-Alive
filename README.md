@@ -1,5 +1,9 @@
 ### Stay Alive
 
+#### Dependices
+
+* SDL Image (1.2):  libsdl-image1.2-dev
+
 #### Timeine  
 
 | Task | Due | Done |

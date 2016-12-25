@@ -30,6 +30,7 @@ void TerrainShader::GetUniformLocations()
     ambientLightLoc = glGetUniformLocation(programID, "ambientLight");
     shineDamperLoc = glGetUniformLocation(programID, "shineDamper");
     shineLoc = glGetUniformLocation(programID, "shine");
+    terrainSizeLoc = glGetUniformLocation(programID, "terrainSize");
 }
 
 void TerrainShader::LoadTransformMatrix(const glm::mat4& matrix)
@@ -62,4 +63,9 @@ void TerrainShader::LoadShineVariables(GLfloat shineDamper, GLfloat shine)
 {
     glUniform1f(shineDamperLoc, shineDamper);
     glUniform1f(shineLoc, shine);
+}
+
+void TerrainShader::LoadTerrainSize(GLfloat terrainSize)
+{
+    glUniform1f(terrainSizeLoc, terrainSize);
 }

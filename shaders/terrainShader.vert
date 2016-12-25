@@ -15,13 +15,29 @@ out vec3 toCameraVector;
 uniform mat4 transformMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+uniform float terrainSize;
 
 uniform vec3 lightPosition;
+
+float randSO(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+float TerrainHeight(vec3 vCoordPos)
+{
+    float fNoiseCoordScale = 1.0;
+	float heightScale = 1.0;
+
+    float fValueHeight = randSO(vec2(vCoordPos.x / terrainSize * fNoiseCoordScale, vCoordPos.z / terrainSize * fNoiseCoordScale));;
+
+     return heightScale * (fValueHeight - vCoordPos.y);
+}
 
 void main()
 {
 	// Calculate the position of the object in the world
-	vec4 worldPosition = transformMatrix * vec4(position, 1.0);
+	//vec4 worldPosition = transformMatrix * vec4(position.x, TerrainHeight(position), position.z, 1.0);
+    vec4 worldPosition = transformMatrix * vec4(position.x, position.y, position.z, 1.0);
 
 	// Multiply the normal by transformation matrix (fixes normal if object is rotated)
 	surfaceNormal = (transformMatrix * vec4(normal, 0.0)).xyz;
