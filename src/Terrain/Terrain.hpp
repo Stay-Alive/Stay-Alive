@@ -8,7 +8,7 @@
 class Terrain
 {
 public:
-    Terrain(int gridX, int gridZ, Loader& loader, ModelTexture texture);
+    Terrain(Loader& loader, ModelTexture texture);
 
     virtual ~Terrain();
 
@@ -38,8 +38,6 @@ public:
     }
 
 private:
-    const float SIZE = 800;  // @TODO we might move this const data to config.hpp
-    const int VERTEX_COUNT = 128;
     GLfloat x;
     GLfloat y;
     GLfloat z;

@@ -122,10 +122,10 @@ void Game::Start()
     vector<Terrain> terrains;
     ModelTexture mtGrass2(loader.LoadTexture("grassy2", true));
     //ModelTexture mtGrass3(loader.LoadTexture("grassy3", true));
-    terrains.push_back(Terrain(-1, 0, loader, mtGrass2));
-    terrains.push_back(Terrain(0, 0, loader, mtGrass2));
-    terrains.push_back(Terrain(-1, -1, loader, mtGrass2));
-    terrains.push_back(Terrain(0, -1, loader, mtGrass2));
+    terrains.push_back(Terrain(loader, mtGrass2));
+    //terrains.push_back(Terrain(0, 0, loader, mtGrass2));
+    //terrains.push_back(Terrain(-1, -1, loader, mtGrass2));
+    //terrains.push_back(Terrain(0, -1, loader, mtGrass2));
 
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
