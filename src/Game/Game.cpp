@@ -120,7 +120,7 @@ void Game::Start()
     }
 
     vector<Terrain> terrains;
-    ModelTexture mtGrass2(loader.LoadTexture("grassy2", true));
+    ModelTexture mtGrass2(loader.LoadTexture("grassy", true));
     terrains.push_back(Terrain(loader, mtGrass2));
 
     glm::vec3 colorWhite(1.0, 1.0, 1.0);

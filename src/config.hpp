@@ -24,8 +24,8 @@
 // camera
 #define YOUR_HEIGHT 5.0f
 // terrian
-#define TERRAIN_SIZE 1600.0f
-#define TERRAIN_HEIGHT_SCALE 1.0f
+#define TERRAIN_SIZE 800.0f
+#define TERRAIN_HEIGHT_SCALE 15.0f
 #define TERRAIN_VERTEX_COUNT 256
 
 #endif

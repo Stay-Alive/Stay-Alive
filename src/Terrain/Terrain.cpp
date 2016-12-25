@@ -2,6 +2,7 @@
 #include "../config.hpp"
 #include "Terrain.hpp"
 #include <SDL/SDL_image.h>
+#include "../Render/stb_image.h"
 
 Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), z(-0.5 * TERRAIN_SIZE), texture(texture), model(GenerateTerrain(loader))
 {
@@ -22,13 +23,19 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
     int i, j, vertexPointer = 0;
     glm::vec3 standardNormal = glm::vec3(0, 1, 0);
 
-    SDL_Surface *image;
-    image = IMG_Load("./textures/heightmap.png");  // @TODO thought we should avoid putting a path here
-    uint8_t *pixels = (uint8_t *)image->pixels;
-    float xScale = ((float)image->w) / (TERRAIN_SIZE - 1);
-    float zScale = ((float)image->h) / (TERRAIN_SIZE - 1);
-    GLfloat xCoord, height, zCoord;
+    //SDL_Surface *image;
+    //image = IMG_Load("./textures/heightmap.png");  // @TODO thought we should avoid putting a path here
+    //uint8_t *pixels = (uint8_t *)image->pixels;
+    //float xScale = ((float)image->w) / (TERRAIN_SIZE - 1);
+    //float zScale = ((float)image->h) / (TERRAIN_SIZE - 1);
 
+    int imgWidth, imgHeight, componentsCount;
+    string completeFileName("./textures/heightmap.png");
+    stbi_uc *pixels = stbi_load(completeFileName.c_str(), &imgWidth, &imgHeight, &componentsCount, 4); // 3 components per pixel
+    float xScale = ((float)imgWidth) / (TERRAIN_SIZE - 1);
+    float zScale = ((float)imgHeight) / (TERRAIN_SIZE - 1);
+
+    GLfloat xCoord, height, zCoord;
     for (i = 0; i < TERRAIN_VERTEX_COUNT; i++)
     {
         for (j = 0; j < TERRAIN_VERTEX_COUNT; j++)
@@ -37,7 +44,7 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             zCoord = i * 1.0 / (TERRAIN_VERTEX_COUNT - 1) * TERRAIN_SIZE;
             int imgX = (int)truncf(xCoord * xScale);
             int imgY = (int)truncf(zCoord * zScale);
-            height = pixels[imgY * image->pitch + imgX * 4];
+            height = pixels[imgY * imgWidth * 4 + imgX * 4];
             // Normalize height to [-1, 1]
             height = height / 127.5 - 1.0;
             height *= TERRAIN_HEIGHT_SCALE;
@@ -49,6 +56,7 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             vertexPointer++;
         }
     }
+    stbi_image_free(pixels);
 
     // compute normals
     vertexPointer = 0;
@@ -59,6 +67,7 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             if (0 == i || 0 == j || TERRAIN_VERTEX_COUNT - 1 == i || TERRAIN_VERTEX_COUNT - 1 == j)  // edge, we just set normal = (0, 1, 0)
             {
                 normals[vertexPointer] = standardNormal;
+                vertexPointer++;
                 continue;
             }
             // left, right, up and down points' heights
