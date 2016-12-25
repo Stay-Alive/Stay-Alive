@@ -14,12 +14,12 @@
 
 #### TODO
 
-* 起伏的地形  
-* 更自然的光照，白天黑夜的转换  
-* 更多models  
-* 碰撞检测  
-* 游戏的状态机  
-* 粒子系统  
+* 起伏的地形  [@xjiajiahao](https://github.com/xjiajiahao)  
+* 更自然的光照，白天黑夜的转换  [@ylkky](https://github.com/ylkky)  
+* 更多models  [@ylkky](https://github.com/ylkky)  
+* 碰撞检测  [@ylkky](https://github.com/ylkky)  
+* 游戏的状态机  [@xjiajiahao](https://github.com/xjiajiahao)  
+* 粒子系统  [@xjiajiahao](https://github.com/xjiajiahao)  
 
 #### Screenshots
 ![screenshot1](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot1.png)
