@@ -4,13 +4,14 @@
 #include "../Model/RawModel.hpp"
 #include "../Texture/ModelTexture.hpp"
 #include "../Render/Loader.hpp"
+#include "../config.hpp"
 
 class Terrain
 {
 public:
     Terrain(Loader& loader, ModelTexture texture);
-
     virtual ~Terrain();
+    GLfloat GetAltitudeAt(GLfloat xCoord, GLfloat zCoord);
 
     inline float GetX() const
     {
@@ -39,10 +40,13 @@ public:
 
 private:
     GLfloat x;
-    GLfloat y;
+    GLfloat y;  // base height, which is always 0
     GLfloat z;
     ModelTexture texture;
+    vector<glm::vec3> vertices;
+    vector<glm::vec3> normals;
     RawModel model;
+
     RawModel GenerateTerrain(Loader& loader);
 };
 

@@ -11,15 +11,18 @@ Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), 
 
 Terrain::~Terrain()
 {
-
+    vertices.clear();
+    normals.clear();
 }
 
 RawModel Terrain::GenerateTerrain(Loader& loader)
 {
     int count = TERRAIN_VERTEX_COUNT * TERRAIN_VERTEX_COUNT;  // we have a grid
-    vector<glm::vec3> vertices(count), normals(count);
+    vertices.resize(count);
+    normals.resize(count);
     vector<glm::vec2> textures(count);
     vector<int> indices(6 * (TERRAIN_VERTEX_COUNT - 1) * (TERRAIN_VERTEX_COUNT - 1));
+
     int i, j, vertexPointer = 0;
     glm::vec3 standardNormal = glm::vec3(0, 1, 0);
 
@@ -106,4 +109,76 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
         }
     }
     return loader.Load2VAO(vertices, textures, normals, indices);
+}
+
+GLfloat Terrain::GetAltitudeAt(GLfloat xCoord, GLfloat zCoord)
+{
+    float step = TERRAIN_STEP;
+    int row = TERRAIN_VERTEX_COUNT;
+    float x = xCoord + 0.5 * TERRAIN_SIZE;  // normalize so that 0 <= x < TERRAIN_SIZE
+    float z = zCoord + 0.5 * TERRAIN_SIZE;
+    float offX = fmodf(x, step);
+    float offZ = fmodf(z, step);
+    glm::vec3 p1, p2, p3;
+    /*
+        --------- x
+        |      /|
+        |  U  / |
+        |    /  |
+        |   /   |
+        |  /    |
+        | /  D  |
+        |/      |
+        ---------
+        z
+    */
+    if (offX + offZ <= step)  // (x, z) lies in the upper triangle
+    {
+        p1.x = trunc(x / step);
+        p1.z = trunc(z / step);
+        p1.y = vertices[(int)p1.z * row + (int)p1.x].y;
+
+        p2.x = trunc(x / step) + 1;
+        p2.z = trunc(z / step);
+        p2.y = vertices[(int)p2.z * row + (int)p2.x].y;
+
+        p3.x = trunc(x / step);
+        p3.z = trunc(z / step) + 1;
+        p3.y = vertices[(int)p3.z * row + (int)p3.x].y;
+    }
+    else  // the second triangle
+    {
+        p1.x = trunc(x / step) + 1;
+        p1.z = trunc(z / step) + 1;
+        p1.y = vertices[(int)p1.z * row + (int)p1.x].y;
+
+        p2.x = trunc(x / step) + 1;
+        p2.z = trunc(z / step);
+        p2.y = vertices[(int)p2.z * row + (int)p2.x].y;
+
+        p3.x = trunc(x / step);
+        p3.z = trunc(z / step) + 1;
+        p3.y = vertices[(int)p3.z * row + (int)p3.x].y;
+    }
+    // turn the coordinates into world units
+    p1.x *= step;
+    p1.z *= step;
+    p2.x *= step;
+    p2.z *= step;
+    p3.x *= step;
+    p3.z *= step;
+    /*
+    solve plane's equation: Ax + By + Cz = D
+    normal vector: n = [A, B, C]'
+    (p2 - p1) dot n = 0
+    (p3 - p1) dot n = 0
+    (p2 - p1) cross (p3 - p1) = n
+    */
+    glm::vec3 normal = glm::cross(p2 - p1, p3 - p1);
+    GLfloat A = normal.x, B = normal.y, C = normal.z, D = glm::dot(p1, normal);
+    if (0 == B)
+    {
+        return 0;
+    }
+    return (D - A * x - C * z) / B;
 }

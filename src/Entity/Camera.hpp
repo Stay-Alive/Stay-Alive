@@ -27,7 +27,7 @@ private:
     glm::vec2 mousePos;
     const glm::vec3 UP = glm::vec3(0, 1, 0);
     const GLfloat SENSITIVITY = 0.005f;
-    const GLfloat SPEED = 0.05f;
+    const GLfloat SPEED = 0.1f;
     void Move();
 };
 
