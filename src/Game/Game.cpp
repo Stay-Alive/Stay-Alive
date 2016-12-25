@@ -103,7 +103,7 @@ void Game::Start()
     RawModel mBox = ObjLoader::LoadModel("box", loader);
     ModelTexture mtBox(loader.LoadTexture("box"));
     TexturedModel tmBox(mBox, mtBox);
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 20; i++)
     {
         x = rand() % 500 - 250;
         z = rand() % 500 - 250;
