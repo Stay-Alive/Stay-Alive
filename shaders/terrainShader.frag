@@ -101,7 +101,7 @@ void main()
 	vec3 finalSpecular = dampedSpecular * shine * lightColor;
 
     // perturb the textureCoords with 2 components of the noise
-    //vec2 uv = textureCoords + 0.1*vec2(snoise(vec2(0.0, textureCoords.x)), snoise(textureCoords + vec2(43.0, textureCoords.y)));
+    vec2 uv = textureCoords + 0.09*vec2(snoise(vec2(-17.0, textureCoords.x)), snoise(textureCoords + vec2(43.0, textureCoords.y)));
 	// Output the texture color * the ammount of light color + the reflected light
-	fragColor = vec4(diffuse, 1.0) * texture(textureSampler, textureCoords) + vec4(finalSpecular, 1.0);
+	fragColor = vec4(diffuse, 1.0) * texture(textureSampler, uv) + vec4(finalSpecular, 1.0);
 }
