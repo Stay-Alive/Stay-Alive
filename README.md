@@ -26,4 +26,4 @@
 * 粒子系统  [@xjiajiahao](https://github.com/xjiajiahao)  
 
 #### Screenshots
-![screenshot1](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot1.png)
+![screenshot2](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot2.png)
