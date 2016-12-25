@@ -142,7 +142,7 @@ void Game::Start()
     while(!display->IsWindowClosed())
     {
 
-        camera.Update();
+        camera.Update(theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z));
         // terrains
         for (Terrain& tmpTerrain: terrains)
         {
@@ -157,8 +157,9 @@ void Game::Start()
 #if DEBUG
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
-        GLfloat yLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
-        cerr << "location: "<< xLocation << ", " << yLocation <<", " << zLocation << endl;
+        GLfloat yGroundLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
+        GLfloat yLocation = camera.GetPosition().y;
+        cerr << "location: "<< xLocation << ", " << yLocation << "(" << yGroundLocation << ")" << ", " << zLocation << endl;
         //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
         //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
 #endif

@@ -138,12 +138,12 @@ GLfloat Terrain::GetAltitudeAt(GLfloat xCoord, GLfloat zCoord)
         p1.z = trunc(z / step);
         p1.y = vertices[(int)p1.z * row + (int)p1.x].y;
 
-        p2.x = trunc(x / step) + 1;
-        p2.z = trunc(z / step);
+        p2.x = trunc(x / step);
+        p2.z = trunc(z / step) + 1;
         p2.y = vertices[(int)p2.z * row + (int)p2.x].y;
 
-        p3.x = trunc(x / step);
-        p3.z = trunc(z / step) + 1;
+        p3.x = trunc(x / step) + 1;
+        p3.z = trunc(z / step);
         p3.y = vertices[(int)p3.z * row + (int)p3.x].y;
     }
     else  // the second triangle

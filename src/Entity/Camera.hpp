@@ -9,7 +9,7 @@ class Camera
 public:
     Camera();
     ~Camera();
-    void Update();
+    void Update(GLfloat newYpos);
     glm::mat4 GetViewMatrix() const;
 
     inline glm::vec3 GetPosition() const
@@ -28,7 +28,7 @@ private:
     const glm::vec3 UP = glm::vec3(0, 1, 0);
     const GLfloat SENSITIVITY = 0.005f;
     const GLfloat SPEED = 0.1f;
-    void Move();
+    void Move(GLfloat newYpos);
 };
 
 #endif

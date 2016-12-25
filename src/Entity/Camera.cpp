@@ -25,7 +25,7 @@ glm::mat4 Camera::GetViewMatrix() const
     return glm::lookAt(position, position + viewDirection, this->UP);
 }
 
-void Camera::Update()
+void Camera::Update(GLfloat newYpos)
 {
     double x, y;
     glfwGetCursorPos(glfwGetCurrentContext(), &x, &y);
@@ -48,14 +48,15 @@ void Camera::Update()
 
     this->mousePos = newMousePos;
 
-    Move();
+    Move(newYpos);
     return;
 }
 
-void Camera::Move()
+void Camera::Move(GLfloat newYpos)
 {
     GLfloat speedUp = 1;
     GLFWwindow *window = glfwGetCurrentContext();
+    position.y = newYpos + YOUR_HEIGHT;
     // hold shift to speed up
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
     {
