@@ -1,6 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
+#include "../config.hpp"
 #include "../Render/Display.hpp"
+#include "../Render/Loader.hpp"
+#include "../Render/ObjLoader.hpp"
+#include "../Render/Renderer.hpp"
+#include "../Model/TexturedModel.hpp"
+#include "../Model/RawModel.hpp"
+#include "../Entity/Entity.hpp"
+#include "../Terrain/Terrain.hpp"
+#include "../Entity/Light.hpp"
+#include "../Entity/Camera.hpp"
+using namespace std;
 
 class Game
 {
@@ -10,6 +21,7 @@ public:
     void Start();
 private:
     Display *display;
+    void BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain);
 };
 
 #endif

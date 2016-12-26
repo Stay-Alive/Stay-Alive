@@ -5,24 +5,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Game.hpp"
-#include "../config.hpp"
-#include "../Render/Display.hpp"
-#include "../Render/Loader.hpp"
-#include "../Render/ObjLoader.hpp"
-#include "../Render/Renderer.hpp"
-#include "../Model/TexturedModel.hpp"
-#include "../Model/RawModel.hpp"
-#include "../Entity/Entity.hpp"
-#include "../Terrain/Terrain.hpp"
-#include "../Entity/Light.hpp"
-#include "../Entity/Camera.hpp"
 using namespace std;
 
 #define TUTORIAL 0
-
-#if TUTORIAL
-#include "../Shader/shader.hpp"
-#endif
 
 Game::Game()
 {
@@ -58,7 +43,46 @@ void Game::Start()
     Terrain& theTerrain = terrains[0];  // so that we can get altitude from it
 
     vector<Entity> entities;
-    int i, x, z, y, rotateAngle;
+    BuildWorld(loader, entities, theTerrain);
+    glm::vec3 colorWhite(1.0, 1.0, 1.0);
+    glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
+    SimpleLight light(lightPosition, colorWhite);
+
+    Camera camera;
+    Renderer renderer(display->GetAspect());
+
+    while(!display->IsWindowClosed())
+    {
+
+        camera.Update(theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z));
+        // terrains
+        for (Terrain& tmpTerrain: terrains)
+        {
+            renderer.AddTerrain(tmpTerrain);
+        }
+        // entities
+        for (Entity& tmpEntity: entities)
+        {
+            renderer.AddEntity(tmpEntity);
+        }
+        renderer.Render(light, camera);
+#if DEBUG
+        GLfloat xLocation = camera.GetPosition().x;
+        GLfloat zLocation = camera.GetPosition().z;
+        GLfloat yGroundLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
+        GLfloat yLocation = camera.GetPosition().y;
+        cerr << "location: "<< xLocation << ", " << yLocation << "(" << yGroundLocation << ")" << ", " << zLocation << endl;
+        //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
+        //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
+#endif
+        display->Update();
+        display->ShowFPS();
+    }
+}
+
+void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain)
+{
+        int i, x, z, y, rotateAngle;
     glm::vec3 standardScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
 
@@ -74,21 +98,6 @@ void Game::Start()
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmTree, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
-
-    /*
-    // grass
-    RawModel mGrass = ObjLoader::LoadModel("grass", loader);
-    ModelTexture mtGrass(loader.LoadTexture("grass"));
-    TexturedModel tmGrass(mGrass, mtGrass);
-    for (i = 0; i < 25; i++)
-    {
-        x = rand() % 500 - 250;
-        z = rand() % 500 - 250;
-        y = theTerrain.GetAltitudeAt(x, z);
-        rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmGrass, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
-    }
-    */
 
     // stall
     RawModel mStall = ObjLoader::LoadModel("stall", loader);
@@ -130,40 +139,5 @@ void Game::Start()
         y = theTerrain.GetAltitudeAt(x, z);
         int fernType = rand() % 4;
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
-    }
-
-    glm::vec3 colorWhite(1.0, 1.0, 1.0);
-    glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
-    SimpleLight light(lightPosition, colorWhite);
-
-    Camera camera;
-    Renderer renderer(display->GetAspect());
-
-    while(!display->IsWindowClosed())
-    {
-
-        camera.Update(theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z));
-        // terrains
-        for (Terrain& tmpTerrain: terrains)
-        {
-            renderer.AddTerrain(tmpTerrain);
-        }
-        // entities
-        for (Entity& tmpEntity: entities)
-        {
-            renderer.AddEntity(tmpEntity);
-        }
-        renderer.Render(light, camera);
-#if DEBUG
-        GLfloat xLocation = camera.GetPosition().x;
-        GLfloat zLocation = camera.GetPosition().z;
-        GLfloat yGroundLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
-        GLfloat yLocation = camera.GetPosition().y;
-        cerr << "location: "<< xLocation << ", " << yLocation << "(" << yGroundLocation << ")" << ", " << zLocation << endl;
-        //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
-        //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
-#endif
-        display->Update();
-        display->ShowFPS();
     }
 }
