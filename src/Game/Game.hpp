@@ -1,5 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include "../config.hpp"
 #include "../Render/Display.hpp"
 #include "../Render/Loader.hpp"

@@ -5,8 +5,8 @@
 #include <vector>
 #include "../Terrain/Terrain.hpp"
 #include "../Shader/TerrainShader.hpp"
-
 using namespace std;
+
 class TerrainRenderer
 {
 public:

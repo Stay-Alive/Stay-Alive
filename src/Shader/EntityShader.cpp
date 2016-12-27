@@ -7,7 +7,7 @@
 
 using namespace std;
 
-EntityShader::EntityShader(): Shader("basicShader")
+EntityShader::EntityShader(): Shader("entity")
 {
     BindAttributes();
     GetUniformLocations();

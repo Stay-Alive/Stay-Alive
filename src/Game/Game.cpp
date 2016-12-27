@@ -1,13 +1,5 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <iostream>
-#include <stdlib.h>
-#include <time.h>
 #include "Game.hpp"
 using namespace std;
-
-#define TUTORIAL 0
 
 Game::Game()
 {
@@ -37,13 +29,18 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+    // terrain
     vector<Terrain> terrains;
     ModelTexture mtGrass2(loader.LoadTexture("grassy", true));
     terrains.push_back(Terrain(loader, mtGrass2));
     Terrain& theTerrain = terrains[0];  // so that we can get altitude from it
 
+    // entities
     vector<Entity> entities;
+    // add entities, encapsulate this part in a function to make Start() shorter
     BuildWorld(loader, entities, theTerrain);
+
+    // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     SimpleLight light(lightPosition, colorWhite);
@@ -53,9 +50,8 @@ void Game::Start()
 
     while(!display->IsWindowClosed())
     {
-
         camera.Update(theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z));
-        // terrains
+        // terrain
         for (Terrain& tmpTerrain: terrains)
         {
             renderer.AddTerrain(tmpTerrain);
