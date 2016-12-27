@@ -5,7 +5,9 @@
 class RawModel
 {
 public:
+    RawModel() {}
     RawModel(GLuint vaoID, int verticesNum): vaoID(vaoID), verticesNum(verticesNum) {}
+    ~RawModel() {}
 
     inline GLuint GetVaoID() const
     {

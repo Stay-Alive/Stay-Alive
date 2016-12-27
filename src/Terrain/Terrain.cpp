@@ -4,9 +4,9 @@
 #include <SDL/SDL_image.h>
 #include "../Render/stb_image.h"
 
-Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), z(-0.5 * TERRAIN_SIZE), texture(texture), model(GenerateTerrain(loader))
+Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), z(-0.5 * TERRAIN_SIZE), texture(texture)
 {
-
+    model = GenerateTerrain(loader);
 }
 
 Terrain::~Terrain()
