@@ -21,7 +21,7 @@ TextRenderer::~TextRenderer()
 
 void TextRenderer::Render(const string& str)
 {
-    glm::mat4 matrix = glm::ortho(0.0f, (float)WINDOW_WIDTH, 0.0f, (float)WINDOW_HEIGHT, -1.0f, 1.0f);
+    glm::mat4 matrix = glm::ortho(0.0f, WINDOW_WIDTH, 0.0f, WINDOW_HEIGHT, -1.0f, 1.0f);
     shader.Use();
     shader.LoadMatrix(matrix);
 
