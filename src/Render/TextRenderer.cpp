@@ -27,7 +27,10 @@ void TextRenderer::Render(const string& str)
 
     char *text = str.c_str();
     int length = str.length;
-    GLfloat data[] = new GLfloat[length * 4 * 6];
-    // do something here
+    GLfloat data[] = new GLfloat[length * 4 * 6];  // components: 4
+    for (int i = 0; i < length; i++)
+    {
+
+    }
     delete [] data;
 }
