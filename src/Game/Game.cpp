@@ -47,7 +47,7 @@ void Game::Start()
 
     Camera camera;
     Renderer renderer(display->GetAspect());
-    TextRenderer textRenderer(loader.LoadTexture("font"));
+    //TextRenderer textRenderer(loader.LoadTexture("font"));
 
     while(!display->IsWindowClosed())
     {
@@ -68,7 +68,7 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-        textRenderer.Render("Hello, welcome to our world");
+        //textRenderer.Render("Hello, welcome to our world");
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
