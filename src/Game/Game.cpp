@@ -68,7 +68,7 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-        textRenderer.Render("Hello, welcome to our world");
+        textRenderer.Render("0123456789:;<=>?@ABCDEF");
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;

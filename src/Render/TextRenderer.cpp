@@ -84,18 +84,24 @@ void TextRenderer::MakeCharacter(GLfloat *data, GLfloat x, GLfloat y, GLfloat n,
     int w = c - 32;
     GLfloat du = (w % 16) * a;
     GLfloat dv = 1 - (w / 16) * b - b;
+    // 6 points in total, @NOTE the image is flipped, so we use 1 - v to represent v
     *(d++) = x - n; *(d++) = y - m;
-    *(d++) = du + 0; *(d++) = dv;
+    *(d++) = du + 0; *(d++) = 1 - dv;
+
     *(d++) = x + n; *(d++) = y - m;
-    *(d++) = du + a; *(d++) = dv;
+    *(d++) = du + a; *(d++) = 1 - dv;
+
     *(d++) = x + n; *(d++) = y + m;
-    *(d++) = du + a; *(d++) = dv + b;
+    *(d++) = du + a; *(d++) = 1 - (dv + b);
+
     *(d++) = x - n; *(d++) = y - m;
-    *(d++) = du + 0; *(d++) = dv;
+    *(d++) = du + 0; *(d++) = 1 - dv;
+
     *(d++) = x + n; *(d++) = y + m;
-    *(d++) = du + a; *(d++) = dv + b;
+    *(d++) = du + a; *(d++) = 1 - (dv + b);
+
     *(d++) = x - n; *(d++) = y + m;
-    *(d++) = du + 0; *(d++) = dv + b;
+    *(d++) = du + 0; *(d++) = 1 - (dv + b);
 }
 
 GLuint TextRenderer::GenerateFaces(int components, int len, GLfloat *data)
