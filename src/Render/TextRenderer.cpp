@@ -31,8 +31,8 @@ void TextRenderer::Render(const string& str)
     GLfloat *data = new GLfloat[len * 4 * 6];  // components: 4
     GLfloat marginX, fontSize, marginY;
     fontSize = FONT_SIZE;
-    marginX = 2 * fontSize / 2;
-    marginY = WINDOW_HEIGHT - 6 * fontSize;
+    marginX = fontSize / 2;
+    marginY = WINDOW_HEIGHT - 5.5 * fontSize;
     for (int i = 0; i < len; i++)
     {
         MakeCharacter(data+i*24, marginX, marginY, fontSize/2, fontSize, text[i]);

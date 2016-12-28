@@ -30,5 +30,9 @@
 #define TERRAIN_HEIGHT_SCALE 15.0f
 // font
 #define FONT_SIZE 12.0f
+// game
+#define GAME_START 0
+#define GAME_RUNNING 1
+#define GAME_OVER 2
 
 #endif

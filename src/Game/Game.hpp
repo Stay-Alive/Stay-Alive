@@ -28,7 +28,12 @@ public:
     void Start();
 private:
     Display *display;
+    double life;  // ranging between 0 and 1
+    int day;
+    int gameTime;  // ranging from 0 to 23 pm
+    int gameState;  // states: start, running, over
     void BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain);
+    string StatusBar();
 };
 
 #endif

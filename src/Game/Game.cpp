@@ -15,6 +15,11 @@ Game::Game()
     {
 		cerr << "Failed to initialize GLEW\n";
 	}
+    // initialize game status
+    life = 1.0;
+    day = 1;
+    gameTime = 8;
+    gameState = GAME_START;
 }
 
 Game::~Game()
@@ -68,7 +73,7 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-        textRenderer.Render("0123456789:;<=>?@ABCDEF");
+        textRenderer.Render(StatusBar());
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
