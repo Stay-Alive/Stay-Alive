@@ -15,6 +15,8 @@ public:
 private:
     TextShader shader;
     GLuint textureID;
+    void MakeCharacter(GLfloat *data, GLfloat marginX, GLfloat marginY, GLfloat fontWidth, GLfloat fontHeight, char c);
+    GLuint GenerateFaces(int components, int len, GLfloat *data);
 };
 
 #endif

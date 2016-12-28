@@ -2,7 +2,7 @@
 
 // IN variables
 layout(location=0) in vec3 position;
-layout(location=1) in vec2 texCoords;
+layout(location=1) in vec2 uv;
 
 // Matricies
 uniform mat4 matrix;
@@ -10,7 +10,7 @@ uniform mat4 matrix;
 out vec2 fragment_uv;
 
 void main() {
-    fragment_uv = textureCoords;
+    fragment_uv = uv;
 	// Get the final position
 	gl_Position = matrix * vec4(position, 1.0);
 }

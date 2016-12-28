@@ -28,5 +28,7 @@
 #define TERRAIN_VERTEX_COUNT 400  // @NOTE 512 will make FPS < 60
 #define TERRAIN_STEP TERRAIN_SIZE / (TERRAIN_VERTEX_COUNT - 1)
 #define TERRAIN_HEIGHT_SCALE 15.0f
+// font
+#define FONT_SIZE 12.0f
 
 #endif

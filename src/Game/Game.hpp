@@ -17,6 +17,7 @@
 #include "../Terrain/Terrain.hpp"
 #include "../Entity/Light.hpp"
 #include "../Entity/Camera.hpp"
+#include "../Render/TextRenderer.hpp"
 using namespace std;
 
 class Game

@@ -3,9 +3,12 @@
 #include "Terrain.hpp"
 #include "../Render/stb_image.h"
 
-Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), z(-0.5 * TERRAIN_SIZE), texture(texture), model(GenerateTerrain(loader))
+Terrain::Terrain(Loader& loader, ModelTexture texture): x(-0.5 * TERRAIN_SIZE), z(-0.5 * TERRAIN_SIZE), texture(texture)
 {
-
+    int count = TERRAIN_VERTEX_COUNT * TERRAIN_VERTEX_COUNT;  // we have a grid
+    vertices.resize(count);
+    normals.resize(count);
+    model = GenerateTerrain(loader);
 }
 
 Terrain::~Terrain()
@@ -17,8 +20,6 @@ Terrain::~Terrain()
 RawModel Terrain::GenerateTerrain(Loader& loader)
 {
     int count = TERRAIN_VERTEX_COUNT * TERRAIN_VERTEX_COUNT;  // we have a grid
-    vertices.resize(count);
-    normals.resize(count);
     vector<glm::vec2> textures(count);
     vector<int> indices(6 * (TERRAIN_VERTEX_COUNT - 1) * (TERRAIN_VERTEX_COUNT - 1));
 

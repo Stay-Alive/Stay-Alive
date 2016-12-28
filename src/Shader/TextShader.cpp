@@ -14,7 +14,7 @@ TextShader::~TextShader()
 void TextShader::BindAttributes()
 {
     glBindAttribLocation(programID, 0, "position");  // @NOTE layout in shader file
-    glBindAttribLocation(programID, 1, "texCoords");
+    glBindAttribLocation(programID, 1, "uv");
 }
 
 void TextShader::GetUniformLocations()
