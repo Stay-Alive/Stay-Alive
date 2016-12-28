@@ -27,8 +27,8 @@ void TextRenderer::Render(const string& str)
     shader.LoadMatrix(matrix);
 
     const char *text = str.c_str();
-    int len = str.length();  // @TODO
-    GLfloat *data = new GLfloat(len * 4 * 6);  // components: 4
+    int len = str.length();
+    GLfloat *data = new GLfloat[len * 4 * 6];  // components: 4
     GLfloat marginX, fontSize, marginY;
     fontSize = FONT_SIZE;
     marginX = fontSize / 2;
@@ -38,7 +38,6 @@ void TextRenderer::Render(const string& str)
         MakeCharacter(data+i*24, marginX, marginY, fontSize/2, fontSize, text[i]);
         marginX += fontSize;
     }
-    printf("\n");
     GLuint buffer = GenerateFaces(4, len, data);
     delete [] data;
     // draw text

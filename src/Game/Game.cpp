@@ -51,7 +51,12 @@ void Game::Start()
 
     while(!display->IsWindowClosed())
     {
-        camera.Update(theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z));
+        GLfloat altitude = 0.0f;
+        if (camera.GetPosition().z > -0.5 * TERRAIN_SIZE && camera.GetPosition().z < 0.5 * TERRAIN_SIZE && camera.GetPosition().x > -0.5 * TERRAIN_SIZE && camera.GetPosition().x < 0.5 * TERRAIN_SIZE)
+        {
+            altitude = theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z);
+        }
+        camera.Update(altitude);
         // terrain
         for (Terrain& tmpTerrain: terrains)
         {
@@ -64,7 +69,7 @@ void Game::Start()
         }
         renderer.Render(light, camera);
         textRenderer.Render("Hello, welcome to our world");
-#if DEBUG
+#if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
         GLfloat yGroundLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);

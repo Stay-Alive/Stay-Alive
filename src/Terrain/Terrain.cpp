@@ -47,6 +47,12 @@ RawModel Terrain::GenerateTerrain(Loader& loader)
             zCoord = i * 1.0 / (TERRAIN_VERTEX_COUNT - 1) * TERRAIN_SIZE;
             int imgX = (int)truncf(xCoord * xScale);
             int imgY = (int)truncf(zCoord * zScale);
+            if (imgY * imgWidth * 4 + imgX * 4 >= imgWidth * imgHeight * 4)
+            {
+                //cerr << "Critical Error!!!!\n";
+                //exit(-1);
+                break;
+            }
             height = pixels[imgY * imgWidth * 4 + imgX * 4];
             // Normalize height to [-1, 1]
             height = height / 127.5 - 1.0;
