@@ -31,35 +31,48 @@ void TextRenderer::Render(const string& str)
     GLfloat *data = new GLfloat[len * 4 * 6];  // components: 4
     GLfloat marginX, fontSize, marginY;
     fontSize = FONT_SIZE;
-    marginX = fontSize / 2;
-    marginY = WINDOW_HEIGHT - fontSize;
+    marginX = 2 * fontSize / 2;
+    marginY = WINDOW_HEIGHT - 6 * fontSize;
     for (int i = 0; i < len; i++)
     {
         MakeCharacter(data+i*24, marginX, marginY, fontSize/2, fontSize, text[i]);
         marginX += fontSize;
     }
+    // generate VAO
+    GLuint vaoID;
+    glGenVertexArrays(1, &vaoID);
+    glBindVertexArray(vaoID);
+    // generate VBO
     GLuint buffer = GenerateFaces(4, len, data);
     delete [] data;
     // draw text
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     const GLuint position = 0, uv = 1;
+    // disable cull face due to transparency
+    glDisable(GL_CULL_FACE);
+
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glEnableVertexAttribArray(position);  // position
-    glEnableVertexAttribArray(uv);  // uv
     glVertexAttribPointer(position, 2, GL_FLOAT, GL_FALSE,
         sizeof(GLfloat) * 4, 0);
     glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE,
         sizeof(GLfloat) * 4, (GLvoid *)(sizeof(GLfloat) * 2));
+
+    glEnableVertexAttribArray(position);  // position
+    glEnableVertexAttribArray(uv);  // uv
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
     glDrawArrays(GL_TRIANGLES, 0, len * 6);
+
     glDisableVertexAttribArray(position);
     glDisableVertexAttribArray(uv);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glDisable(GL_BLEND);
     glDeleteBuffers(1, &buffer);
     glUseProgram(0);  // unuse
+    glBindVertexArray(0);
+    // disable cull face due to transparency
+    glEnable(GL_CULL_FACE);
 }
 
 void TextRenderer::MakeCharacter(GLfloat *data, GLfloat x, GLfloat y, GLfloat n, GLfloat m, char c)

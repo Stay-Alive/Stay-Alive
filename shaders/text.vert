@@ -1,7 +1,7 @@
 #version 330 core
 
 // IN variables
-layout(location=0) in vec3 position;
+layout(location=0) in vec4 position;
 layout(location=1) in vec2 uv;
 
 // Matricies
@@ -12,5 +12,5 @@ out vec2 fragment_uv;
 void main() {
     fragment_uv = uv;
 	// Get the final position
-	gl_Position = matrix * vec4(position, 1.0);
+	gl_Position = matrix * position;
 }
