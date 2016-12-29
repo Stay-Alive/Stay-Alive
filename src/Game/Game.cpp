@@ -149,3 +149,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
     }
 }
+
+string Game::StatusBar()
+{
+    return "Have a good day!";
+}
