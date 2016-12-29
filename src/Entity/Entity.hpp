@@ -69,6 +69,13 @@ private:
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
+
+/* @TODO might be helpful to compute AABB
+std::numeric_limits<float>::max();
+std::numeric_limits<float>::min();
+std::numeric_limits<float>::infinity();
+-std::numeric_limits<float>::infinity();
+*/
 };
 
 #endif
