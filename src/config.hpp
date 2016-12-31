@@ -30,5 +30,6 @@
 #define TERRAIN_HEIGHT_SCALE 15.0f
 // font
 #define FONT_SIZE 12.0f
-
+//time
+#define CLOKC_HOUR 5
 #endif
