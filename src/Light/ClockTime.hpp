@@ -22,7 +22,7 @@ public:
 
     inline int GetDay(){
       currentTime = glfwGetTime();
-      ThisDay=currentTime/(CLOKC_HOUR*24);
+      ThisDay=(InitHour+currentTime)/(CLOKC_HOUR*24);
       return ThisDay;
     }
 
