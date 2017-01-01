@@ -31,6 +31,7 @@ void Game::Start()
 {
     cerr << "Game started\n";
     gameState = GAME_RUNNING;
+    life = 10;
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
@@ -74,9 +75,13 @@ void Game::Start()
         {
             camera.Update(altitude);
         }
-        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_R))  // if R is pressed, we need to replay
+        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))  // if R is pressed, we need to replay
         {
-            exit(-1); // @TODO
+            exit(-1);
+        }
+        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_R))  // replay
+        {
+            break;
         }
         // terrain
         for (Terrain& tmpTerrain: terrains)
