@@ -11,7 +11,9 @@ class ClockTime
 {
 public:
     ClockTime():ThisHour(12), ThisDay(1), pause(false){}
-    ~ClockTime(){};
+    ~ClockTime(){
+      glfwSetTime(0);
+    };
 
     inline int GetHour(){
       currentTime = glfwGetTime();
