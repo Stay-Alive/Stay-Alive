@@ -3,13 +3,14 @@
 
 #include "../config.hpp"
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 using namespace std;
 
 class ClockTime
 {
 public:
-    ClockTime():InitHour(12),ThisHour(12),pause(false),ThisDay(1){};
+    ClockTime():ThisHour(12), ThisDay(1), pause(false){}
     ~ClockTime(){};
 
     inline int GetHour(){

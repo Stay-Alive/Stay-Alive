@@ -34,6 +34,9 @@
 #define GAME_START 0
 #define GAME_RUNNING 1
 #define GAME_OVER 2
+#define STATUS_STRING_LENGTH 32
+#define DELTA_ENERGY 1
+#define LIFE_TREE_COVER_RADIUS 10
 
 //time
 #define CLOKC_HOUR 5
