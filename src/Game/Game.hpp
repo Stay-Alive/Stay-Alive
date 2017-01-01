@@ -15,9 +15,10 @@
 #include "../Model/RawModel.hpp"
 #include "../Entity/Entity.hpp"
 #include "../Terrain/Terrain.hpp"
-#include "../Entity/Light.hpp"
+#include "../Light/Light.hpp"
 #include "../Entity/Camera.hpp"
 #include "../Render/TextRenderer.hpp"
+#include "../Light/ClockTime.hpp"
 using namespace std;
 
 class Game

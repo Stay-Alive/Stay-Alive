@@ -35,4 +35,7 @@
 #define GAME_RUNNING 1
 #define GAME_OVER 2
 
+//time
+#define CLOKC_HOUR 5
+
 #endif

@@ -47,12 +47,16 @@ void Game::Start()
 
     // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
+    glm::vec3 colorRed(1.0,0.0,0.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     SimpleLight light(lightPosition, colorWhite);
+    //ClockTime
+    ClockTime MyCLock;
+//    light.SetColor(colorRed);
 
     Camera camera;
     Renderer renderer(display->GetAspect());
-    TextRenderer textRenderer(loader.LoadTexture("font"));
+    //TextRenderer textRenderer(loader.LoadTexture("font"));
 
     while(!display->IsWindowClosed())
     {
@@ -74,6 +78,7 @@ void Game::Start()
         }
         renderer.Render(light, camera);
         textRenderer.Render(StatusBar());
+        //textRenderer.Render("Hello, welcome to our world");
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
@@ -85,6 +90,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
+        light.UpdateLight(MyCLock.GetHour());
     }
 }
 
