@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <string>
 using namespace std;
 
 Game::Game()
@@ -15,6 +16,9 @@ Game::Game()
     {
 		cerr << "Failed to initialize GLEW\n";
 	}
+    // initialize game status
+    life = 10;
+    gameState = GAME_START;
 }
 
 Game::~Game()
@@ -26,6 +30,8 @@ Game::~Game()
 void Game::Start()
 {
     cerr << "Game started\n";
+    gameState = GAME_RUNNING;
+    life = 10;
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
@@ -42,7 +48,7 @@ void Game::Start()
 
     // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
-//    glm::vec3 colorRed(1.0,0.0,0.0);
+    glm::vec3 colorRed(1.0,0.0,0.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     SimpleLight light(lightPosition, colorWhite);
     //ClockTime
@@ -51,16 +57,32 @@ void Game::Start()
 
     Camera camera;
     Renderer renderer(display->GetAspect());
-    //TextRenderer textRenderer(loader.LoadTexture("font"));
+    TextRenderer textRenderer(loader.LoadTexture("font"));
 
+    // variables for game state
+    int currentDay;
+    int previousHour = 12, currentHour;
     while(!display->IsWindowClosed())
     {
         GLfloat altitude = 0.0f;
-        if (camera.GetPosition().z > -0.5 * TERRAIN_SIZE && camera.GetPosition().z < 0.5 * TERRAIN_SIZE && camera.GetPosition().x > -0.5 * TERRAIN_SIZE && camera.GetPosition().x < 0.5 * TERRAIN_SIZE)
+        GLfloat cameraX = camera.GetPosition().x;
+        GLfloat cameraZ = camera.GetPosition().z;
+        if (cameraZ > -0.5 * TERRAIN_SIZE && cameraZ < 0.5 * TERRAIN_SIZE && cameraX > -0.5 * TERRAIN_SIZE && cameraX < 0.5 * TERRAIN_SIZE)  // if we are inside the terrain
         {
-            altitude = theTerrain.GetAltitudeAt(camera.GetPosition().x, camera.GetPosition().z);
+            altitude = theTerrain.GetAltitudeAt(cameraX, cameraZ);
         }
-        camera.Update(altitude);
+        if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
+        {
+            camera.Update(altitude);
+        }
+        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))  // if R is pressed, we need to replay
+        {
+            exit(-1);
+        }
+        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_R))  // replay
+        {
+            break;
+        }
         // terrain
         for (Terrain& tmpTerrain: terrains)
         {
@@ -72,7 +94,22 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-        //textRenderer.Render("Hello, welcome to our world");
+
+        // if 1 hour passes, we have to consume energy
+        currentDay = MyCLock.GetDay();
+        currentHour = MyCLock.GetHour();
+        if (previousHour != currentHour)
+        {
+            ConsumeEnergy();
+            previousHour = currentHour;
+        }
+        // if we are back home, then we can +1s
+        if (cameraX * cameraX + cameraZ * cameraZ <= LIFE_TREE_COVER_RADIUS * LIFE_TREE_COVER_RADIUS)
+        {
+            ReplenishEnergy();
+        }
+
+        textRenderer.Render(StatusBar(currentDay, currentHour));
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
@@ -84,7 +121,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(MyCLock.GetTimeofDay());
+        light.UpdateLight(MyCLock.GetHour());
     }
 }
 
@@ -165,16 +202,6 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
-//    glmDraw(model, GLM_FLAT | GLM_TEXTURE);
-    //beast
-    // RawModel mWolf = ObjLoader::LoadModel("wolf", loader);
-    // ModelTexture mtWolf(loader.LoadTexture("Wolf"));
-    // TexturedModel tmBeast(mBeast, mtBeast);
-    // x = 3.0f;
-    // z = 5.0f;
-    // y = theTerrain.GetAltitudeAt(x, z);
-    // entities.push_back(Entity(tmBeast, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
-
     // fern, we have 4 types of textures
     RawModel mFern = ObjLoader::LoadModel("fern", loader);
     vector<TexturedModel> fernTexturedModels;
@@ -193,5 +220,67 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         y = theTerrain.GetAltitudeAt(x, z);
         int fernType = rand() % 4;
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
+    }
+}
+
+string Game::StatusBar(int day, int hour)
+{
+    string retStr("");
+    int hour12Based;
+    string amOrpm;
+    if (hour != 12 && hour / 12)
+    {
+        hour12Based = hour % 12;
+        amOrpm = "pm";
+    }
+    else
+    {
+        hour12Based = hour;
+        amOrpm = "am";
+    }
+
+    if (GAME_OVER == gameState)  // game over
+    {
+        retStr = "Game over, press R to replay.";
+    }
+
+    else  // game is still runnuing, we need to print life, day and time
+    {
+        retStr += "Life:[";
+        int i;
+        for (i = 1; i <= life; i++)
+        {
+            retStr += "#";
+        }
+        for (; i <= 10; i++) // fill the life bar with space
+        {
+            retStr += " ";
+        }
+        retStr += "], Day ";
+        retStr += to_string(day);
+        retStr += ", ";
+        retStr += to_string(hour12Based);
+        retStr += amOrpm;
+    }
+    int len = retStr.length();
+    for (int i = len; i < STATUS_STRING_LENGTH; i++)
+    {
+        retStr += " ";
+    }
+
+    return retStr;
+}
+
+void Game::ReplenishEnergy(double deltaEnergy)
+{
+    life = life + deltaEnergy > 10 ? 10 : life + deltaEnergy;
+}
+
+void Game::ConsumeEnergy(double deltaEnergy)
+{
+    life = life - deltaEnergy < 0 ? 0 : life - deltaEnergy;
+    if (life <= 0)
+    {
+        gameState = GAME_OVER;
     }
 }
