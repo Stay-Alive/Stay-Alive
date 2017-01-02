@@ -19,6 +19,7 @@ Game::Game()
     // initialize game status
     life = 10;
     gameState = GAME_START;
+    isTimeFrozen = false;
 }
 
 Game::~Game()
@@ -62,6 +63,7 @@ void Game::Start()
     // variables for game state
     int currentDay;
     int previousHour = 12, currentHour;
+    double previousTimeSpacePressed = 0, currentTimeSpacePressed;
     while(!display->IsWindowClosed())
     {
         GLfloat altitude = 0.0f;
@@ -71,9 +73,25 @@ void Game::Start()
         {
             altitude = theTerrain.GetAltitudeAt(cameraX, cameraZ);
         }
+
+        //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
         {
             camera.Update(altitude);
+            // freeze time
+            if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_SPACE))
+            {
+                currentTimeSpacePressed = glfwGetTime();
+                if (currentTimeSpacePressed - previousTimeSpacePressed > 0.5)
+                {
+                    isTimeFrozen = !isTimeFrozen;
+#if 0
+                    cerr << "previous time: " << previousTimeSpacePressed << " current time: " << currentTimeSpacePressed << "Is time frozen? " << isTimeFrozen << endl;
+#endif
+                    MyCLock.PauseTime(isTimeFrozen);
+                    previousTimeSpacePressed = currentTimeSpacePressed;
+                }
+            }
         }
         else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))  // if R is pressed, we need to replay
         {

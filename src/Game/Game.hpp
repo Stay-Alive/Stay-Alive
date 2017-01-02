@@ -31,6 +31,7 @@ private:
     Display *display;
     double life;  // ranging between 0 and 10
     int gameState;  // states: start, running, over
+    bool isTimeFrozen;  // press space to freeze the clock
     void BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain);
     void ReplenishEnergy(double deltaEnergy = DELTA_ENERGY);
     void ConsumeEnergy(double deltaEnergy = DELTA_ENERGY);
