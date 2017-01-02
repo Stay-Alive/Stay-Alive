@@ -3,12 +3,14 @@
 
 #include <iostream>
 #include <glm/glm.hpp>
+#include "../config.hpp"
 //#include "ClockTime.hpp"
 
 class SimpleLight
 {
 public:
-    SimpleLight(glm::vec3 position, glm::vec3 color): position(position), color(color) {}
+    SimpleLight(glm::vec3 position, glm::vec3 color): position(position), color(color) {
+    }
     ~SimpleLight() {}
 
     inline void SetColor(const glm::vec3& color)

@@ -21,6 +21,7 @@
 #define SKY_R 0.2f
 #define SKY_G 0.4f
 #define SKY_B 0.6f
+#define PI 3.14f
 // camera
 #define YOUR_HEIGHT 5.0f
 // terrian
