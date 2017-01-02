@@ -153,6 +153,42 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
+    // deer
+    RawModel mDeer = ObjLoader::LoadModel("deer", loader);
+    ModelTexture mtDeer(loader.LoadTexture("deer"));
+    TexturedModel tmDeer(mDeer, mtDeer);
+    x = -20.0f;
+    z = -20.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
+
+    // boar
+    RawModel mBoar = ObjLoader::LoadModel("boar", loader);
+    ModelTexture mtBoar(loader.LoadTexture("boar"));
+    TexturedModel tmBoar(mBoar, mtBoar);
+    x = -20.0f;
+    z = -40.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+    // wolf
+    RawModel mWolf = ObjLoader::LoadModel("wolf", loader);
+    ModelTexture mtWolf(loader.LoadTexture("wolf"));
+    TexturedModel tmWolf(mWolf, mtWolf);
+    x = -20.0f;
+    z = -60.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+    // bear
+    RawModel mBear = ObjLoader::LoadModel("bear", loader);
+    ModelTexture mtBear(loader.LoadTexture("bear"));
+    TexturedModel tmBear(mBear, mtBear);
+    x = -20.0f;
+    z = -80.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
     // box
     RawModel mBox = ObjLoader::LoadModel("box", loader);
     ModelTexture mtBox(loader.LoadTexture("box"));

@@ -1,5 +1,8 @@
 ### Stay Alive
 
+#### References:
+* [https://github.com/syoyo/tinyobjloader](https://github.com/syoyo/tinyobjloader)
+*
 #### Timeine  
 
 | Task | Due | Done |
@@ -22,4 +25,4 @@
 * 粒子系统  [@xjiajiahao](https://github.com/xjiajiahao)  
 
 #### Screenshots
-![screenshot2](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot2.png)
+![screenshot3](https://github.com/Stay-Alive/Stay-Alive/blob/master/screenshots/screenshot3.png)
