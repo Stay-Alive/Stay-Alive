@@ -17,6 +17,7 @@ private:
     GLuint textureID;
     void MakeCharacter(GLfloat *data, GLfloat marginX, GLfloat marginY, GLfloat fontWidth, GLfloat fontHeight, char c);
     GLuint GenerateFaces(int components, int len, GLfloat *data);
+    void MatOrtho(float *matrix, float left, float right, float bottom, float top, float near, float far);
 };
 
 #endif

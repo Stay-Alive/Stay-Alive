@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "../Entity/Light.hpp"
+#include "../Light/Light.hpp"
 
 using namespace std;
 

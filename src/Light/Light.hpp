@@ -1,7 +1,9 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include <iostream>
 #include <glm/glm.hpp>
+//#include "ClockTime.hpp"
 
 class SimpleLight
 {
@@ -28,6 +30,8 @@ public:
     {
         return color;
     }
+
+    void UpdateLight(double ThisTime);
 
 private:
     glm::vec3 position;
