@@ -7,7 +7,7 @@
 class TexturedModel
 {
 public:
-    TexturedModel(RawModel& rawModel, ModelTexture& texture, bool blendAlpha = false): rawModelPtr(&rawModel), texture(texture), blendAlpha(blendAlpha) {}
+    TexturedModel(RawModel* rawModel, ModelTexture& texture, bool blendAlpha = false): rawModelPtr(rawModel), texture(texture), blendAlpha(blendAlpha) {}
 
     inline RawModel* GetRawModel() const
     {

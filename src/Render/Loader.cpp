@@ -39,7 +39,7 @@ Loader::~Loader()
 	}
 }
 
-RawModel Loader::Load2VAO(vector<glm::vec3> vertices,
+RawModel* Loader::Load2VAO(vector<glm::vec3> vertices,
     vector<glm::vec2> textures, vector<glm::vec3> normals, vector<int> indices)
 {
     int indicesCount = indices.size();
@@ -49,7 +49,8 @@ RawModel Loader::Load2VAO(vector<glm::vec3> vertices,
     StoreDataInAttributeList(1, 2, &textures[0], textures.size() * sizeof(glm::vec2));
     StoreDataInAttributeList(2, 3, &normals[0], normals.size() * sizeof(glm::vec3));
     glBindVertexArray(0);
-    return RawModel(vaoID, indicesCount, vertices);
+    RawModel *model = new RawModel(vaoID, indicesCount, vertices);  // @NOTE we have delete it manually
+    return model;
 }
 
 GLuint Loader::LoadTexture(const string& fileName, bool repeat)

@@ -13,7 +13,7 @@ class Loader
 public:
     Loader();
     ~Loader();
-	RawModel Load2VAO(vector<glm::vec3> vertices, vector<glm::vec2> textures, vector<glm::vec3> normals, vector<int> indices);
+	RawModel* Load2VAO(vector<glm::vec3> vertices, vector<glm::vec2> textures, vector<glm::vec3> normals, vector<int> indices);
 	GLuint LoadTexture(const string& fileName, bool repeat = false);
 private:
     vector<GLuint> vaos;

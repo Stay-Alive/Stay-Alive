@@ -25,7 +25,7 @@ TerrainRenderer::~TerrainRenderer()
 
 void TerrainRenderer::BindTerrain(Terrain& terrain)
 {
-    glBindVertexArray(terrain.GetModel().GetVaoID());
+    glBindVertexArray(terrain.GetModel()->GetVaoID());
     // enable attributes
     for (GLuint i = 0; i < 3; i++)
     {
@@ -72,7 +72,7 @@ void TerrainRenderer::RenderTerrain(Terrain& terrain)
 	glm::mat4 scaleMatrix = glm::scale(glm::vec3(1, 1, 1));
 
     shader.LoadTransformMatrix(transMatrix * rotMatrix * scaleMatrix);
-    glDrawElements(GL_TRIANGLES, terrain.GetModel().GetVerticesNum(), GL_UNSIGNED_INT, 0);  // 0 indicates the buffer offset in indices buffer object
+    glDrawElements(GL_TRIANGLES, terrain.GetModel()->GetVerticesNum(), GL_UNSIGNED_INT, 0);  // 0 indicates the buffer offset in indices buffer object
 /*
 #if DEBUG
     cerr << "Terrain position: " << position.x << ", " << position.y << ", " << position.z << endl;

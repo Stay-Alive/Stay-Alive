@@ -44,8 +44,9 @@ void Game::Start()
 
     // entities
     vector<Entity> entities;
+    vector<RawModel *> rawModels;
     // add entities, encapsulate this part in a function to make Start() shorter
-    BuildWorld(loader, entities, theTerrain);
+    BuildWorld(loader, entities, theTerrain, rawModels);
 
     // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
@@ -142,16 +143,26 @@ void Game::Start()
         display->ShowFPS();
         light.UpdateLight(MyCLock.GetTimeofDay());
     }
+    // clean
+    for (RawModel *model: rawModels)
+    {
+        delete model;
+    }
+    for (Terrain &t: terrains)
+    {
+        delete t.GetModel();
+    }
 }
 
-void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain)
+void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain, vector<RawModel *>& rawModels)
 {
-        int i, x, z, y, rotateAngle;
+    int i, x, z, y, rotateAngle;
     glm::vec3 standardScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
 
     // low poly tree
-    RawModel mTree = ObjLoader::LoadModel("lowPolyTree", loader);
+    RawModel *mTree = ObjLoader::LoadModel("lowPolyTree", loader);
+    rawModels.push_back(mTree);
     ModelTexture mtTree(loader.LoadTexture("lowPolyTree"));
     TexturedModel tmTree(mTree, mtTree);
     for (i = 0; i < 25; i++)
@@ -164,7 +175,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     }
 
     // stall
-    RawModel mStall = ObjLoader::LoadModel("stall", loader);
+    RawModel *mStall = ObjLoader::LoadModel("stall", loader);
+    rawModels.push_back(mStall);
     ModelTexture mtStall(loader.LoadTexture("stall"));
     TexturedModel tmStall(mStall, mtStall);
     x = 5.0f;
@@ -172,44 +184,9 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
-    // deer
-    RawModel mDeer = ObjLoader::LoadModel("deer", loader);
-    ModelTexture mtDeer(loader.LoadTexture("deer"));
-    TexturedModel tmDeer(mDeer, mtDeer);
-    x = -20.0f;
-    z = -20.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
-
-    // boar
-    RawModel mBoar = ObjLoader::LoadModel("boar", loader);
-    ModelTexture mtBoar(loader.LoadTexture("boar"));
-    TexturedModel tmBoar(mBoar, mtBoar);
-    x = -20.0f;
-    z = -40.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
-
-    // wolf
-    RawModel mWolf = ObjLoader::LoadModel("wolf", loader);
-    ModelTexture mtWolf(loader.LoadTexture("wolf"));
-    TexturedModel tmWolf(mWolf, mtWolf);
-    x = -20.0f;
-    z = -60.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
-
-    // bear
-    RawModel mBear = ObjLoader::LoadModel("bear", loader);
-    ModelTexture mtBear(loader.LoadTexture("bear"));
-    TexturedModel tmBear(mBear, mtBear);
-    x = -20.0f;
-    z = -80.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
-
     // box
-    RawModel mBox = ObjLoader::LoadModel("box", loader);
+    RawModel *mBox = ObjLoader::LoadModel("box", loader);
+    rawModels.push_back(mBox);
     ModelTexture mtBox(loader.LoadTexture("box"));
     TexturedModel tmBox(mBox, mtBox);
     for (i = 0; i < 20; i++)
@@ -222,7 +199,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     }
 
     // fern, we have 4 types of textures
-    RawModel mFern = ObjLoader::LoadModel("fern", loader);
+    RawModel *mFern = ObjLoader::LoadModel("fern", loader);
+    rawModels.push_back(mFern);
     vector<TexturedModel> fernTexturedModels;
     ModelTexture mtFern1(loader.LoadTexture("fern1"));
     ModelTexture mtFern2(loader.LoadTexture("fern2"));
@@ -240,6 +218,46 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         int fernType = rand() % 4;
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
     }
+
+    // deer
+    RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
+    rawModels.push_back(mDeer);
+    ModelTexture mtDeer(loader.LoadTexture("deer"));
+    TexturedModel tmDeer(mDeer, mtDeer);
+    x = -20.0f;
+    z = -20.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
+
+    // boar
+    RawModel *mBoar = ObjLoader::LoadModel("boar", loader);
+    rawModels.push_back(mBoar);
+    ModelTexture mtBoar(loader.LoadTexture("boar"));
+    TexturedModel tmBoar(mBoar, mtBoar);
+    x = -20.0f;
+    z = -40.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+    // wolf
+    RawModel *mWolf = ObjLoader::LoadModel("wolf", loader);
+    rawModels.push_back(mWolf);
+    ModelTexture mtWolf(loader.LoadTexture("wolf"));
+    TexturedModel tmWolf(mWolf, mtWolf);
+    x = -20.0f;
+    z = -60.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+    // bear
+    RawModel *mBear = ObjLoader::LoadModel("bear", loader);
+    rawModels.push_back(mBear);
+    ModelTexture mtBear(loader.LoadTexture("bear"));
+    TexturedModel tmBear(mBear, mtBear);
+    x = -20.0f;
+    z = -80.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
 }
 
 string Game::StatusBar(int day, int hour)

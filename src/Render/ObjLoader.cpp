@@ -12,7 +12,7 @@ using namespace std;
 
 const int MAX_LINE_LEN = 256;
 
-RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
+RawModel* ObjLoader::LoadModel(const string& fileName, Loader& loader)
 {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;

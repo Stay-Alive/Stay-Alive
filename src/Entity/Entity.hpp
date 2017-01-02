@@ -4,6 +4,15 @@
 #include <glm/glm.hpp>
 #include "../Model/TexturedModel.hpp"
 
+/*
+interface for AABB:
+
+AABB Entity::GetAABB();  // get bounding box
+
+void Entity::ComputeAABB(glm::vec3 position, glm::vec3 rotation);  // compute the bounding box, which is done in constructor, @NOTE if one entity is rotated or transformed, AABB needs to recompute
+
+*/
+
 typedef struct
 {
     GLfloat xMin;
@@ -71,6 +80,8 @@ public:
     {
         this->scale += deltaScale;
     }
+
+    AABB GetAABB();
 
 private:
     TexturedModel model;
