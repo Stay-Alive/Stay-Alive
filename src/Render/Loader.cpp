@@ -49,7 +49,7 @@ RawModel Loader::Load2VAO(vector<glm::vec3> vertices,
     StoreDataInAttributeList(1, 2, &textures[0], textures.size() * sizeof(glm::vec2));
     StoreDataInAttributeList(2, 3, &normals[0], normals.size() * sizeof(glm::vec3));
     glBindVertexArray(0);
-    return RawModel(vaoID, indicesCount);
+    return RawModel(vaoID, indicesCount, vertices);
 }
 
 GLuint Loader::LoadTexture(const string& fileName, bool repeat)

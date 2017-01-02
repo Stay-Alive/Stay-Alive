@@ -4,10 +4,23 @@
 #include <glm/glm.hpp>
 #include "../Model/TexturedModel.hpp"
 
+typedef struct
+{
+    GLfloat xMin;
+    GLfloat xMax;
+    GLfloat yMin;
+    GLfloat yMax;
+    GLfloat zMin;
+    GLfloat zMax;
+}AABB;
+
 class Entity
 {
 public:
-    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): model(model), position(position), rotation(rotation), scale(scale) {} // @NOTE rotation.{x, y, z} means the rotation degree around corresponding axis
+    // @NOTE rotation.{x, y, z} means the rotation degree around corresponding axis
+    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+
+    void ComputeAABB(glm::vec3 position, glm::vec3 rotation);
 
     inline TexturedModel GetModel() const
     {
@@ -27,11 +40,6 @@ public:
     inline glm::vec3 GetScale() const
     {
         return scale;
-    }
-
-    inline void SetModel(const TexturedModel& model)
-    {
-        this->model = model;
     }
 
     inline void SetPosition(glm::vec3 position)
@@ -69,13 +77,7 @@ private:
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
-
-/* @TODO might be helpful to compute AABB
-std::numeric_limits<float>::max();
-std::numeric_limits<float>::min();
-std::numeric_limits<float>::infinity();
--std::numeric_limits<float>::infinity();
-*/
+    AABB boundingBox;
 };
 
 #endif

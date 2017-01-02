@@ -7,11 +7,11 @@
 class TexturedModel
 {
 public:
-    TexturedModel(RawModel& rawModel, ModelTexture& texture, bool blendAlpha = false): rawModel(rawModel), texture(texture), blendAlpha(blendAlpha) {}
+    TexturedModel(RawModel& rawModel, ModelTexture& texture, bool blendAlpha = false): rawModelPtr(&rawModel), texture(texture), blendAlpha(blendAlpha) {}
 
-    inline RawModel GetRawModel() const
+    inline RawModel* GetRawModel() const
     {
-        return rawModel;
+        return rawModelPtr;
     }
 
     inline ModelTexture GetTexture() const
@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    RawModel rawModel;
+    RawModel* rawModelPtr;  // @NOTE this is a pointer now
     ModelTexture texture;
     bool blendAlpha;
 };

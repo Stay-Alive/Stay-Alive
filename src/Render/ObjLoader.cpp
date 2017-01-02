@@ -32,7 +32,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
 	}
 
 	vector<glm::vec2> textures;
-	vector<glm::vec3> vertices, normals;
+	vector<glm::vec3> vertices, normals;  // @TODO vertices vector should be a private member of RawModel
 	vector<int> indices;
     int indexNum = 0;
 	// Loop over shapes
@@ -73,7 +73,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
 RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
 {
     vector<glm::vec2> textures, tmpTextures;
-    vector<glm::vec3> vertices, normals, tmpNormals;  // @TODO vertices vector should be a private member of RawModel
+    vector<glm::vec3> vertices, normals, tmpNormals;
     vector<int> indices;
     string completeFileName = MODELS_DIR + fileName + ".obj";
     ifstream modelFile(completeFileName.c_str());  // open file

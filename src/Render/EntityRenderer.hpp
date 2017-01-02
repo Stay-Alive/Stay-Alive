@@ -14,7 +14,7 @@ struct texturedModelCmp
 public:
     bool operator()(const TexturedModel& tm1, const TexturedModel& tm2) const
     {
-        return (tm1.GetRawModel().GetVaoID() < tm2.GetRawModel().GetVaoID()) || (tm1.GetTexture().GetTextureID() < tm2.GetTexture().GetTextureID());
+        return (tm1.GetRawModel()->GetVaoID() < tm2.GetRawModel()->GetVaoID()) || (tm1.GetTexture().GetTextureID() < tm2.GetTexture().GetTextureID());
     }
 };
 
