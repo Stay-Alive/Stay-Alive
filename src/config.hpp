@@ -39,6 +39,6 @@
 #define LIFE_TREE_COVER_RADIUS 10
 
 //time
-#define CLOKC_HOUR 5
+#define CLOKC_HOUR 1
 
 #endif

@@ -16,20 +16,33 @@ public:
     };
 
     inline int GetHour(){
-      currentTime = glfwGetTime();
+      if(pause==false)
+        currentTime = glfwGetTime();
       int DayTime=currentTime/CLOKC_HOUR;
       ThisHour=(12+DayTime)%24;
       return ThisHour;
     };
 
+    inline double GetTimeofDay(){
+      if(pause==false)
+        currentTime=glfwGetTime();
+      double DayTime=currentTime/(CLOKC_HOUR*24.0)+0.5;
+      return DayTime=DayTime-(int)DayTime;
+    }
+
     inline int GetDay(){
-      currentTime = glfwGetTime();
+      if(pause==false)
+        currentTime = glfwGetTime();
       ThisDay=(InitHour+currentTime)/(CLOKC_HOUR*24);
       return ThisDay;
     }
 
     inline void PauseTime(bool pause){
 	     this->pause=pause;
+       if(this->pause==true)
+         currentTime = glfwGetTime();
+       else
+        glfwSetTime(currentTime);
 	  }
 
 private:

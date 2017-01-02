@@ -31,7 +31,7 @@ public:
         return color;
     }
 
-    void UpdateLight(int ThisTime);
+    void UpdateLight(double ThisTime);
 
 private:
     glm::vec3 position;
