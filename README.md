@@ -7,6 +7,13 @@
 [@xjiajiahao](https://github.com/xjiajiahao)
 [@ylkky](https://github.com/ylkky)
 
+#### Keybindings
+* `WASD` to move forward, left, backward, right.
+* `Space` to pause
+* `Shift` to speedup
+* `R` to replay (if gg)
+* `Esc` to exit
+
 #### Timeine  
 
 | Task | Due | Done |
