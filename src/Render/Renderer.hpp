@@ -10,7 +10,7 @@
 #include "../config.hpp"
 #include "../Terrain/Terrain.hpp"
 #include "../Entity/Entity.hpp"
-#include "../Entity/Light.hpp"
+#include "../Light/Light.hpp"
 #include "../Entity/Camera.hpp"
 #include "../Shader/Shader.hpp"
 #include "../Shader/EntityShader.hpp"

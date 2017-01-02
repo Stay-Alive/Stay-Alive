@@ -3,6 +3,9 @@
 int main()
 {
     Game game;
-    game.Start();
+    while (true)  // use a dead loop so that we can replay happily
+    {
+        game.Start();
+    }
     return 0;
 }
