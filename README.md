@@ -2,6 +2,10 @@
 
 #### References:
 * [https://github.com/syoyo/tinyobjloader](https://github.com/syoyo/tinyobjloader)
+* [https://blogs.igalia.com/itoral/](https://blogs.igalia.com/itoral/)
+* [https://github.com/fogleman/Craft](https://github.com/fogleman/Craft)
+* [https://github.com/iZastic/OpenGL_3D_Game_Tutorial](https://github.com/iZastic/OpenGL_3D_Game_Tutorial)
+* [http://www.opengl-tutorial.org/](http://www.opengl-tutorial.org/)
 
 #### Authors
 [@xjiajiahao](https://github.com/xjiajiahao)

@@ -85,8 +85,9 @@ void Game::Start()
                 if (currentTimeSpacePressed - previousTimeSpacePressed > 0.5)
                 {
                     isTimeFrozen = !isTimeFrozen;
+                    cerr << "Is time frozen? " << isTimeFrozen << endl;
 #if 0
-                    cerr << "previous time: " << previousTimeSpacePressed << " current time: " << currentTimeSpacePressed << "Is time frozen? " << isTimeFrozen << endl;
+                    cerr << "previous time: " << previousTimeSpacePressed << " current time: " << currentTimeSpacePressed << endl;
 #endif
                     MyCLock.PauseTime(isTimeFrozen);
                     previousTimeSpacePressed = currentTimeSpacePressed;
