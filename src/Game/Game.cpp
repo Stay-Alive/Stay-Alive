@@ -121,7 +121,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(MyCLock.GetHour());
+        light.UpdateLight(MyCLock.GetTimeofDay());
     }
 }
 
