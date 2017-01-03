@@ -81,7 +81,7 @@ public:
         this->scale += deltaScale;
     }
 
-    AABB GetAABB();
+    AABB GetAABB() const;
 
 private:
     TexturedModel model;

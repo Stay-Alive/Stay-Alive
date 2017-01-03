@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -25,7 +26,7 @@ glm::mat4 Camera::GetViewMatrix() const
     return glm::lookAt(position, position + viewDirection, this->UP);
 }
 
-void Camera::Update(GLfloat newYpos)
+void Camera::Update(GLfloat newYpos, const vector<Entity>& entities)
 {
     double x, y;
     glfwGetCursorPos(glfwGetCurrentContext(), &x, &y);
@@ -48,15 +49,16 @@ void Camera::Update(GLfloat newYpos)
 
     this->mousePos = newMousePos;
 
-    Move(newYpos);
+    Move(newYpos, entities);
     return;
 }
 
-void Camera::Move(GLfloat newYpos)
+void Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
 {
     GLfloat speedUp = 1;
     GLFWwindow *window = glfwGetCurrentContext();
-    position.y = newYpos + YOUR_HEIGHT;
+    glm::vec3 newPosition = position;
+    newPosition.y = newYpos + YOUR_HEIGHT;
     // hold shift to speed up
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
     {
@@ -71,31 +73,50 @@ void Camera::Move(GLfloat newYpos)
     if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W))  // up
     {
         // @NOTE we are always in x-z plane
-        position += verticalStep;
+        newPosition += verticalStep;
     }
 
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S))  // down
     {
-        position -= verticalStep;
+        newPosition -= verticalStep;
     }
 
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A))  // left, @NOTE which is vertical to our viewDirection
     {
-        position -= horizontalStep;
+        newPosition -= horizontalStep;
     }
 
     if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D))  // right
     {
-        position += horizontalStep;
+        newPosition += horizontalStep;
     }
 
-    if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))
+    if (-1 == DetectCollision(newPosition, entities))  // no collision
     {
-#if DEBUG
-        cerr << "Captured an escape\n";
-#endif
-        glfwTerminate();
-        exit(0);
+        position = newPosition;
     }
+
+    else
+    {
+        // @TODO what to do when collision is detected
+    }
+
     return;
+}
+
+int Camera::DetectCollision(glm::vec3 newPosition, const vector<Entity>& entities)
+{
+    int ret = -1;
+    int i = 0;
+    for (const Entity& entity: entities)
+    {
+        AABB box = entity.GetAABB();
+        if (box.xMin < newPosition.x && box.xMax > newPosition.x && box.yMin < newPosition.y && box.yMax > newPosition.y && box.zMin < newPosition.z && box.zMax > newPosition.z)
+        {
+            ret = i;  // found the first entity that we ran into
+            break;
+        }
+        i++;
+    }
+    return ret;
 }

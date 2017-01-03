@@ -68,7 +68,7 @@ void Entity::ComputeAABB(glm::vec3 position, glm::vec3 rotation)
 #endif
 }
 
-AABB Entity::GetAABB()
+AABB Entity::GetAABB() const
 {
     AABB box;
     // don't forget to transform the AABB

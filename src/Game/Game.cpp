@@ -78,7 +78,7 @@ void Game::Start()
         //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
         {
-            camera.Update(altitude);
+            camera.Update(altitude, entities);
             // freeze time
             if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_SPACE))
             {
@@ -95,14 +95,22 @@ void Game::Start()
                 }
             }
         }
-        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))  // if R is pressed, we need to replay
-        {
-            exit(-1);
-        }
+
         else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_R))  // replay
         {
             break;
         }
+
+        // exit here
+        if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))
+        {
+#if DEBUG
+            cerr << "Captured an escape\n";
+#endif
+            glfwTerminate();
+            exit(0);
+        }
+
         // terrain
         for (Terrain& tmpTerrain: terrains)
         {
