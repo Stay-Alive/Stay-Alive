@@ -19,7 +19,7 @@ Renderer::Renderer(GLfloat aspect): projectionMatrix(glm::perspective((GLfloat)F
     // antialiasing
     glEnable(GL_MULTISAMPLE);
 	// Dark background
-	glClearColor(SKY_R, SKY_G, SKY_B, 1.0f);
+	glClearColor(SKY_R, SKY_G, SKY_B, 0.0f);
 }
 
 Renderer::~Renderer()
@@ -43,14 +43,6 @@ void Renderer::AddEntity(const Entity& entity)
 void Renderer::Render(const SimpleLight& light, const Camera& camera)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // render terrains
-    TerrainShader& terrainShader = terrainRenderer.GetShader();
-    terrainShader.Use();
-    terrainShader.LoadLight(light, 0.1);
-    terrainShader.LoadViewMatrix(camera.GetViewMatrix());
-    terrainRenderer.Render(terrains);
-    glUseProgram(0);  // unuse
-    terrains.clear();
     // render entities
     EntityShader& entityShader = entityRenderer.GetShader();
     entityShader.Use();
@@ -59,4 +51,12 @@ void Renderer::Render(const SimpleLight& light, const Camera& camera)
     entityRenderer.Render(entities, camera.GetPosition());
     glUseProgram(0);  // unuse
     entities.clear();
+    // render terrains
+    TerrainShader& terrainShader = terrainRenderer.GetShader();
+    terrainShader.Use();
+    terrainShader.LoadLight(light, 0.1);
+    terrainShader.LoadViewMatrix(camera.GetViewMatrix());
+    terrainRenderer.Render(terrains);
+    // glUseProgram(0);  // unuse
+    terrains.clear();
 }

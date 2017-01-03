@@ -60,9 +60,18 @@ void Game::Start()
     Renderer renderer(display->GetAspect());
     TextRenderer textRenderer(loader.LoadTexture("font"));
 
+    //sky
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    SkyRenderer skyRenderer(loader.LoadTexture("sky"));
+    glClear(GL_DEPTH_BUFFER_BIT);
+//     skyRenderer.GenerateBuffer();
+
+
     // variables for game state
     int currentDay;
     int previousHour = 12, currentHour;
+    double PreciseTime;
     double previousTimeSpacePressed = 0, currentTimeSpacePressed;
     while(!display->IsWindowClosed())
     {
@@ -116,6 +125,7 @@ void Game::Start()
         // if 1 hour passes, we have to consume energy
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
+        PreciseTime = MyCLock.GetTimeofDay();
         if (previousHour != currentHour)
         {
             ConsumeEnergy();
@@ -128,6 +138,8 @@ void Game::Start()
         }
 
         textRenderer.Render(StatusBar(currentDay, currentHour));
+        skyRenderer.Render(PreciseTime);
+
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
@@ -139,7 +151,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(MyCLock.GetTimeofDay());
+        light.UpdateLight(PreciseTime );
     }
 }
 
