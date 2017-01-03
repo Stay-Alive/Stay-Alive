@@ -20,6 +20,8 @@ void TextShader::BindAttributes()
 void TextShader::GetUniformLocations()
 {
     matrixLoc = glGetUniformLocation(programID, "matrix");
+    // cout << "TEXT::programID = " << programID << endl;
+    // cout << "TEXT::matrixLoc = " << matrixLoc << endl;
 }
 
 void TextShader::LoadMatrix(const glm::mat4& matrix)

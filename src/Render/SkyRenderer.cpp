@@ -12,13 +12,16 @@ using namespace std;
 
 SkyRenderer::SkyRenderer(GLuint textureID): textureID(textureID)
 {
-  data=NULL;
-  size=0;
+//  cout << "textureID = " << textureID << endl;
+  // data=NULL;
+  // size=0;
+  data = new GLfloat[SKY_DATA_SIZE];
 //  size=sizeof(data);
 }
 
 SkyRenderer::~SkyRenderer()
 {
+  delete [] data;
 }
 
 void SkyRenderer::Render(const double PreciseTime)
@@ -29,26 +32,26 @@ void SkyRenderer::Render(const double PreciseTime)
     shader.LoadTimer(PreciseTime);
     shader.LoadSampler(2);
 
+    GenerateBuffer();
+
     //generate VAO
     GLuint vaoID;
     glGenVertexArrays(1, &vaoID);
     glBindVertexArray(vaoID);
 
-    GenerateBuffer();
-
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);
     const GLuint position = 0, uv = 1;
+
+
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, 0);
+    glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, (GLvoid *)(sizeof(GLfloat) * 6));
 
     glEnableVertexAttribArray(position);
     glEnableVertexAttribArray(uv);
 
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, 0);
-    glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid *)(sizeof(GLfloat) * 6));
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
+//    cout << "textureID = " << textureID << endl;
 
     glDrawArrays(GL_TRIANGLES, 0, SKY_COUNT);
 
@@ -56,7 +59,7 @@ void SkyRenderer::Render(const double PreciseTime)
     glDisableVertexAttribArray(uv);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-//    glDeleteBuffers(1, &SkyBuffer);
+    glDeleteBuffers(1, &SkyBuffer);
     glUseProgram(0);  // unuse
     glBindVertexArray(0);
 
@@ -154,12 +157,12 @@ GLfloat *ta, GLfloat *tb, GLfloat *tc)
 }
 
 void SkyRenderer::GenerateBuffer() {
-    data = new GLfloat[SKY_DATA_SIZE];
-    size = sizeof(data);
+    //data = new GLfloat[SKY_DATA_SIZE];
+    size = sizeof(data)*SKY_DATA_SIZE;
     MakeSphere(1, 3);
     glGenBuffers(1, &SkyBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    delete [] data;
+    // delete [] data;
 }
