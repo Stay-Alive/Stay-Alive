@@ -17,11 +17,11 @@ private:
     SkyShader shader;
     GLuint textureID;
     GLuint SkyBuffer;
-    GLfloat* data;
+//    GLfloat* data;
     GLsizei size;
 
-    void MakeSphere(GLfloat r, GLint detail);
-    int _MakeSphere(GLfloat r, GLuint detail,
+    void MakeSphere(GLfloat* data, GLfloat r, GLint detail);
+    int _MakeSphere(GLfloat* data, GLfloat r, GLuint detail,
     GLfloat *a, GLfloat *b, GLfloat *c,
     GLfloat *ta, GLfloat *tb, GLfloat *tc);
 

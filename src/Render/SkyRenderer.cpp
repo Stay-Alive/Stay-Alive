@@ -15,7 +15,7 @@ SkyRenderer::SkyRenderer(GLuint textureID): textureID(textureID)
 //  cout << "textureID = " << textureID << endl;
   // data=NULL;
   // size=0;
-  data = new GLfloat[SKY_DATA_SIZE];
+//  data = new GLfloat[SKY_DATA_SIZE];
   GenerateBuffer();//generate VBO
 //  size=sizeof(data);
 }
@@ -23,7 +23,7 @@ SkyRenderer::SkyRenderer(GLuint textureID): textureID(textureID)
 SkyRenderer::~SkyRenderer()
 {
   glDeleteBuffers(1, &SkyBuffer);
-  delete [] data;
+//  delete [] data;
 }
 
 void SkyRenderer::Render(const double PreciseTime)
@@ -67,7 +67,7 @@ void SkyRenderer::Render(const double PreciseTime)
 
 }
 
-void SkyRenderer::MakeSphere(GLfloat r, GLint detail) {
+void SkyRenderer::MakeSphere(GLfloat* data,GLfloat r, GLint detail) {
     // detail, triangles, floats
     // 0, 8, 192
     // 1, 32, 768
@@ -94,10 +94,9 @@ void SkyRenderer::MakeSphere(GLfloat r, GLint detail) {
         {0, 1}, {0, 0.5}
     };
     int total = 0;
-    float* d=data;
     for (int i = 0; i < 8; i++) {
         int n = _MakeSphere(
-            r, detail,
+            data, r, detail,
             positions[indices[i][0]],
             positions[indices[i][1]],
             positions[indices[i][2]],
@@ -106,12 +105,10 @@ void SkyRenderer::MakeSphere(GLfloat r, GLint detail) {
             uvs[indices[i][2]]);
         total += n; data += n * 24;
     }
-//    cout << data << endl;
-    data=d;
 }
 
 int SkyRenderer::_MakeSphere(
-GLfloat r, GLuint detail,
+GLfloat *data, GLfloat r, GLuint detail,
 GLfloat *a, GLfloat *b, GLfloat *c,
 GLfloat *ta, GLfloat *tb, GLfloat *tc)
 {
@@ -129,7 +126,6 @@ GLfloat *ta, GLfloat *tb, GLfloat *tc)
       return 1;
   }
   else {
-      float* d = data;
       float ab[3], ac[3], bc[3];
       for (int i = 0; i < 3; i++) {
           ab[i] = (a[i] + b[i]) / 2;
@@ -145,26 +141,25 @@ GLfloat *ta, GLfloat *tb, GLfloat *tc)
       tbc[0] = 0; tbc[1] = 1 - acosf(bc[1]) / PI;
       int total = 0;
       int n;
-      n = _MakeSphere(r, detail - 1, a, ab, ac, ta, tab, tac);
+      n = _MakeSphere(data, r, detail - 1, a, ab, ac, ta, tab, tac);
       total += n; data += n * 24;
-      n = _MakeSphere(r, detail - 1, b, bc, ab, tb, tbc, tab);
+      n = _MakeSphere(data, r, detail - 1, b, bc, ab, tb, tbc, tab);
       total += n; data += n * 24;
-      n = _MakeSphere(r, detail - 1, c, ac, bc, tc, tac, tbc);
+      n = _MakeSphere(data, r, detail - 1, c, ac, bc, tc, tac, tbc);
       total += n; data += n * 24;
-      n = _MakeSphere(r, detail - 1, ab, bc, ac, tab, tbc, tac);
+      n = _MakeSphere(data, r, detail - 1, ab, bc, ac, tab, tbc, tac);
       total += n; data += n * 24;
-      data=d;
       return total;
   }
 }
 
 void SkyRenderer::GenerateBuffer() {
-    //data = new GLfloat[SKY_DATA_SIZE];
+    GLfloat* data = new GLfloat[SKY_DATA_SIZE];
     size = sizeof(data)*SKY_DATA_SIZE;
-    MakeSphere(1, 3);
+    MakeSphere(data,1, 3);
     glGenBuffers(1, &SkyBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    // delete [] data;
+    delete [] data;
 }
