@@ -61,11 +61,8 @@ void Game::Start()
     TextRenderer textRenderer(loader.LoadTexture("font"));
 
     //sky
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
+
     SkyRenderer skyRenderer(loader.LoadTexture("sky"));
-    glClear(GL_DEPTH_BUFFER_BIT);
-//     skyRenderer.GenerateBuffer();
 
 
     // variables for game state

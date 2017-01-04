@@ -19,15 +19,15 @@ void SimpleLight::UpdateLight(double ThisTime){
     y=LIGHT_HEIGHT*sin(ThisTime*PI);
     glm::vec3 lightPosition(x,y,0.0);
     SetPosition(lightPosition);
-//    cout << " x = " << x << " y = " << y << endl;
   }
   else if(ThisTime>0.9){
     glm::vec3 lightPosition(LIGHT_HEIGHT*cos(0.33*PI),LIGHT_HEIGHT*sin(0.66*PI),0.0);
     SetPosition(lightPosition);
   }
 
-//  Lu=1.0-timeDiff/15.0;
-//  cout << "ThisTime " << ThisTime << "t = " << t << " Lu = " << Lu << endl;
+  float skyLight=Lu>=0.1?Lu:0.1;
+  glClearColor((float)SKY_R*skyLight,(float)SKY_G*skyLight,(float)SKY_B*skyLight,1.0f);
+
   glm::vec3 LightColor(Lu,Lu,Lu);
   SetColor(LightColor);
 }
