@@ -12,12 +12,7 @@ using namespace std;
 
 SkyRenderer::SkyRenderer(GLuint textureID): textureID(textureID)
 {
-//  cout << "textureID = " << textureID << endl;
-  // data=NULL;
-  // size=0;
-//  data = new GLfloat[SKY_DATA_SIZE];
   GenerateBuffer();//generate VBO
-//  size=sizeof(data);
 }
 
 SkyRenderer::~SkyRenderer()
@@ -28,9 +23,17 @@ SkyRenderer::~SkyRenderer()
 
 void SkyRenderer::Render(const double PreciseTime)
 {
-//  glm::mat4 matrix = glm::perspective(45.0f, (float)ASPECT, 0.1f, 100.0f);
-    glm::mat4 matrix = glm::perspective(15.0f, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, -1.0f, 1.0f);
-//    glClear(GL_COLOR_BUFFER_BIT);
+    glm::vec3 posvector(0.0f,0.0f,0.0f);
+    glm::mat4 transMatrix = glm::translate(posvector);
+    glm::vec3 rotation(0, 0, 0);
+    glm::mat4 rotMatrix =
+  		glm::rotate(rotation.z, glm::vec3(0, 0, 1)) *
+  		glm::rotate(rotation.y, glm::vec3(0, 1, 0)) *
+  		glm::rotate(rotation.x, glm::vec3(1, 0, 0));
+    glm::mat4 perspMatrix = glm::perspective(15.0f, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, -0.1f, 100.0f);
+    glm::mat4 matrix = perspMatrix * rotMatrix * transMatrix;
+
+  //  glClear(GL_DEPTH_BUFFER_BIT);
     shader.Use();
     shader.LoadMatrix(matrix);
     shader.LoadTimer(PreciseTime);
@@ -42,17 +45,19 @@ void SkyRenderer::Render(const double PreciseTime)
     //Binding
     glBindVertexArray(vaoID);
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);
-    const GLuint position = 0, uv = 1;
-
-
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, 0);
-    glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, (GLvoid *)(sizeof(GLfloat) * 6));
-
-    glEnableVertexAttribArray(position);
-    glEnableVertexAttribArray(uv);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
+
+    const GLuint position = 0, uv = 1, normal = 2;
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, 0);
+    glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE,sizeof(GLfloat) * 8, (GLvoid *)(sizeof(GLfloat) * 6));
+    glVertexAttribPointer(normal, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLvoid *)(sizeof(GLfloat) * 3));
+
+    glEnableVertexAttribArray(position);
+    glEnableVertexAttribArray(uv);
+    glEnableVertexAttribArray(normal);
+
     shader.LoadSampler(0);
 //    cout << "textureID = " << textureID << endl;
 
@@ -60,11 +65,11 @@ void SkyRenderer::Render(const double PreciseTime)
 
     glDisableVertexAttribArray(position);
     glDisableVertexAttribArray(uv);
+    glDisableVertexAttribArray(normal);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glUseProgram(0);  // unuse
     glBindVertexArray(0);
-
 }
 
 void SkyRenderer::MakeSphere(GLfloat* data,GLfloat r, GLint detail) {
@@ -155,7 +160,7 @@ GLfloat *ta, GLfloat *tb, GLfloat *tc)
 
 void SkyRenderer::GenerateBuffer() {
     GLfloat* data = new GLfloat[SKY_DATA_SIZE];
-    size = sizeof(data)*SKY_DATA_SIZE;
+    size = sizeof(data)*SKY_DATA_SIZE/2;
     MakeSphere(data,1, 3);
     glGenBuffers(1, &SkyBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);

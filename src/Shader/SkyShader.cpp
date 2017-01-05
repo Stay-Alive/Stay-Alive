@@ -16,6 +16,7 @@ void SkyShader::BindAttributes()
 {
     glBindAttribLocation(programID, 0, "position");  // @NOTE layout in shader file
     glBindAttribLocation(programID, 1, "uv");
+    glBindAttribLocation(programID, 2, "normal");
 }
 
 void SkyShader::GetUniformLocations()

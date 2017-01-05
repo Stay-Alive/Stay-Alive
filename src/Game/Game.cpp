@@ -36,6 +36,7 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+
     // terrain
     vector<Terrain> terrains;
     ModelTexture mtGrass2(loader.LoadTexture("grassy", true));
@@ -61,9 +62,8 @@ void Game::Start()
     TextRenderer textRenderer(loader.LoadTexture("font"));
 
     //sky
-
     SkyRenderer skyRenderer(loader.LoadTexture("sky"));
-
+    skyRenderer.Render(0.5);
 
     // variables for game state
     int currentDay;
@@ -123,6 +123,7 @@ void Game::Start()
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
         PreciseTime = MyCLock.GetTimeofDay();
+        skyRenderer.Render(PreciseTime);
         if (previousHour != currentHour)
         {
             ConsumeEnergy();
@@ -135,7 +136,6 @@ void Game::Start()
         }
 
         textRenderer.Render(StatusBar(currentDay, currentHour));
-        skyRenderer.Render(PreciseTime);
 
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
