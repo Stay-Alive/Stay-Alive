@@ -12,6 +12,7 @@ void SimpleLight::UpdateLight(double ThisTime){
     t=(ThisTime - 0.85)*100;
     Lu =1 - 1 / (1 + powf(2, -t));     //luminance
   }
+    Lu = Lu<0.15?0.15:Lu; //or a special lighting
 
   if(ThisTime>0.33&&ThisTime<0.66){
     float x,y;
