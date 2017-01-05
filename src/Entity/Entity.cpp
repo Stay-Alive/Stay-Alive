@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Entity::Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, bool isPickable): model(model), position(position), rotation(rotation), scale(scale), isPickable(isPickable)
+Entity::Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, bool isPickable, EntityType type): model(model), position(position), rotation(rotation), scale(scale), isPickable(isPickable), type(type)
 {
     ComputeAABB(position, rotation);
 }

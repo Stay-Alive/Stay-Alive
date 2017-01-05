@@ -31,8 +31,11 @@ Game::~Game()
 void Game::Start()
 {
     cerr << "Game started\n";
-    gameState = GAME_RUNNING;
-    life = 10;
+    this->gameState = GAME_RUNNING;
+    this->life = 10;
+    this->stone = 0;
+    this->wood = 0;
+
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
@@ -78,13 +81,18 @@ void Game::Start()
         //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
         {
-            int collidedEntity = camera.Update(altitude, entities);
-            if (-1 != collidedEntity && entities[collidedEntity].GetIsPickable())
+            int index = camera.Update(altitude, entities);
+            if (-1 != index)  // collision detected
             {
-                GLfloat x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
-                GLfloat z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
-                GLfloat y = theTerrain.GetAltitudeAt(x, z);
-                entities[collidedEntity].SetPosition(glm::vec3(x, y, z));
+                Entity& collidedEntity = entities[index];
+                if (collidedEntity.GetIsPickable())
+                {
+                    GLfloat x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+                    GLfloat z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
+                    GLfloat y = theTerrain.GetAltitudeAt(x, z);
+                    collidedEntity.SetPosition(glm::vec3(x, y, z));
+                    PickUpSomething(collidedEntity.GetType());
+                }
             }
             // freeze time
             if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_SPACE))
@@ -334,5 +342,15 @@ void Game::ConsumeEnergy(double deltaEnergy)
     if (life <= 0)
     {
         gameState = GAME_OVER;
+    }
+}
+
+void Game::PickUpSomething(EntityType type)
+{
+    switch (type) {
+        case Food: ReplenishEnergy(); break;
+        case Wood: this->wood++; break;
+        case Stone: this->stone++; break;
+        default: break;
     }
 }

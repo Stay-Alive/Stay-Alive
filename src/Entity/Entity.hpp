@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include "../Model/TexturedModel.hpp"
 
+enum EntityType {Food, Wood, Stone, Others};
 /*
 interface for AABB:
 
@@ -27,7 +28,7 @@ class Entity
 {
 public:
     // @NOTE rotation.{x, y, z} means the rotation degree around corresponding axis
-    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, bool isPickable = false);
+    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, bool isPickable = false, EntityType type = Others);
 
     void ComputeAABB(glm::vec3 position, glm::vec3 rotation);
 
@@ -88,6 +89,11 @@ public:
         return isPickable;
     }
 
+    inline EntityType GetType() const
+    {
+        return type;
+    }
+
 private:
     TexturedModel model;
     glm::vec3 position;
@@ -95,6 +101,7 @@ private:
     glm::vec3 scale;
     AABB boundingBox;
     bool isPickable;
+    EntityType type;
 };
 
 #endif

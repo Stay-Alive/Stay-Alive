@@ -14,7 +14,7 @@ class Camera
 public:
     Camera();
     ~Camera();
-    int Update(GLfloat newYpos, const vector<Entity>& entities);
+    int Update(GLfloat newYpos, const vector<Entity>& entities);  // return nonnegative number if collision detected
     glm::mat4 GetViewMatrix() const;
 
 
