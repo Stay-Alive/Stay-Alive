@@ -36,7 +36,7 @@
 #define GAME_OVER 2
 #define STATUS_STRING_LENGTH 32
 #define DELTA_ENERGY 1
-#define LIFE_TREE_COVER_RADIUS 10
+#define LIFE_TREE_COVER_RADIUS 50
 
 //time
 #define CLOKC_HOUR 1
