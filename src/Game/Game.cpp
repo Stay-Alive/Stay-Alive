@@ -36,6 +36,9 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+    //sky
+    SkyRenderer skyRenderer(loader.LoadTexture("sky"));
+//    skyRenderer.Render(0.95);
 
     // terrain
     vector<Terrain> terrains;
@@ -61,14 +64,10 @@ void Game::Start()
     Renderer renderer(display->GetAspect());
     TextRenderer textRenderer(loader.LoadTexture("font"));
 
-    //sky
-    SkyRenderer skyRenderer(loader.LoadTexture("sky"));
-    skyRenderer.Render(0.5);
-
     // variables for game state
     int currentDay;
     int previousHour = 12, currentHour;
-    double PreciseTime;
+    double PreciseTime=0.5;
     double previousTimeSpacePressed = 0, currentTimeSpacePressed;
     while(!display->IsWindowClosed())
     {
@@ -79,6 +78,8 @@ void Game::Start()
         {
             altitude = theTerrain.GetAltitudeAt(cameraX, cameraZ);
         }
+
+        //skyRenderer.Render(PreciseTime);
 
         //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
@@ -107,11 +108,15 @@ void Game::Start()
         {
             break;
         }
+
+
         // terrain
         for (Terrain& tmpTerrain: terrains)
         {
             renderer.AddTerrain(tmpTerrain);
         }
+
+
         // entities
         for (Entity& tmpEntity: entities)
         {
@@ -119,11 +124,13 @@ void Game::Start()
         }
         renderer.Render(light, camera);
 
+        //sky
+        skyRenderer.Render(PreciseTime);
+
         // if 1 hour passes, we have to consume energy
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
         PreciseTime = MyCLock.GetTimeofDay();
-        skyRenderer.Render(PreciseTime);
         if (previousHour != currentHour)
         {
             ConsumeEnergy();

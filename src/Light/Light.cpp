@@ -26,7 +26,7 @@ void SimpleLight::UpdateLight(double ThisTime){
   }
 
   float skyLight=Lu>=0.1?Lu:0.1;
-  glClearColor((float)SKY_R*skyLight,(float)SKY_G*skyLight,(float)SKY_B*skyLight,1.0f);
+  //glClearColor((float)SKY_R*skyLight,(float)SKY_G*skyLight,(float)SKY_B*skyLight,1.0f);
 
   glm::vec3 LightColor(Lu,Lu,Lu);
   SetColor(LightColor);

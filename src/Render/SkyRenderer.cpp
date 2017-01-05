@@ -23,6 +23,8 @@ SkyRenderer::~SkyRenderer()
 
 void SkyRenderer::Render(const double PreciseTime)
 {
+//  glDisable(GL_DEPTH_TEST);
+  glDepthMask(GL_FALSE);
     glm::vec3 posvector(0.0f,0.0f,0.0f);
     glm::mat4 transMatrix = glm::translate(posvector);
     glm::vec3 rotation(0, 0, 0);
@@ -30,10 +32,10 @@ void SkyRenderer::Render(const double PreciseTime)
   		glm::rotate(rotation.z, glm::vec3(0, 0, 1)) *
   		glm::rotate(rotation.y, glm::vec3(0, 1, 0)) *
   		glm::rotate(rotation.x, glm::vec3(1, 0, 0));
-    glm::mat4 perspMatrix = glm::perspective(15.0f, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, -0.1f, 100.0f);
+    glm::mat4 perspMatrix = glm::perspective(FIELD_OF_VIEW, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, Z_NEAR, Z_FAR);//znear和zfar的值，fov
     glm::mat4 matrix = perspMatrix * rotMatrix * transMatrix;
 
-  //  glClear(GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
     shader.Use();
     shader.LoadMatrix(matrix);
     shader.LoadTimer(PreciseTime);
@@ -70,6 +72,8 @@ void SkyRenderer::Render(const double PreciseTime)
 
     glUseProgram(0);  // unuse
     glBindVertexArray(0);
+    glDepthMask(GL_TRUE);
+    //glEnable(GL_DEPTH_TEST);
 }
 
 void SkyRenderer::MakeSphere(GLfloat* data,GLfloat r, GLint detail) {
