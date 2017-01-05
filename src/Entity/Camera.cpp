@@ -26,7 +26,7 @@ glm::mat4 Camera::GetViewMatrix() const
     return glm::lookAt(position, position + viewDirection, this->UP);
 }
 
-void Camera::Update(GLfloat newYpos, const vector<Entity>& entities)
+int Camera::Update(GLfloat newYpos, const vector<Entity>& entities)
 {
     double x, y;
     glfwGetCursorPos(glfwGetCurrentContext(), &x, &y);
@@ -36,7 +36,7 @@ void Camera::Update(GLfloat newYpos, const vector<Entity>& entities)
     if (glm::length(deltaMousePos) > 100)  // too far, we just do nothing
     {
         this->mousePos = newMousePos;
-        return;
+        return -1;  // no collision detected
     }
 
     // rotate
@@ -49,11 +49,10 @@ void Camera::Update(GLfloat newYpos, const vector<Entity>& entities)
 
     this->mousePos = newMousePos;
 
-    Move(newYpos, entities);
-    return;
+    return Move(newYpos, entities);
 }
 
-void Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
+int Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
 {
     GLfloat speedUp = 1;
     GLFWwindow *window = glfwGetCurrentContext();
@@ -91,7 +90,8 @@ void Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
         newPosition += horizontalStep;
     }
 
-    if (-1 == DetectCollision(newPosition, entities))  // no collision
+    int ret = DetectCollision(newPosition, entities);
+    if (-1 == ret)  // no collision
     {
         position = newPosition;
     }
@@ -101,7 +101,7 @@ void Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
         // @TODO what to do when collision is detected
     }
 
-    return;
+    return ret;
 }
 
 int Camera::DetectCollision(glm::vec3 newPosition, const vector<Entity>& entities)

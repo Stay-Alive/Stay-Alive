@@ -14,7 +14,7 @@ class Camera
 public:
     Camera();
     ~Camera();
-    void Update(GLfloat newYpos, const vector<Entity>& entities);
+    int Update(GLfloat newYpos, const vector<Entity>& entities);
     glm::mat4 GetViewMatrix() const;
 
 
@@ -34,7 +34,7 @@ private:
     const glm::vec3 UP = glm::vec3(0, 1, 0);
     const GLfloat SENSITIVITY = 0.005f;
     const GLfloat SPEED = 0.1f;
-    void Move(GLfloat newYpos, const vector<Entity>& entities);
+    int Move(GLfloat newYpos, const vector<Entity>& entities);
     int DetectCollision(glm::vec3 newPosition, const vector<Entity>& entities);
 };
 

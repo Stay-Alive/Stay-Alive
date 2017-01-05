@@ -78,7 +78,14 @@ void Game::Start()
         //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
         {
-            camera.Update(altitude, entities);
+            int collidedEntity = camera.Update(altitude, entities);
+            if (-1 != collidedEntity && entities[collidedEntity].GetIsPickable())
+            {
+                GLfloat x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+                GLfloat z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
+                GLfloat y = theTerrain.GetAltitudeAt(x, z);
+                entities[collidedEntity].SetPosition(glm::vec3(x, y, z));
+            }
             // freeze time
             if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_SPACE))
             {
@@ -203,7 +210,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
+        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true));
     }
 
     // fern, we have 4 types of textures

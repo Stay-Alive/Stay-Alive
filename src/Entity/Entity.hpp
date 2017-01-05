@@ -27,7 +27,7 @@ class Entity
 {
 public:
     // @NOTE rotation.{x, y, z} means the rotation degree around corresponding axis
-    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+    Entity(TexturedModel model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, bool isPickable = false);
 
     void ComputeAABB(glm::vec3 position, glm::vec3 rotation);
 
@@ -83,12 +83,18 @@ public:
 
     AABB GetAABB() const;
 
+    inline bool GetIsPickable() const
+    {
+        return isPickable;
+    }
+
 private:
     TexturedModel model;
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
     AABB boundingBox;
+    bool isPickable;
 };
 
 #endif
