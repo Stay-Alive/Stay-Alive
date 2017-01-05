@@ -1,3 +1,4 @@
+// reference: https://github.com/iZastic/OpenGL_3D_Game_Tutorial
 #version 330 core
 
 // IN variables

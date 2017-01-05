@@ -1,3 +1,4 @@
+// reference: https://github.com/iZastic/OpenGL_3D_Game_Tutorial
 #version 330 core
 
 in vec2 textureCoords;
@@ -18,7 +19,7 @@ void main()
 	// Normalize the vectors
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitLightVector = normalize(toLightVector);
-	
+
 	/* Used for diffuse lighting */
 	// Find out how bright the light should be and keep it above 0
 	float brightness = dot(unitNormal, unitLightVector);
