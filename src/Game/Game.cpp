@@ -116,6 +116,12 @@ void Game::Start()
             break;
         }
 
+        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_G) && GAME_NEAR_WIN == gameState)  // G for go back home
+        {
+            gameState = GAME_WIN;
+            // @TODO build a new house here
+        }
+
         // exit here
         if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE))
         {
@@ -202,8 +208,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mStall);
     ModelTexture mtStall(loader.LoadTexture("stall"));
     TexturedModel tmStall(mStall, mtStall);
-    x = 5.0f;
-    z = 5.0f;
+    x = 10.0f;
+    z = 10.0f;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
@@ -303,6 +309,10 @@ string Game::StatusBar(int day, int hour)
     {
         retStr = "Game over, press R to replay.";
     }
+    else if (GAME_WIN == gameState)
+    {
+        retStr = "You win! Go back home and enjoy Spring Festival!";
+    }
 
     else  // game is still runnuing, we need to print life, day and time
     {
@@ -316,7 +326,11 @@ string Game::StatusBar(int day, int hour)
         {
             retStr += " ";
         }
-        retStr += "], Day ";
+        retStr += "], Wood: ";
+        retStr += to_string(wood);
+        retStr += ", Stone: ";
+        retStr += to_string(stone);
+        retStr += ", Day ";
         retStr += to_string(day);
         retStr += ", ";
         retStr += to_string(hour12Based);
@@ -352,5 +366,10 @@ void Game::PickUpSomething(EntityType type)
         case Wood: this->wood++; break;
         case Stone: this->stone++; break;
         default: break;
+    }
+
+    if (this->wood >= 10 && this->stone >= 10)
+    {
+        gameState = GAME_NEAR_WIN;
     }
 }

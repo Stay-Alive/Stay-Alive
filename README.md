@@ -17,6 +17,7 @@
 * `Shift` to speedup
 * `R` to replay (if gg)
 * `Esc` to exit
+* `G` to go back home (if you have collected 10 units of wood and 10 units of stone)
 
 #### Timeine  
 

@@ -62,7 +62,7 @@ void Entity::ComputeAABB(glm::vec3 position, glm::vec3 rotation)
         }
     }
     // @NOTE transform is not considered here, see GetAABB() for more information
-#if DEBUG
+#if 0
     AABB box = GetAABB();
     cerr << "bounding box: x(" << box.xMin <<", " << box.xMax << "), y(" << box.yMin << ", " << box.yMax << "), z(" << box.zMin << ", " << box.zMax << ")" << endl;
 #endif
