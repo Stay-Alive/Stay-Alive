@@ -53,8 +53,9 @@ void Game::Start()
 
     // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
-    glm::vec3 colorRed(1.0,0.0,0.0);
+    glm::vec3 colorBlack(0.0,0.0,0.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
+    glm::vec3 nightPosition(0.0,2.0,0.0);
     SimpleLight light(lightPosition, colorWhite);
     //ClockTime
     ClockTime MyCLock;
@@ -123,7 +124,6 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-
         //sky
         skyRenderer.Render(PreciseTime);
 
@@ -131,6 +131,7 @@ void Game::Start()
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
         PreciseTime = MyCLock.GetTimeofDay();
+
         if (previousHour != currentHour)
         {
             ConsumeEnergy();
@@ -155,7 +156,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(PreciseTime );
+        light.UpdateLight(PreciseTime,camera.GetPosition());
     }
 }
 
