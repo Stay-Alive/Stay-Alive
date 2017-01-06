@@ -56,6 +56,11 @@ void Game::Start()
     glm::vec3 colorRed(1.0,0.0,0.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     SimpleLight light(lightPosition, colorWhite);
+#if 0
+    glm::vec3 nightPosition(100.0, LIGHT_HEIGHT, 100.0);
+    SimpleLight night(nightPosition, colorRed);
+#endif
+
     //ClockTime
     ClockTime MyCLock;
 //    light.SetColor(colorRed);
@@ -143,6 +148,9 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
+#if 0
+        renderer.Render(night, camera);
+#endif
 
         // if 1 hour passes, we have to consume energy
         currentDay = MyCLock.GetDay();
