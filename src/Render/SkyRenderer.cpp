@@ -165,7 +165,7 @@ GLfloat *ta, GLfloat *tb, GLfloat *tc)
 void SkyRenderer::GenerateBuffer() {
     GLfloat* data = new GLfloat[SKY_DATA_SIZE];
     size = sizeof(data)*SKY_DATA_SIZE/2;
-    MakeSphere(data,800, 3);
+    MakeSphere(data,1000, 3);
     glGenBuffers(1, &SkyBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, SkyBuffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);

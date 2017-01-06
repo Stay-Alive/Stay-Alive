@@ -187,13 +187,23 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
+    // house
+    RawModel mHouse = ObjLoader::LoadModel("House", loader);
+    ModelTexture mtHouse(loader.LoadTexture("house"));
+    TexturedModel tmHouse(mHouse, mtHouse);
+    x = 0.0f;
+    z = 0.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmHouse, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+
     // deer
     RawModel mDeer = ObjLoader::LoadModel("deer", loader);
     ModelTexture mtDeer(loader.LoadTexture("deer"));
     TexturedModel tmDeer(mDeer, mtDeer);
     x = -20.0f;
     z = -20.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
+    y = theTerrain.GetAltitudeAt(x, z) + 1.5;
     entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
 
     // boar
@@ -234,6 +244,19 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
+    }
+
+    //mush
+    RawModel mMush = ObjLoader::LoadModel("Mush", loader);
+    ModelTexture mtMush(loader.LoadTexture("Mush"));
+    TexturedModel tmMush(mMush, mtMush);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale));
     }
 
     // fern, we have 4 types of textures
