@@ -33,8 +33,8 @@
 #### TODO
 
 * 起伏的地形  [@xjiajiahao](https://github.com/xjiajiahao)  **✓**  
-* 更自然的光照，白天黑夜的转换  [@ylkky](https://github.com/ylkky)  
-* 更多models  [@ylkky](https://github.com/ylkky)  
+* 更自然的光照，白天黑夜的转换  [@ylkky](https://github.com/ylkky)  **✓**  
+* 更多models  [@ylkky](https://github.com/ylkky)  **✓**  
 * 碰撞检测  [@ylkky](https://github.com/ylkky)  **✓**  
 * 游戏的状态机  [@xjiajiahao](https://github.com/xjiajiahao)  **✓**  
 
