@@ -12,8 +12,23 @@ void SimpleLight::UpdateLight(double ThisTime){
     t=(ThisTime - 0.85)*100;
     Lu =1 - 1 / (1 + powf(2, -t));     //luminance
   }
-//  Lu=1.0-timeDiff/15.0;
-//  cout << "ThisTime " << ThisTime << "t = " << t << " Lu = " << Lu << endl;
+    Lu = Lu<0.15?0.15:Lu; //or a special lighting
+
+  if(ThisTime>0.33&&ThisTime<0.66){
+    float x,y;
+    x=LIGHT_HEIGHT*cos(ThisTime*PI);
+    y=LIGHT_HEIGHT*sin(ThisTime*PI);
+    glm::vec3 lightPosition(x,y,0.0);
+    SetPosition(lightPosition);
+  }
+  else if(ThisTime>0.9){
+    glm::vec3 lightPosition(LIGHT_HEIGHT*cos(0.33*PI),LIGHT_HEIGHT*sin(0.66*PI),0.0);
+    SetPosition(lightPosition);
+  }
+
+  float skyLight=Lu>=0.1?Lu:0.1;
+  //glClearColor((float)SKY_R*skyLight,(float)SKY_G*skyLight,(float)SKY_B*skyLight,1.0f);
+
   glm::vec3 LightColor(Lu,Lu,Lu);
   SetColor(LightColor);
 }

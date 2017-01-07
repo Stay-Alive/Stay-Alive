@@ -36,6 +36,10 @@ void Game::Start()
     Loader loader;
     srand(time(NULL));  // initialize random number generation
 
+    //sky
+    SkyRenderer skyRenderer(loader.LoadTexture("sky"));
+//    skyRenderer.Render(0.95);
+
     // terrain
     vector<Terrain> terrains;
     ModelTexture mtGrass2(loader.LoadTexture("grassy", true));
@@ -63,6 +67,7 @@ void Game::Start()
     // variables for game state
     int currentDay;
     int previousHour = 12, currentHour;
+    double PreciseTime=0.5;
     double previousTimeSpacePressed = 0, currentTimeSpacePressed;
     while(!display->IsWindowClosed())
     {
@@ -73,6 +78,8 @@ void Game::Start()
         {
             altitude = theTerrain.GetAltitudeAt(cameraX, cameraZ);
         }
+
+        //skyRenderer.Render(PreciseTime);
 
         //
         if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
@@ -102,11 +109,15 @@ void Game::Start()
         {
             break;
         }
+
+
         // terrain
         for (Terrain& tmpTerrain: terrains)
         {
             renderer.AddTerrain(tmpTerrain);
         }
+
+
         // entities
         for (Entity& tmpEntity: entities)
         {
@@ -114,9 +125,13 @@ void Game::Start()
         }
         renderer.Render(light, camera);
 
+        //sky
+        skyRenderer.Render(PreciseTime);
+
         // if 1 hour passes, we have to consume energy
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
+        PreciseTime = MyCLock.GetTimeofDay();
         if (previousHour != currentHour)
         {
             ConsumeEnergy();
@@ -129,6 +144,7 @@ void Game::Start()
         }
 
         textRenderer.Render(StatusBar(currentDay, currentHour));
+
 #if 0
         GLfloat xLocation = camera.GetPosition().x;
         GLfloat zLocation = camera.GetPosition().z;
@@ -140,7 +156,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(MyCLock.GetTimeofDay());
+        light.UpdateLight(PreciseTime );
     }
 }
 

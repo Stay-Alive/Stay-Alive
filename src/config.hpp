@@ -21,6 +21,11 @@
 #define SKY_R 0.2f
 #define SKY_G 0.4f
 #define SKY_B 0.6f
+#define PI 3.14f
+#define SKY_SIZE 1200.0f
+#define SKY_VERTEX_COUNT 256  // @NOTE 512 will make FPS < 60
+#define SKY_STEP SKY_SIZE / (SKY_VERTEX_COUNT - 1)
+#define SKY_HEIGHT_SCALE 0.0f
 // camera
 #define YOUR_HEIGHT 5.0f
 // terrian
@@ -39,6 +44,9 @@
 #define LIFE_TREE_COVER_RADIUS 10
 
 //time
-#define CLOKC_HOUR 1
+#define CLOKC_HOUR 0.5
+//sky
+#define SKY_COUNT 512*3
+#define SKY_DATA_SIZE 12288
 
 #endif

@@ -19,6 +19,7 @@
 #include "../Entity/Camera.hpp"
 #include "../Render/TextRenderer.hpp"
 #include "../Light/ClockTime.hpp"
+#include "../Render/SkyRenderer.hpp"
 using namespace std;
 
 class Game
