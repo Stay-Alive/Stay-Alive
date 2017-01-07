@@ -189,7 +189,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
     // house
-    RawModel mHouse = ObjLoader::LoadModel("House", loader);
+    RawModel mHouse = ObjLoader::LoadModel("house", loader);
     ModelTexture mtHouse(loader.LoadTexture("house"));
     TexturedModel tmHouse(mHouse, mtHouse);
     x = 0.0f;
