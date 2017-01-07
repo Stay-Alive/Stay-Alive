@@ -57,8 +57,9 @@ void Game::Start()
 
     // light
     glm::vec3 colorWhite(1.0, 1.0, 1.0);
-    glm::vec3 colorRed(1.0,0.0,0.0);
+    glm::vec3 colorBlack(0.0,0.0,0.0);
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
+    glm::vec3 nightPosition(0.0,2.0,0.0);
     SimpleLight light(lightPosition, colorWhite);
 #if 0
     glm::vec3 nightPosition(100.0, LIGHT_HEIGHT, 100.0);
@@ -168,6 +169,7 @@ void Game::Start()
         currentDay = MyCLock.GetDay();
         currentHour = MyCLock.GetHour();
         PreciseTime = MyCLock.GetTimeofDay();
+
         if (previousHour != currentHour)
         {
             ConsumeEnergy();
@@ -192,7 +194,7 @@ void Game::Start()
 #endif
         display->Update();
         display->ShowFPS();
-        light.UpdateLight(PreciseTime );
+        light.UpdateLight(PreciseTime,camera.GetPosition());
     }
     // clean
     for (RawModel *model: rawModels)
@@ -270,6 +272,15 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
     }
 
+    // house
+    RawModel *mHouse = ObjLoader::LoadModel("house", loader);
+    ModelTexture mtHouse(loader.LoadTexture("house"));
+    TexturedModel tmHouse(mHouse, mtHouse);
+    x = 0.0f;
+    z = 0.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmHouse, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
     // deer
     RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
     rawModels.push_back(mDeer);
@@ -277,7 +288,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmDeer(mDeer, mtDeer);
     x = -20.0f;
     z = -20.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
+    y = theTerrain.GetAltitudeAt(x, z) + 1.5;
     entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
 
     // boar
@@ -309,6 +320,19 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     z = -80.0f;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+
+    //mush
+    RawModel *mMush = ObjLoader::LoadModel("Mush", loader);
+    ModelTexture mtMush(loader.LoadTexture("Mush"));
+    TexturedModel tmMush(mMush, mtMush);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale));
+    }
 }
 
 string Game::StatusBar(int day, int hour)

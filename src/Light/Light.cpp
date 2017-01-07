@@ -1,7 +1,7 @@
 #include "Light.hpp"
 using namespace std;
 
-void SimpleLight::UpdateLight(double ThisTime){
+void SimpleLight::UpdateLight(double ThisTime, const glm::vec3& position){
   double t;
   float Lu;
   if(ThisTime<0.5){
@@ -14,6 +14,10 @@ void SimpleLight::UpdateLight(double ThisTime){
   }
     Lu = Lu<0.15?0.15:Lu; //or a special lighting
 
+
+    glm::vec3 LightColor(Lu,Lu,Lu);
+    SetColor(LightColor);
+
   if(ThisTime>0.33&&ThisTime<0.66){
     float x,y;
     x=LIGHT_HEIGHT*cos(ThisTime*PI);
@@ -21,14 +25,14 @@ void SimpleLight::UpdateLight(double ThisTime){
     glm::vec3 lightPosition(x,y,0.0);
     SetPosition(lightPosition);
   }
-  else if(ThisTime>0.9){
+  else if(ThisTime>0.9||ThisTime<0.3){
+    glm::vec3 lightPosition(position.x,15.0f,0.0);
+    SetPosition(lightPosition);
+    glm::vec3 nightColor(0.6,0.6,0.6);
+    SetColor(nightColor);
+  }
+  else if(ThisTime>0.3){
     glm::vec3 lightPosition(LIGHT_HEIGHT*cos(0.33*PI),LIGHT_HEIGHT*sin(0.66*PI),0.0);
     SetPosition(lightPosition);
   }
-
-  float skyLight=Lu>=0.1?Lu:0.1;
-  //glClearColor((float)SKY_R*skyLight,(float)SKY_G*skyLight,(float)SKY_B*skyLight,1.0f);
-
-  glm::vec3 LightColor(Lu,Lu,Lu);
-  SetColor(LightColor);
 }
