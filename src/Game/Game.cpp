@@ -439,6 +439,9 @@ void Game::PickUpSomething(EntityType type)
 
 void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terrain& terrain)
 {
+    static double previousTime = 0;
+    double currentTime;
+    currentTime = glfwGetTime();
     for (Entity& entity : entities)
     {
         if (Monster != entity.GetType())  // not a monster
@@ -459,6 +462,15 @@ void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terr
         newPos.y = terrain.GetAltitudeAt(newPos.x, newPos.z);
         entity.SetPosition(newPos);
         // compute new direction
+        if (currentTime - previousTime > 0.8)
+        {
+            previousTime = currentTime;
+        }
+        else
+        {
+            return;
+        }
+
         glm::vec3 orignalDir = glm::vec3(0, 0, 1);  // @NOTE the monster model's view direction must be (0, 0, 1), that is, looking at z axis
         glm::vec3 newDir = glm::vec3(direction.x, 0, direction.z);
         glm::vec3 normal = glm::cross(orignalDir, newDir);
