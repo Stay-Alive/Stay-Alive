@@ -62,14 +62,9 @@ void Game::Start()
     glm::vec3 lightPosition(0.0, LIGHT_HEIGHT, 0.0);
     glm::vec3 nightPosition(0.0,2.0,0.0);
     SimpleLight light(lightPosition, colorWhite);
-#if 0
-    glm::vec3 nightPosition(100.0, LIGHT_HEIGHT, 100.0);
-    SimpleLight night(nightPosition, colorRed);
-#endif
 
     //ClockTime
     ClockTime MyCLock;
-//    light.SetColor(colorRed);
 
     Camera camera;
     Renderer renderer(display->GetAspect());
@@ -117,9 +112,6 @@ void Game::Start()
                 {
                     isTimeFrozen = !isTimeFrozen;
                     cerr << "Is time frozen? " << isTimeFrozen << endl;
-#if 0
-                    cerr << "previous time: " << previousTimeSpacePressed << " current time: " << currentTimeSpacePressed << endl;
-#endif
                     MyCLock.PauseTime(isTimeFrozen);
                     previousTimeSpacePressed = currentTimeSpacePressed;
                 }
@@ -172,9 +164,6 @@ void Game::Start()
             renderer.AddEntity(tmpEntity);
         }
         renderer.Render(light, camera);
-#if 0
-        renderer.Render(night, camera);
-#endif
 
         //sky
         skyRenderer.Render(PreciseTime);
@@ -197,15 +186,6 @@ void Game::Start()
 
         textRenderer.Render(StatusBar(currentDay, currentHour));
 
-#if 0
-        GLfloat xLocation = camera.GetPosition().x;
-        GLfloat zLocation = camera.GetPosition().z;
-        GLfloat yGroundLocation = theTerrain.GetAltitudeAt(xLocation, zLocation);
-        GLfloat yLocation = camera.GetPosition().y;
-        cerr << "location: "<< xLocation << ", " << yLocation << "(" << yGroundLocation << ")" << ", " << zLocation << endl;
-        //cerr << "view: "<< camera.GetViewDirection().x << ", " << camera.GetViewDirection().y <<", " << camera.GetViewDirection().z << endl;
-        //cerr << "Error: " << glGetError() << std::endl; // 返回 0 (无错误)
-#endif
         display->Update();
         display->ShowFPS();
         light.UpdateLight(PreciseTime,camera.GetPosition());
@@ -266,31 +246,6 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Wood));
     }
 
-    // stone @TODO
-
-/*
-    // fern, we have 4 types of textures
-    RawModel *mFern = ObjLoader::LoadModel("fern", loader);
-    rawModels.push_back(mFern);
-    vector<TexturedModel> fernTexturedModels;
-    ModelTexture mtFern1(loader.LoadTexture("fern1"));
-    ModelTexture mtFern2(loader.LoadTexture("fern2"));
-    ModelTexture mtFern3(loader.LoadTexture("fern3"));
-    ModelTexture mtFern4(loader.LoadTexture("fern4"));
-    fernTexturedModels.push_back(TexturedModel(mFern, mtFern1));
-    fernTexturedModels.push_back(TexturedModel(mFern, mtFern2));
-    fernTexturedModels.push_back(TexturedModel(mFern, mtFern3));
-    fernTexturedModels.push_back(TexturedModel(mFern, mtFern4));
-    for (i = 0; i < 20; i++)
-    {
-        x = rand() % 200 - 100;
-        z = rand() % 200 - 100;
-        y = theTerrain.GetAltitudeAt(x, z);
-        int fernType = rand() % 4;
-        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f, true, Wood));
-    }
-*/
-
 /*
     // deer
     RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
@@ -343,9 +298,9 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     {
         x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
         z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
-        y = theTerrain.GetAltitudeAt(x, z);
+        y = theTerrain.GetAltitudeAt(x, z) + 1.5;
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 8.0f, true, Food));
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 3.0f, true, Food));
     }
 
     //Rock
@@ -507,9 +462,17 @@ void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terr
         glm::vec3 orignalDir = glm::vec3(0, 0, 1);  // @NOTE the monster model's view direction must be (0, 0, 1), that is, looking at z axis
         glm::vec3 newDir = glm::vec3(direction.x, 0, direction.z);
         glm::vec3 normal = glm::cross(orignalDir, newDir);
-        glm::vec3 oldRotation = entity.GetRotation();
-        GLfloat newAngle = -oldRotation.y;
-        newAngle += asin(normal.y);
-        entity.SetRotation(glm::vec3(0.0f, newAngle, 0.0f));
+        GLfloat theta = acos(glm::dot(orignalDir, newDir)) / PI * 180;
+        GLfloat newAngle;
+        if (normal.y < -0.0001)
+        {
+            newAngle = -theta;
+            entity.SetRotation(glm::vec3(0, newAngle, 0));
+        }
+        else if (normal.y > 0.0001)
+        {
+            newAngle = theta;
+            entity.SetRotation(glm::vec3(0, newAngle, 0));
+        }
     }
 }
