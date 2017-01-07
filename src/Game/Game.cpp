@@ -243,8 +243,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmTree(mTree, mtTree);
     for (i = 0; i < 25; i++)
     {
-        x = rand() % 500 - 250;
-        z = rand() % 500 - 250;
+        x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+        z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmTree, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
@@ -257,8 +257,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmBox(mBox, mtBox);
     for (i = 0; i < 20; i++)
     {
-        x = rand() % 500 - 250;
-        z = rand() % 500 - 250;
+        x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+        z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Wood));
@@ -294,8 +294,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mDeer);
     ModelTexture mtDeer(loader.LoadTexture("deer"));
     TexturedModel tmDeer(mDeer, mtDeer);
-    x = -20.0f;
-    z = -20.0f;
+    x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+    z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z) + 1.5;
     entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
 
@@ -304,8 +304,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mBoar);
     ModelTexture mtBoar(loader.LoadTexture("boar"));
     TexturedModel tmBoar(mBoar, mtBoar);
-    x = -20.0f;
-    z = -40.0f;
+    x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+    z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
 
@@ -314,8 +314,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mWolf);
     ModelTexture mtWolf(loader.LoadTexture("wolf"));
     TexturedModel tmWolf(mWolf, mtWolf);
-    x = -20.0f;
-    z = -60.0f;
+    x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+    z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
 
@@ -324,8 +324,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mBear);
     ModelTexture mtBear(loader.LoadTexture("bear"));
     TexturedModel tmBear(mBear, mtBear);
-    x = -20.0f;
-    z = -80.0f;
+    x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+    z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
 
@@ -335,30 +335,25 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmMush(mMush, mtMush);
     for (i = 0; i < 20; i++)
     {
-        x = rand() % 500 - 250;
-        z = rand() % 500 - 250;
+        x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
+        z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 5.0f, true, Food));
     }
 
     //rock
-    // RawModel *mRock = ObjLoader::LoadModel("rock", loader);
-    // ModelTexture mtRock(loader.LoadTexture("rock"));
-    // TexturedModel tmRock(mRock, mtRock);
-    // for (i = 0; i < 20; i++)
-    // {
-    //     x = rand() % 500 - 250;
-    //     z = rand() % 500 - 250;
-    //     y = theTerrain.GetAltitudeAt(x, z);
-    //     rotateAngle = rand() % 360;
-    //     entities.push_back(Entity(tmRock, glm::vec3(x, y, z), noRotation, standardScale));
-    // }
-
-    //plank
-
-
-
+    RawModel *mRock = ObjLoader::LoadModel("rock", loader);
+    ModelTexture mtRock(loader.LoadTexture("rock"));
+    TexturedModel tmRock(mRock, mtRock);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmRock, glm::vec3(x, y, z), noRotation, standardScale, true, Stone));
+    }
 }
 
 string Game::StatusBar(int day, int hour)
