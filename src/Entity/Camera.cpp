@@ -113,7 +113,7 @@ int Camera::DetectCollision(glm::vec3 newPosition, const vector<Entity>& entitie
     {
         AABB box = entity.GetAABB();
         if (box.xMin < newPosition.x && box.xMax > newPosition.x
-            && box.yMin < newPosition.y && box.yMax > newPosition.y - YOUR_HEIGHT
+            //&& box.yMin < newPosition.y && box.yMax > newPosition.y - YOUR_HEIGHT
             && box.zMin < newPosition.z && box.zMax > newPosition.z)
         {
             ret = i;  // found the first entity that we ran into

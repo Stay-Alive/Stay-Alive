@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include "../Model/TexturedModel.hpp"
 
-enum EntityType {Food, Wood, Stone, Others};
+enum EntityType {Food, Wood, Stone, Monster, Others};
 /*
 interface for AABB:
 

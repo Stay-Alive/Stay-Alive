@@ -53,6 +53,6 @@
 #define SKY_DATA_SIZE 12288
 
 // random entities
-#define ENTITY_POS_MAX_X TERRAIN_SIZE * 3 / 4
-#define ENTITY_POS_MAX_Z TERRAIN_SIZE * 3 / 4
+#define ENTITY_POS_MAX_X TERRAIN_SIZE * 3 / 8
+#define ENTITY_POS_MAX_Z TERRAIN_SIZE * 3 / 8
 #endif

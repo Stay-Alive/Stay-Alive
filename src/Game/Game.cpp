@@ -104,8 +104,8 @@ void Game::Start()
                     GLfloat z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
                     GLfloat y = theTerrain.GetAltitudeAt(x, z);
                     collidedEntity.SetPosition(glm::vec3(x, y, z));
-                    PickUpSomething(collidedEntity.GetType());
                 }
+                PickUpSomething(collidedEntity.GetType());
             }
             // freeze time
             if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_SPACE))
@@ -289,6 +289,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     }
 */
 
+/*
     // deer
     RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
     rawModels.push_back(mDeer);
@@ -298,6 +299,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z) + 1.5;
     entities.push_back(Entity(tmDeer, glm::vec3(x, y, z), noRotation, standardScale * 0.3f));
+*/
 
     // boar
     RawModel *mBoar = ObjLoader::LoadModel("boar", loader);
@@ -307,7 +309,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
     // wolf
     RawModel *mWolf = ObjLoader::LoadModel("wolf", loader);
@@ -317,7 +319,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
     // bear
     RawModel *mBear = ObjLoader::LoadModel("bear", loader);
@@ -327,7 +329,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
+    entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
     //mush
     RawModel *mMush = ObjLoader::LoadModel("Mush", loader);
@@ -339,9 +341,10 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 5.0f, true, Food));
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 8.0f, true, Food));
     }
 
+/*
     //rock
     RawModel *mRock = ObjLoader::LoadModel("rock", loader);
     ModelTexture mtRock(loader.LoadTexture("rock"));
@@ -354,6 +357,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmRock, glm::vec3(x, y, z), noRotation, standardScale, true, Stone));
     }
+*/
 }
 
 string Game::StatusBar(int day, int hour)
@@ -437,6 +441,7 @@ void Game::PickUpSomething(EntityType type)
         case Food: ReplenishEnergy(); break;
         case Wood: this->wood++; break;
         case Stone: this->stone++; break;
+        case Monster: ConsumeEnergy(10); break;  // go die
         default: break;
     }
 
