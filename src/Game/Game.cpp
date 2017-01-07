@@ -469,6 +469,10 @@ void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terr
         if (normal.y < 0)
         {
             newAngle = -theta;
+            if (newAngle < -170)
+            {
+                newAngle = -newAngle;
+            }
             entity.SetRotation(glm::vec3(0, newAngle, 0));
         }
         else if (normal.y > 0)
