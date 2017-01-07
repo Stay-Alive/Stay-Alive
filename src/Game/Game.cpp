@@ -287,6 +287,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmBear(mBear, mtBear);
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
+    x = 0;
+    z = 200.0;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
@@ -462,17 +464,20 @@ void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terr
         glm::vec3 orignalDir = glm::vec3(0, 0, 1);  // @NOTE the monster model's view direction must be (0, 0, 1), that is, looking at z axis
         glm::vec3 newDir = glm::vec3(direction.x, 0, direction.z);
         glm::vec3 normal = glm::cross(orignalDir, newDir);
-        GLfloat theta = acos(glm::dot(orignalDir, newDir)) / PI * 180;
+        GLfloat theta = (int)(acos(glm::dot(orignalDir, newDir)) / PI * 180);
         GLfloat newAngle;
-        if (normal.y < -0.0001)
+        if (normal.y < 0)
         {
             newAngle = -theta;
             entity.SetRotation(glm::vec3(0, newAngle, 0));
         }
-        else if (normal.y > 0.0001)
+        else if (normal.y > 0)
         {
             newAngle = theta;
             entity.SetRotation(glm::vec3(0, newAngle, 0));
         }
+#if DEBUG
+            cerr << "theta: " << theta << ", normal: " << normal.y << ", new angle: " << entity.GetRotation().y << endl;
+#endif
     }
 }
