@@ -331,23 +331,50 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale));
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale, true, Food));
     }
 
-    //rock
-    // RawModel *mRock = ObjLoader::LoadModel("rock", loader);
-    // ModelTexture mtRock(loader.LoadTexture("rock"));
-    // TexturedModel tmRock(mRock, mtRock);
-    // for (i = 0; i < 20; i++)
-    // {
-    //     x = rand() % 500 - 250;
-    //     z = rand() % 500 - 250;
-    //     y = theTerrain.GetAltitudeAt(x, z);
-    //     rotateAngle = rand() % 360;
-    //     entities.push_back(Entity(tmRock, glm::vec3(x, y, z), noRotation, standardScale));
-    // }
+    //Rock
+    RawModel *mRock = ObjLoader::LoadModel("rock", loader);
+    rawModels.push_back(mRock);
+    ModelTexture mtRock(loader.LoadTexture("rock"));
+    TexturedModel tmRock(mRock, mtRock);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z);
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmRock, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale*0.5f, true, Stone));
+    }
+
 
     //plank
+    RawModel *mPlank = ObjLoader::LoadModel("plank", loader);
+    rawModels.push_back(mPlank);
+    ModelTexture mtPlank(loader.LoadTexture("plank"));
+    TexturedModel tmPlank(mPlank, mtPlank);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z)+1.5;
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmPlank, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Wood));
+    }
+
+    RawModel *mApple = ObjLoader::LoadModel("apple", loader);
+    rawModels.push_back(mApple);
+    ModelTexture mtApple(loader.LoadTexture("apple"));
+    TexturedModel tmApple(mApple, mtApple);
+    for (i = 0; i < 20; i++)
+    {
+        x = rand() % 500 - 250;
+        z = rand() % 500 - 250;
+        y = theTerrain.GetAltitudeAt(x, z)+0.2;
+        rotateAngle = rand() % 360;
+        entities.push_back(Entity(tmApple, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Food));
+    }
 
 
 
