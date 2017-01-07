@@ -332,8 +332,6 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmBear(mBear, mtBear);
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
-    x = 0;
-    z = -200;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
