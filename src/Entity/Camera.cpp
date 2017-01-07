@@ -91,14 +91,15 @@ int Camera::Move(GLfloat newYpos, const vector<Entity>& entities)
     }
 
     int ret = DetectCollision(newPosition, entities);
-    if (-1 == ret)  // no collision
+    if (-1 == ret || -1 != DetectCollision(position, entities))  // no collision or we are already in a box
     {
         position = newPosition;
     }
 
     else
     {
-        // @TODO what to do when collision is detected
+        // @NOTE what to do when collision is detected
+        // actually nothing to do here
     }
 
     return ret;

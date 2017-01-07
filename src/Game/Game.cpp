@@ -92,7 +92,7 @@ void Game::Start()
         //skyRenderer.Render(PreciseTime);
 
         //
-        if (GAME_RUNNING == gameState)  // if game is over, we can't move any longer
+        if (GAME_OVER != gameState)  // if game is over, we can't move any longer
         {
             int index = camera.Update(altitude, entities);
             if (-1 != index)  // collision detected
@@ -129,10 +129,22 @@ void Game::Start()
             break;
         }
 
-        else if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_G) && GAME_NEAR_WIN == gameState)  // G for go back home
+        if (GLFW_PRESS == glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_G) && GAME_NEAR_WIN == gameState)  // G for go back home
         {
             gameState = GAME_WIN;
-            // @TODO build a new house here
+            // remove the old house
+            entities.erase(entities.begin());
+            // new house
+            RawModel *mHouse = ObjLoader::LoadModel("house", loader);
+            ModelTexture mtHouse(loader.LoadTexture("house"));
+            TexturedModel tmHouse(mHouse, mtHouse);
+            GLfloat x, z, y;
+            glm::vec3 standardScale = glm::vec3(1, 1, 1);
+            glm::vec3 noRotation = glm::vec3(0, 0, 0);
+            x = 0.0f;
+            z = 0.0f;
+            y = theTerrain.GetAltitudeAt(x, z);
+            entities.push_back(Entity(tmHouse, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
         }
 
         // exit here
@@ -209,9 +221,20 @@ void Game::Start()
 
 void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerrain, vector<RawModel *>& rawModels)
 {
-    int i, x, z, y, rotateAngle;
+    int i;
+    GLfloat x, z, y, rotateAngle;
     glm::vec3 standardScale = glm::vec3(1, 1, 1);
     glm::vec3 noRotation = glm::vec3(0, 0, 0);
+
+    // stall, our old house
+    RawModel *mStall = ObjLoader::LoadModel("stall", loader);
+    rawModels.push_back(mStall);
+    ModelTexture mtStall(loader.LoadTexture("stall"));
+    TexturedModel tmStall(mStall, mtStall);
+    x = 10.0f;
+    z = 10.0f;
+    y = theTerrain.GetAltitudeAt(x, z);
+    entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
     // low poly tree
     RawModel *mTree = ObjLoader::LoadModel("lowPolyTree", loader);
@@ -227,16 +250,6 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         entities.push_back(Entity(tmTree, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale));
     }
 
-    // stall
-    RawModel *mStall = ObjLoader::LoadModel("stall", loader);
-    rawModels.push_back(mStall);
-    ModelTexture mtStall(loader.LoadTexture("stall"));
-    TexturedModel tmStall(mStall, mtStall);
-    x = 10.0f;
-    z = 10.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
-
     // box
     RawModel *mBox = ObjLoader::LoadModel("box", loader);
     rawModels.push_back(mBox);
@@ -248,7 +261,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true));
+        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Stone));
     }
 
     // fern, we have 4 types of textures
@@ -269,17 +282,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 200 - 100;
         y = theTerrain.GetAltitudeAt(x, z);
         int fernType = rand() % 4;
-        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f));
+        entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f, true, Wood));
     }
-
-    // house
-    RawModel *mHouse = ObjLoader::LoadModel("house", loader);
-    ModelTexture mtHouse(loader.LoadTexture("house"));
-    TexturedModel tmHouse(mHouse, mtHouse);
-    x = 0.0f;
-    z = 0.0f;
-    y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmHouse, glm::vec3(x, y, z), noRotation, standardScale * 0.5f));
 
     // deer
     RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
@@ -331,7 +335,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale));
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 3.0f, true, Food));
     }
 }
 
@@ -398,6 +402,11 @@ void Game::ReplenishEnergy(double deltaEnergy)
 
 void Game::ConsumeEnergy(double deltaEnergy)
 {
+    if (GAME_WIN == gameState)
+    {
+        return;
+    }
+
     life = life - deltaEnergy < 0 ? 0 : life - deltaEnergy;
     if (life <= 0)
     {
@@ -414,7 +423,7 @@ void Game::PickUpSomething(EntityType type)
         default: break;
     }
 
-    if (this->wood >= 10 && this->stone >= 10)
+    if (this->wood >= 10 && this->stone >= 10)  // @NOTE must satisfy these conditions to win
     {
         gameState = GAME_NEAR_WIN;
     }

@@ -41,12 +41,13 @@
 #define GAME_OVER 2
 #define GAME_NEAR_WIN 3
 #define GAME_WIN 4
+#define GAME_GUONIAN 5
 #define STATUS_STRING_LENGTH 50
 #define DELTA_ENERGY 1
 #define LIFE_TREE_COVER_RADIUS 50
 
 //time
-#define CLOKC_HOUR 0.5
+#define CLOKC_HOUR 5
 //sky
 #define SKY_COUNT 512*3
 #define SKY_DATA_SIZE 12288
