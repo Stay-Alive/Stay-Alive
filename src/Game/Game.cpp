@@ -333,6 +333,24 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         rotateAngle = rand() % 360;
         entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale));
     }
+
+    //rock
+    // RawModel *mRock = ObjLoader::LoadModel("rock", loader);
+    // ModelTexture mtRock(loader.LoadTexture("rock"));
+    // TexturedModel tmRock(mRock, mtRock);
+    // for (i = 0; i < 20; i++)
+    // {
+    //     x = rand() % 500 - 250;
+    //     z = rand() % 500 - 250;
+    //     y = theTerrain.GetAltitudeAt(x, z);
+    //     rotateAngle = rand() % 360;
+    //     entities.push_back(Entity(tmRock, glm::vec3(x, y, z), noRotation, standardScale));
+    // }
+
+    //plank
+
+
+
 }
 
 string Game::StatusBar(int day, int hour)
