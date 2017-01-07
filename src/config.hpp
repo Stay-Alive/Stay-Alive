@@ -39,9 +39,11 @@
 #define GAME_START 0
 #define GAME_RUNNING 1
 #define GAME_OVER 2
-#define STATUS_STRING_LENGTH 32
+#define GAME_NEAR_WIN 3
+#define GAME_WIN 4
+#define STATUS_STRING_LENGTH 50
 #define DELTA_ENERGY 1
-#define LIFE_TREE_COVER_RADIUS 10
+#define LIFE_TREE_COVER_RADIUS 50
 
 //time
 #define CLOKC_HOUR 0.5
@@ -49,4 +51,7 @@
 #define SKY_COUNT 512*3
 #define SKY_DATA_SIZE 12288
 
+// random entities
+#define ENTITY_POS_MAX_X TERRAIN_SIZE * 3 / 4
+#define ENTITY_POS_MAX_Z TERRAIN_SIZE * 3 / 4
 #endif

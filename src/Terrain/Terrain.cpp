@@ -17,7 +17,7 @@ Terrain::~Terrain()
     normals.clear();
 }
 
-RawModel Terrain::GenerateTerrain(Loader& loader)
+RawModel* Terrain::GenerateTerrain(Loader& loader)
 {
     int count = TERRAIN_VERTEX_COUNT * TERRAIN_VERTEX_COUNT;  // we have a grid
     vector<glm::vec2> textures(count);

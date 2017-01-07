@@ -28,7 +28,7 @@ public:
         return z;
     }
 
-    inline RawModel GetModel() const
+    inline RawModel* GetModel() const
     {
         return model;
     }
@@ -45,9 +45,9 @@ private:
     ModelTexture texture;
     vector<glm::vec3> vertices;
     vector<glm::vec3> normals;
-    RawModel model;
+    RawModel *model;
 
-    RawModel GenerateTerrain(Loader& loader);
+    RawModel* GenerateTerrain(Loader& loader);
 };
 
 #endif

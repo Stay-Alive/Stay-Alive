@@ -12,7 +12,7 @@ using namespace std;
 
 const int MAX_LINE_LEN = 256;
 
-RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
+RawModel* ObjLoader::LoadModel(const string& fileName, Loader& loader)
 {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
@@ -32,7 +32,7 @@ RawModel ObjLoader::LoadModel(const string& fileName, Loader& loader)
 	}
 
 	vector<glm::vec2> textures;
-	vector<glm::vec3> vertices, normals;
+	vector<glm::vec3> vertices, normals;  // @TODO vertices vector should be a private member of RawModel
 	vector<int> indices;
     int indexNum = 0;
 	// Loop over shapes

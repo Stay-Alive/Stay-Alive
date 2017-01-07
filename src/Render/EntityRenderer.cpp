@@ -22,8 +22,8 @@ EntityRenderer::~EntityRenderer()
 
 void EntityRenderer::BindTexturedModel(TexturedModel texturedModel)
 {
-    const RawModel& model = texturedModel.GetRawModel();
-    glBindVertexArray(model.GetVaoID());
+    RawModel* model = texturedModel.GetRawModel();
+    glBindVertexArray(model->GetVaoID());
     GLuint i;
     for (i = 0; i < 3; i++)
     {
@@ -101,5 +101,5 @@ void EntityRenderer::RenderEntity(Entity& entity)
 
     shader.LoadTransformMatrix(transMatrix * rotMatrix * scaleMatrix);
 
-    glDrawElements(GL_TRIANGLES, entity.GetModel().GetRawModel().GetVerticesNum(), GL_UNSIGNED_INT, 0);  // 0 indicates the buffer offset in indices buffer object
+    glDrawElements(GL_TRIANGLES, entity.GetModel().GetRawModel()->GetVerticesNum(), GL_UNSIGNED_INT, 0);  // 0 indicates the buffer offset in indices buffer object
 }
