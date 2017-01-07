@@ -231,8 +231,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     rawModels.push_back(mStall);
     ModelTexture mtStall(loader.LoadTexture("stall"));
     TexturedModel tmStall(mStall, mtStall);
-    x = 10.0f;
-    z = 10.0f;
+    x = 0.0f;
+    z = 0.0f;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmStall, glm::vec3(x, y, z), noRotation, standardScale * 1.5f));
 
@@ -261,9 +261,12 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Stone));
+        entities.push_back(Entity(tmBox, glm::vec3(x, y, z), glm::vec3(0, rotateAngle, 0), standardScale, true, Wood));
     }
 
+    // stone @TODO
+
+/*
     // fern, we have 4 types of textures
     RawModel *mFern = ObjLoader::LoadModel("fern", loader);
     rawModels.push_back(mFern);
@@ -284,6 +287,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         int fernType = rand() % 4;
         entities.push_back(Entity(fernTexturedModels[fernType], glm::vec3 (x, y, z), noRotation, standardScale * 0.5f, true, Wood));
     }
+*/
 
     // deer
     RawModel *mDeer = ObjLoader::LoadModel("deer", loader);
@@ -335,7 +339,7 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
         z = rand() % 500 - 250;
         y = theTerrain.GetAltitudeAt(x, z);
         rotateAngle = rand() % 360;
-        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 3.0f, true, Food));
+        entities.push_back(Entity(tmMush, glm::vec3(x, y, z), noRotation, standardScale * 5.0f, true, Food));
     }
 
     //rock
