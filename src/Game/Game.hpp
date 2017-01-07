@@ -41,6 +41,7 @@ private:
     void ConsumeEnergy(double deltaEnergy = DELTA_ENERGY);
     string StatusBar(int day, int hour);
     void PickUpSomething(EntityType type);
+    void ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terrain &terrain);
 };
 
 #endif

@@ -55,4 +55,8 @@
 // random entities
 #define ENTITY_POS_MAX_X TERRAIN_SIZE * 3 / 8
 #define ENTITY_POS_MAX_Z TERRAIN_SIZE * 3 / 8
+// monster speed
+#define MONSTER_SPEED 0.4f
+#define DANGEROUR_DISTANCE 100.0f
+
 #endif

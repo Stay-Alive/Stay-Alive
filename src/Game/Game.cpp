@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <string>
+#include <math.h>
 using namespace std;
 
 Game::Game()
@@ -95,6 +96,7 @@ void Game::Start()
         if (GAME_OVER != gameState)  // if game is over, we can't move any longer
         {
             int index = camera.Update(altitude, entities);
+            ChasedByMonsters(camera, entities, theTerrain);
             if (-1 != index)  // collision detected
             {
                 Entity& collidedEntity = entities[index];
@@ -309,7 +311,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
+    entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false));
+    //entities.push_back(Entity(tmBoar, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
     // wolf
     RawModel *mWolf = ObjLoader::LoadModel("wolf", loader);
@@ -319,7 +322,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
     y = theTerrain.GetAltitudeAt(x, z);
-    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
+    entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false));
+    //entities.push_back(Entity(tmWolf, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
     // bear
     RawModel *mBear = ObjLoader::LoadModel("bear", loader);
@@ -328,6 +332,8 @@ void Game::BuildWorld(Loader& loader, vector<Entity>& entities, Terrain& theTerr
     TexturedModel tmBear(mBear, mtBear);
     x = rand() % ((int)ENTITY_POS_MAX_X * 2) - ENTITY_POS_MAX_X;
     z = rand() % ((int)ENTITY_POS_MAX_Z * 2) - ENTITY_POS_MAX_Z;
+    x = 0;
+    z = -200;
     y = theTerrain.GetAltitudeAt(x, z);
     entities.push_back(Entity(tmBear, glm::vec3(x, y, z), noRotation, standardScale * 0.5f, false, Monster));
 
@@ -448,5 +454,37 @@ void Game::PickUpSomething(EntityType type)
     if (this->wood >= 10 && this->stone >= 10)  // @NOTE must satisfy these conditions to win
     {
         gameState = GAME_NEAR_WIN;
+    }
+}
+
+void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terrain& terrain)
+{
+    for (Entity& entity : entities)
+    {
+        if (Monster != entity.GetType())  // not a monster
+        {
+            continue;
+        }
+        // comput new position
+        glm::vec3 monsterPos = entity.GetPosition();
+        glm::vec3 direction = camera.GetPosition() - monsterPos;
+        direction.y = 0;  // we don't care the y axis
+        if (glm::length(direction) > DANGEROUR_DISTANCE)
+        {
+            continue;
+        }
+        direction = glm::normalize(direction);
+        glm::vec3 step = direction * MONSTER_SPEED;
+        glm::vec3 newPos = monsterPos + step;
+        newPos.y = terrain.GetAltitudeAt(newPos.x, newPos.z);
+        entity.SetPosition(newPos);
+        // compute new direction
+        glm::vec3 orignalDir = glm::vec3(0, 0, 1);  // @NOTE the monster model's view direction must be (0, 0, 1), that is, looking at z axis
+        glm::vec3 newDir = glm::vec3(direction.x, 0, direction.z);
+        glm::vec3 normal = glm::cross(orignalDir, newDir);
+        glm::vec3 oldRotation = entity.GetRotation();
+        GLfloat newAngle = -oldRotation.y;
+        newAngle += asin(normal.y);
+        entity.SetRotation(glm::vec3(0.0f, newAngle, 0.0f));
     }
 }
