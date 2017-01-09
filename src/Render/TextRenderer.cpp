@@ -2,6 +2,7 @@
 #include <vector>
 #include <new>
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <GLFW/glfw3.h>
@@ -32,7 +33,19 @@ void TextRenderer::Render(const string& str)
     GLfloat marginX, fontSize, marginY;
     fontSize = FONT_SIZE;
     marginX = fontSize / 2;
-    marginY = WINDOW_HEIGHT - 5.5 * fontSize;
+
+    // get screen's resolution
+    const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    int height = mode->height;
+    if (height > 830)
+    {
+        marginY = WINDOW_HEIGHT - fontSize;
+    }
+    else
+    {
+        marginY = WINDOW_HEIGHT - 5.5 * fontSize;
+    }
+
     for (int i = 0; i < len; i++)
     {
         MakeCharacter(data+i*24, marginX, marginY, fontSize/2, fontSize, text[i]);
