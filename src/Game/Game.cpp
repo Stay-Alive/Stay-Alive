@@ -490,7 +490,7 @@ void Game::ChasedByMonsters(const Camera& camera, vector<Entity>& entities, Terr
             newAngle = theta;
             entity.SetRotation(glm::vec3(0, newAngle, 0));
         }
-#if DEBUG
+#if 0
             cerr << "theta: " << theta << ", normal: " << normal.y << ", new angle: " << entity.GetRotation().y << endl;
 #endif
     }
